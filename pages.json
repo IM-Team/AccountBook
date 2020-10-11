@@ -1,0 +1,33 @@
+{
+	"pages": [
+	    {
+            "path" : "pages/turnover/turnover",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/account/account",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/add/add",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/statistic/statistic",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/me/me",
+            "style" : {}
+        }
+    ],
+	"easycom": {
+		"autoscan": true
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "AccountBook",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	}
+}
