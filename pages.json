@@ -2,7 +2,9 @@
 	"pages": [
 	    {
             "path" : "pages/turnover/turnover",
-            "style" : {}
+            "style" : {
+				"navigationBarBackgroundColor": "#ffffff"
+			}
         }
         ,{
             "path" : "pages/account/account",

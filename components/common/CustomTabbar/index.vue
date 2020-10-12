@@ -29,7 +29,7 @@
 		},
 		data() {
 			return {
-				color: '#999999',
+				color: '#aaaaaa',
 				selectedColor: '#2B303B',
 				tabbarList: [
 					{
@@ -81,14 +81,16 @@
 		right: 0;
 		bottom: 0;
 		display: flex;
+		align-items: center;
+		height: 100rpx;
+		background-color: #f7f7f7;
 	}
 	
 	.tabbar-item {
 		flex: 1;
 		text-align: center;
 		position: relative;
-		padding: 10rpx 0;
-		font-size: 34rpx;
+		font-size: 24rpx;
 	}
 	
 	.tabbar-add {
@@ -108,7 +110,7 @@
 	}
 	
 	.iconfont {
-		font-size: 46rpx;
+		font-size: 40rpx;
 	}
 
 </style>
