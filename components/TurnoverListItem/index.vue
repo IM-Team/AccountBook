@@ -7,7 +7,7 @@
 				<text class="expenses">支出 1163.00</text>
 			</view>
 		</view>
-		<view class="cell" v-for="item in 4">
+		<view class="cell" v-for="(item, index) in 4" :key="index">
 			<view class="type-wrap">
 				<view class="iconfont icon-canyin"></view>
 				<view>餐饮</view>

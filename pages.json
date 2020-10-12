@@ -33,7 +33,6 @@
 	    "selectedColor": "#2B303B",
 	    "borderStyle": "black",
 	    "backgroundColor": "#ffffff",
-		"iconWidth": "20px",
 		"borderStyle": "white",
 	    "list": [{
 	        "pagePath": "pages/Turnover/index",
@@ -48,8 +47,7 @@
 	    }, {
 	        "pagePath": "pages/Add/index",
 	        "iconPath": "static/image/icon_write.png",
-	        "selectedIconPath": "static/image/icon_write_HL.png",
-	        "text": "添加"
+	        "selectedIconPath": "static/image/icon_write_HL.png"
 	    }, {
 	        "pagePath": "pages/Statistic/index",
 	        "iconPath": "static/image/icon_statistic.png",
