@@ -34,26 +34,26 @@
 				tabbarList: [
 					{
 						label: '流水',
-						pagePath: '/pages/turnover/turnover',
+						pagePath: '/pages/Turnover/index',
 						iconName: 'icon-turnover'
 					},
 					{
 						label: '账户',
-						pagePath: '/pages/account/account',
+						pagePath: '/pages/Account/index',
 						iconName: 'icon-account'
 					},
 					{
 						label: '添加',
-						pagePath: '/pages/add/add'
+						pagePath: '/pages/Add/index'
 					},
 					{
 						label: '统计',
-						pagePath: '/pages/statistic/statistic',
+						pagePath: '/pages/Statistic/index',
 						iconName: 'icon-statistic'
 					},
 					{
 						label: '我的',
-						pagePath: '/pages/me/me',
+						pagePath: '/pages/Me/index',
 						iconName: 'icon-me'
 					}
 				]
@@ -61,10 +61,10 @@
 		},
 		methods: {
 			onSwitchTab(pagePath) {
-				
-				uni.redirectTo({
-				    url: pagePath
-				});
+				if (pagePath === '/pages/add/add')
+					uni.navigateTo({ url: pagePath })
+				else
+					uni.redirectTo({ url: pagePath });
 				
 			}
 		}
@@ -72,8 +72,6 @@
 </script>
 
 <style scoped>
-	
-	@import './iconfont/iconfont.css';
 
 	.tabbar-container {
 		position: fixed;
@@ -83,7 +81,6 @@
 		display: flex;
 		align-items: center;
 		height: 100rpx;
-		background-color: #f7f7f7;
 	}
 	
 	.tabbar-item {

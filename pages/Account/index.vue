@@ -1,7 +1,6 @@
 <template>
 	<view class="account-container">
 		account-container
-		<custom-tabbar tab-index="1"></custom-tabbar>
 	</view>
 </template>
 

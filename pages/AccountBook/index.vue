@@ -1,6 +1,6 @@
 <template>
-	<view class="turnover-container">
-		<view class="add-account_book">添加账单</view>
+	<view class="account_book-container">
+		<view class="add-account_book">添加账本</view>
 		<view class="card" v-for="(item, index) in 4" :key="index">
 			<view class="title">默认账单</view>
 			<view class="info">
@@ -24,7 +24,6 @@
 				<view class="statistic-btn">统计</view>
 			</view>
 		</view>
-		<custom-tabbar tab-index="0"></custom-tabbar>
 	</view>
 </template>
 
@@ -45,7 +44,7 @@
 
 <style scoped>
 
-	.turnover-container {
+	.account_book-container {
 		padding: 32rpx 32rpx 140rpx;
 	}
 

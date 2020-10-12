@@ -1,35 +1,65 @@
 {
-	"pages": [
-	    {
-            "path" : "pages/turnover/turnover",
-            "style" : {
+	"pages": [{
+			"path": "pages/Turnover/index",
+			"style": {}
+		}, {
+			"path": "pages/Account/index",
+			"style": {}
+		}, {
+			"path": "pages/Add/index",
+			"style": {}
+		}, {
+			"path": "pages/Statistic/index",
+			"style": {}
+		}, {
+			"path": "pages/Me/index",
+			"style": {}
+		},
+		{
+			"path": "pages/AccountBook/index",
+			"style": {
 				"navigationBarBackgroundColor": "#ffffff"
 			}
-        }
-        ,{
-            "path" : "pages/account/account",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/add/add",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/statistic/statistic",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/me/me",
-            "style" : {}
-        }
-    ],
-	"easycom": {
-		"autoscan": true
-	},
+		}
+	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "AccountBook",
+		"navigationBarTitleText": "Bookkeeping book",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+	    "color": "#aaaaaa",
+	    "selectedColor": "#2B303B",
+	    "borderStyle": "black",
+	    "backgroundColor": "#ffffff",
+		"iconWidth": "20px",
+		"borderStyle": "white",
+	    "list": [{
+	        "pagePath": "pages/Turnover/index",
+	        "iconPath": "static/image/icon_turnover.png",
+	        "selectedIconPath": "static/image/icon_turnover_HL.png",
+	        "text": "流水"
+	    }, {
+	        "pagePath": "pages/Account/index",
+	        "iconPath": "static/image/icon_account.png",
+	        "selectedIconPath": "static/image/icon_account_HL.png",
+	        "text": "账户"
+	    }, {
+	        "pagePath": "pages/Add/index",
+	        "iconPath": "static/image/icon_write.png",
+	        "selectedIconPath": "static/image/icon_write_HL.png",
+	        "text": "添加"
+	    }, {
+	        "pagePath": "pages/Statistic/index",
+	        "iconPath": "static/image/icon_statistic.png",
+	        "selectedIconPath": "static/image/icon_statistic_HL.png",
+	        "text": "统计"
+	    }, {
+	        "pagePath": "pages/Me/index",
+	        "iconPath": "static/image/icon_me.png",
+	        "selectedIconPath": "static/image/icon_me_HL.png",
+	        "text": "我的"
+	    }]
 	}
 }

@@ -1,7 +1,6 @@
 <template>
-	<view class="me-container">
-		me-container
-		<custom-tabbar tab-index="4"></custom-tabbar>
+	<view class="statistic-container">
+		statistic-container
 	</view>
 </template>
 
