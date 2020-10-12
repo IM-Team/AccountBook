@@ -4,7 +4,7 @@
 			<cell height="230" backgroundColor="#188aff">
 				<view slot="title" class="user-info">
 					<view class="user-photo-wrap">
-						<image src="../../static/img/profile/user.png" mode="widthFix" class="user-photo"></image>
+						<!-- <image src="../../static/img/profile/user.png" mode="widthFix" class="user-photo"></image> -->
 					</view>
 					<text class="user-name">请登录</text>
 				</view>
@@ -53,38 +53,41 @@
 	}
 </script>
 
-<style lang="less">
-	.me-container {
-		.user-info-wrap {
-			.user-info {
-				display: flex;
-				align-items: center;
-				.user-photo-wrap {
-					width: 120rpx;
-					height: 120rpx;
-					margin-left: 32rpx;
-					border-radius: 50%;
-					overflow: hidden;
-					.user-photo {
-						width: 100%;
-					}
-				}
-				.user-name {
-					color: #fff;
-					padding-left: 32rpx;
-				}				
-			}
-		}
-		
-		.profile-group {
-			background-color: #fff;
-			.profile-item {
-				position: relative;
-				margin: 0 32rpx;
-				&:nth-child(n+2) {
-					border-top: solid 1px #eee;
-				}
-			}
-		}
+<style scoped>
+	
+	.user-info {
+		display: flex;
+		align-items: center;
 	}
+	
+	.user-photo-wrap {
+		width: 120rpx;
+		height: 120rpx;
+		margin-left: 32rpx;
+		border-radius: 50%;
+		overflow: hidden;
+	}
+	
+	.user-photo {
+		width: 100%;
+	}
+	
+	.user-name {
+		color: #fff;
+		padding-left: 32rpx;
+	}
+	
+	.profile-group {
+		background-color: #fff;
+	}
+	
+	.profile-item {
+		position: relative;
+		margin: 0 32rpx;
+	}
+	
+	.profile-item:nth-child(n+2) {
+		border-top: solid 1px #eee;
+	}
+	
 </style>

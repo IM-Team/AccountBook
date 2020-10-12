@@ -1,6 +1,6 @@
 <template>
 	<view class="container-account">
-		<view class="total-wrap">
+		<!-- <view class="total-wrap">
 			<cell height="160" backgroundColor="#188aff">
 				<text slot="title" class="total">总资产：186,660,004.00</text>
 			</cell>
@@ -59,7 +59,7 @@
 					<text slot="value">5,506.00</text>
 				</cell>
 			</view>
-		</view>
+		</view> -->
 		<!-- <custom-tabbar tab-index="1"></custom-tabbar> -->
 	</view>
 </template>
@@ -69,11 +69,6 @@
 	import IconCell from "../../components/common/cell/IconCell.vue"
 	
 	export default {
-		data() {
-			return {
-				
-			};
-		},
 		components: {
 			Cell,
 			IconCell
@@ -81,23 +76,19 @@
 	}
 </script>
 
-<style lang="less">
-	.container-account {
-		.total-wrap {
-			.total {
-				color: #fff;
-				font-size: 36rpx;
-			}	
-		}
-		.account-group {
-			.account-item {
-				.icon-wrap {
-					width: 42rpx;
-					image {
-						width: 100%;
-					}
-				}
-			}
-		}
+<style scoped>
+	
+	.total {
+		color: #fff;
+		font-size: 36rpx;
 	}
+	
+	.icon-wrap {
+		width: 42rpx;
+	}
+	
+	.icon-wrap image {
+		width: 100%;
+	}
+	
 </style>

@@ -29,24 +29,25 @@
 	}
 </script>
 
-<style lang="less">
-	.container-cell {
-		.cell-warp {
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			color: #2b303b;
-			.title {
-				flex: 1;
-				padding: 0 32rpx;
-				font-size: 28rpx;
-			}
-			.value {
-				// flex: 1;
-				padding: 0 32rpx;
-				font-size: 24rpx;
-				text-align: right;
-			}
-		}
+<style scoped>
+	
+	.cell-warp {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		color: #2b303b;
 	}
+	
+	.title {
+		flex: 1;
+		padding: 0 32rpx;
+		font-size: 28rpx;
+	}
+	.value {
+		// flex: 1;
+		padding: 0 32rpx;
+		font-size: 24rpx;
+		text-align: right;
+	}
+
 </style>

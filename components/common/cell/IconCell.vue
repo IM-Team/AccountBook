@@ -1,6 +1,8 @@
 <template>
 	<view class="icon-cell">
-		<view class="icon" :style="{width: width + 'rpx'}"><image :src="source" mode="widthFix"></image></view>
+		<view class="icon" :style="{ 'width' : width + 'rpx'}">
+			<image class="img" :src="source" mode="widthFix"></image>
+		</view>
 		<text class="title">{{title}}</text>
 	</view>
 </template>
@@ -11,32 +13,35 @@
 		props: {
 			width: {
 				type: Number,
-				default: 42
+				default: 42,
 			},
 			source: {
-				type: String
+				type: String,
+				required: true
 			},
 			title: {
-				type: String
+				type: String,
+				required: true
 			}
 		}
 	}
 </script>
 
-<style lang="less">
+<style scoped>
+	
 	.icon-cell {
 		display: flex;
 		align-items: center;
-		.icon {
-			display: flex;
-			align-items: center;
-			padding-right: 16rpx;
-			image {
-				width: 100%;
-			}
-		}
-		.title {
-			
-		}
 	}
+
+	.icon {
+		display: flex;
+		align-items: center;
+		padding-right: 16rpx;
+	}
+
+	.icon .img {
+		width: 100%;
+	}
+	
 </style>

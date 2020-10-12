@@ -25,12 +25,12 @@
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "Bookkeeping book",
-		"navigationBarBackgroundColor": "#F8F8F8",
+		"navigationBarBackgroundColor": "#f4f4f4",
 		"backgroundColor": "#F8F8F8"
 	},
 	"tabBar": {
 	    "color": "#aaaaaa",
-	    "selectedColor": "#2B303B",
+	    "selectedColor": "#188AFF",
 	    "borderStyle": "black",
 	    "backgroundColor": "#ffffff",
 		"borderStyle": "white",
