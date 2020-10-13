@@ -1,94 +1,116 @@
 <template>
-	<view class="container-account">
-		<!-- <view class="total-wrap">
-			<cell height="160" backgroundColor="#188aff">
-				<text slot="title" class="total">总资产：186,660,004.00</text>
+	<view class="acount-container">
+		<view class="account-header">
+			<cell>
+				<view class="money" slot="title">
+					<text class="worth-title">净资产</text>
+					<view class="worth-value">19,000,084.00</view>
+					<view>
+						<text class="total-title">资金总额</text>
+						<text class="total-value">1,600.00</text>
+					</view>
+					<view>
+						<text class="total-title">负债总额</text>
+						<text class="total-value">1,600.00</text>
+					</view>
+				</view>
+				<view class="header-btn-wrap" slot="content">
+					<view class="trend-btn">资金趋势</view>
+					<view class="add_account-btn">添加账户</view>
+				</view>
 			</cell>
 		</view>
-		<view class="account-group">
-			<view class="account-item">
-				<cell>
-					<view slot="title">
-						<icon-cell
-							title="现金"
-							source="../../static/img/account/xianjin.png"
-						>
-						</icon-cell>
-					</view>
-					<text slot="value">5,506.00</text>
-				</cell>
-				
-				<cell>
-					<view slot="title">
-						<icon-cell
-							title="银行卡"
-							source="../../static/img/account/yinhangka.png"
-						>
-						</icon-cell>
-					</view>
-					<text slot="value">5,506.00</text>
-				</cell>
-				<cell>
-					<view slot="title">
-						<icon-cell
-							title="支付宝"
-							source="../../static/img/account/zhifubao.png"
-						>
-						</icon-cell>
-					</view>
-					<text slot="value">5,506.00</text>
-				</cell>
-				<cell>
-					<view slot="title">
-						<icon-cell
-							title="微信"
-							source="../../static/img/account/weixin.png"
-						>
-						</icon-cell>
-					</view>
-					<text slot="value">5,506.00</text>
-				</cell>
-				<cell>
-					<view slot="title">
-						<icon-cell
-							title="信用卡"
-							source="../../static/img/account/xinyongka.png"
-						>
-						</icon-cell>
-					</view>
-					<text slot="value">5,506.00</text>
-				</cell>
+		
+		<view class="account-group-wrap">
+			<view class="account-group">
+				<view class="group-title">资金账户</view>
+				<cell
+					icon="icon-xianjin"
+					title="现金"
+					content="360.00"
+				></cell>
+				<cell
+					icon="icon-zhifubao2"
+					title="支付宝"
+					content="360.00"
+				></cell>
+				<cell
+					icon="icon-weixin"
+					title="微信"
+					content="360.00"
+				></cell>
 			</view>
-		</view> -->
-		<!-- <custom-tabbar tab-index="1"></custom-tabbar> -->
+			
+			<view class="account-group">
+				<view class="group-title">信用账户</view>
+				<cell
+					icon="icon-xinyongka"
+					title="信用卡"
+					content="360.00"
+				></cell>
+			</view>
+		</view>
 	</view>
 </template>
 
 <script>
-	import Cell from "../../components/common/cell/Cell.vue";
-	import IconCell from "../../components/common/cell/IconCell.vue"
-	
+	import Cell from "../../components/common/Cell/Cell.vue";
 	export default {
+		data() {
+			return {
+				
+			};
+		},
 		components: {
-			Cell,
-			IconCell
+			Cell
 		}
 	}
 </script>
 
 <style scoped>
+	.acount-container {
+		padding: 32rpx;
+	}
 	
-	.total {
+	.money .worth-title {
+		font-size: 28rpx;
+	}
+	.money .worth-value {
+		margin: 10px 0;
+		font-size: 40rpx;
+		color: #188AFF;
+	}
+	
+	.money .total-title {
+		color: #999;
+		margin-right: 10rpx;
+	}
+	
+	/* heder the button widge style */
+	.header-btn-wrap {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-evenly;
+	}
+	.header-btn-wrap .trend-btn,
+	.header-btn-wrap .add_account-btn {
+		display: inline-flex;
+		align-items: center;
+		height: 54rpx;
+		padding: 16rpx 32rpx;
+		border-radius: 10px;
 		color: #fff;
-		font-size: 36rpx;
+		background-color: #188AFF;
+	}
+	.header-btn-wrap .add_account-btn {
+		margin-top: 32rpx;
+		background-color: #FF4949;
 	}
 	
-	.icon-wrap {
-		width: 42rpx;
-	}
 	
-	.icon-wrap image {
-		width: 100%;
+	.account-group .group-title {
+		padding-bottom: 10rpx;
+		font-size: 24rpx;
+		color: #999;
 	}
-	
 </style>
