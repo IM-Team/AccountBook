@@ -1,7 +1,7 @@
 <template>
 	<view class="acount-container">
 		<view class="account-header">
-			<cell>
+			<im-cell>
 				<view class="money" slot="title">
 					<text class="worth-title">净资产</text>
 					<view class="worth-value">19,000,084.00</view>
@@ -18,36 +18,36 @@
 					<view class="trend-btn">资金趋势</view>
 					<view class="add_account-btn">添加账户</view>
 				</view>
-			</cell>
+			</im-cell>
 		</view>
 		
 		<view class="account-group-wrap">
 			<view class="account-group">
 				<view class="group-title">资金账户</view>
-				<cell
+				<im-cell
 					icon="icon-xianjin"
 					title="现金"
 					content="360.00"
-				></cell>
-				<cell
+				></im-cell>
+				<im-cell
 					icon="icon-zhifubao2"
 					title="支付宝"
 					content="360.00"
-				></cell>
-				<cell
+				></im-cell>
+				<im-cell
 					icon="icon-weixin"
 					title="微信"
 					content="360.00"
-				></cell>
+				></im-cell>
 			</view>
 			
 			<view class="account-group">
 				<view class="group-title">信用账户</view>
-				<cell
+				<im-cell
 					icon="icon-xinyongka"
 					title="信用卡"
 					content="360.00"
-				></cell>
+				></im-cell>
 			</view>
 		</view>
 	</view>

@@ -13,7 +13,7 @@
 				<view>餐饮</view>
 			</view>
 			<view>300.00</view> -->
-			<cell title="餐食" icon="icon-canyin" content="300.00"></cell>
+			<im-cell title="餐食" icon="icon-canyin" content="300.00"></im-cell>
 		</view>
 	</view>
 </template>

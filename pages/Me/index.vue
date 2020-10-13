@@ -17,19 +17,19 @@
 		
 		<view class="profile-group">
 			<view class="profile-item">
-				<cell icon="icon-zhifubao2" title="分类">
+				<im-cell icon="icon-zhifubao2" title="分类">
 					<view slot="content" class="iconfont icon-gengduo"></view>
-				</cell>
+				</im-cell>
 			</view>
 			<view class="profile-item">
-				<cell icon="icon-zhifubao2" title="意见反馈">
+				<im-cell icon="icon-zhifubao2" title="意见反馈">
 					<!-- <view slot="content" class="iconfont icon-gengduo"></view> -->
-				</cell>
+				</im-cell>
 			</view>
 			<view class="profile-item">
-				<cell icon="icon-zhifubao2" title="设置">
+				<im-cell icon="icon-zhifubao2" title="设置">
 					<view slot="content" class="iconfont icon-gengduo"></view>
-				</cell>
+				</im-cell>
 			</view>
 		</view>
 	</view>
