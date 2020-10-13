@@ -15,7 +15,10 @@
 	<view class="cell-container">
 		<view class="cell-title">
 			<block v-if="icon">
-				<view class="iconfont title-icon" :class="icon"></view>
+				<view 
+					class="iconfont title-icon" 
+					:class="icon"
+				></view>
 			</block>
 			<view class="title-text">
 				<text v-if="title">{{title}}</text>
