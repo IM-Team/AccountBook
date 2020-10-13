@@ -71,16 +71,17 @@
 	}
 	
 	.money .worth-title {
-		font-size: 28rpx;
+		font-size: 32rpx;
 	}
 	.money .worth-value {
-		margin: 10px 0;
-		font-size: 40rpx;
+		margin: 10rpx 0 16rpx;
+		font-size: 48rpx;
 		color: #188AFF;
 	}
 	
 	.money .total-title {
 		color: #999;
+		font-size: 28rpx;
 		margin-right: 10rpx;
 	}
 	

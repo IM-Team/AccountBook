@@ -62,7 +62,7 @@
 		background-color: #188AFF;
 	}
 	.me-container .profile-group {
-		margin-top: 32rpx;
+		margin-top: 64rpx;
 	}
 	
 	.user-info .iconfont {

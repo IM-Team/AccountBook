@@ -61,7 +61,7 @@
 		font-size: 28rpx;
 		text-align: center;
 		border: solid 1px #188AFF;
-		border-radius: 26rpx;
+		border-radius: 100rpx;
 		color: #188AFF;
 	}
 	
@@ -93,8 +93,11 @@
 		display: flex;
 		justify-content: space-between;
 		font-size: 28rpx;
-		padding: 16rpx 0;
+		padding: 32rpx;
 		line-height: 60rpx;
+		border-radius: 16px;
+		margin-bottom: 28rpx;
+		background-color: #fff;
 	}
 	.classify .title {
 		display: flex;

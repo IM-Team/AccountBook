@@ -35,7 +35,7 @@
 		padding: 64rpx 32rpx;
 		border-radius: 16px;
 		background-color: #fff;
-		box-shadow: 0 0 12px rgba(0, 0, 0, .1);
+		/* box-shadow: 0 0 12px rgba(0, 0, 0, .1); */
 	}
 	
 	.month {
