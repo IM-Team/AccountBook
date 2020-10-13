@@ -8,11 +8,12 @@
 			</view>
 		</view>
 		<view class="cell" v-for="(item, index) in 4" :key="index">
-			<view class="type-wrap">
+<!-- 			<view class="type-wrap">
 				<view class="iconfont icon-canyin"></view>
 				<view>餐饮</view>
 			</view>
-			<view>300.00</view>
+			<view>300.00</view> -->
+			<cell title="餐食" icon="icon-canyin" content="300.00"></cell>
 		</view>
 	</view>
 </template>
@@ -23,6 +24,8 @@
 			return {
 				
 			};
+		},
+		components: {
 		}
 	}
 </script>
@@ -47,7 +50,7 @@
 		margin-left: 20rpx;
 	}
 	
-	.cell {
+/* 	.cell {
 		display: flex;
 		align-items: center;
 		margin-bottom: 28rpx;
@@ -71,6 +74,6 @@
 	.type-wrap {
 		display: flex;
 		align-items: center;
-	}
+	} */
 
 </style>

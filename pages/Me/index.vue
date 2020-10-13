@@ -36,8 +36,6 @@
 </template>
 
 <script>
-	import Cell from "../../components/common/Cell/Cell.vue";
-	
 	export default {
 		data() {
 			return {
@@ -48,7 +46,6 @@
 			
 		},
 		components: {
-			Cell
 		}
 	}
 </script>
