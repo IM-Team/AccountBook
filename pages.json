@@ -1,11 +1,13 @@
 {
 	"pages": [
 		{
-		    "path" : "pages/Index/Index"
+		  "path" : "pages/Index/Index"
 		}, {
 			"path": "pages/Turnover/index"
 		}, {
 			"path": "pages/Account/index"
+		}, {
+			"path": "pages/Account/ChildPages/AddAccount"
 		}, {
 			"path": "pages/Add/index"
 		}, {
