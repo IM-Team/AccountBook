@@ -8,11 +8,6 @@
 			</view>
 		</view>
 		<view class="cell" v-for="(item, index) in 4" :key="index">
-<!-- 			<view class="type-wrap">
-				<view class="iconfont icon-canyin"></view>
-				<view>餐饮</view>
-			</view>
-			<view>300.00</view> -->
 			<im-cell title="餐食" icon="icon-canyin" content="300.00"></im-cell>
 		</view>
 	</view>
@@ -42,38 +37,10 @@
 		justify-content: space-between;
 		font-size: 24rpx;
 		color: #757575;
-		/* background-color: #188AFF; */
-		/* border-radius: 16px; */
 	}
 	
 	.expenses {
 		margin-left: 20rpx;
 	}
-	
-/* 	.cell {
-		display: flex;
-		align-items: center;
-		margin-bottom: 28rpx;
-		padding: 32rpx;
-		justify-content: space-between;
-		border-radius: 16px;
-		background-color: #fff;
-	}
-	
-	.iconfont {
-		width: 60rpx;
-		height: 60rpx;
-		margin-right: 20rpx;
-		text-align: center;
-		line-height: 60rpx;
-		border-radius: 50%;
-		color: #fff;
-		background-color: #188AFF;
-	}
-	
-	.type-wrap {
-		display: flex;
-		align-items: center;
-	} */
 
 </style>
