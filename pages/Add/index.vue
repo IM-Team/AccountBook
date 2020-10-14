@@ -23,16 +23,32 @@
 		
 		<view class="add-body">
 			<swiper :indicator-dots="true">
-				<swiper-item class="swiper">
-					<view class="swiper-item" v-for="(item, index) in 8" :key="index">
-						<view class="iconfont icon-qian"></view>
-						<view class="name">工资</view>
+				<swiper-item>
+					<view class="swiper-row">
+						<view class="swiper-item" v-for="(item, index) in 4" :key="index">
+							<view class="iconfont icon-qian"></view>
+							<view class="name">工资</view>
+						</view>		
+					</view>
+					<view class="swiper-row">
+						<view class="swiper-item" v-for="(item, index) in 4" :key="index">
+							<view class="iconfont icon-qian"></view>
+							<view class="name">工资</view>
+						</view>		
 					</view>
 				</swiper-item>
-				<swiper-item class="swiper">
-					<view class="swiper-item" v-for="(item, index) in 8" :key="index">
-						<view class="iconfont icon-qian"></view>
-						<view class="name">工资</view>
+				<swiper-item>
+					<view class="swiper-row">
+						<view class="swiper-item" v-for="(item, index) in 4" :key="index">
+							<view class="iconfont icon-qian"></view>
+							<view class="name">工资</view>
+						</view>		
+					</view>
+					<view class="swiper-row">
+						<view class="swiper-item" v-for="(item, index) in 4" :key="index">
+							<view class="iconfont icon-qian"></view>
+							<view class="name">工资</view>
+						</view>		
 					</view>
 				</swiper-item>
 			</swiper>
@@ -111,18 +127,17 @@
 	.add-body {
 		padding: 32rpx
 	}
-	.add-body .swiper {
+	.add-body .swiper-row {
 		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-between;
+		justify-content: space-around;
 	}
 	.add-body .swiper-item {
-		
+		text-align: center;
 	}
 	.swiper-item .iconfont {
-		width: 120rpx;
-		height: 120rpx;
-		line-height: 120rpx;
+		width: 90rpx;
+		height: 90rpx;
+		line-height: 90rpx;
 		border-radius: 50%;
 		font-size: 60rpx;
 		text-align: center;
