@@ -3,7 +3,7 @@
 		<view
 			class="tabbar-item"
 			v-for="(item, index) in tabbarList"
-			@click="onSwitchTab(item.pagePath)"
+			@click="onSwitchTab(index)"
 			:style="{ 'color': index === tabIndex ? selectedColor : color }"
 			:key="index">
 			<template v-if="item.iconName">
@@ -21,6 +21,7 @@
 
 <script>
 	export default {
+		name: 'CustomTabbar',
 		props: {
 			tabIndex: {
 				type: Number,
@@ -30,7 +31,7 @@
 		data() {
 			return {
 				color: '#aaaaaa',
-				selectedColor: '#2B303B',
+				selectedColor: '#188AFF',
 				tabbarList: [
 					{
 						label: '流水',
@@ -60,12 +61,8 @@
 			}
 		},
 		methods: {
-			onSwitchTab(pagePath) {
-				if (pagePath === '/pages/add/add')
-					uni.navigateTo({ url: pagePath })
-				else
-					uni.redirectTo({ url: pagePath });
-				
+			onSwitchTab(index) {
+				this.$emit('tabTap', index)
 			}
 		}
 	}
@@ -74,13 +71,14 @@
 <style scoped>
 
 	.tabbar-container {
+		height: 54px;
 		position: fixed;
 		left: 0;
 		right: 0;
 		bottom: 0;
 		display: flex;
 		align-items: center;
-		height: 100rpx;
+		background-color: #fff;
 	}
 	
 	.tabbar-item {
