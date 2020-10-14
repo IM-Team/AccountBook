@@ -20,8 +20,12 @@
 			"style": {
 				"navigationBarBackgroundColor": "#ffffff"
 			}
+		},
+		{
+			"path": "pages/Add/AddAccount",
+			"style": {}
 		}
-	],
+  ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "Bookkeeping book",
