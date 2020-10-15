@@ -8,7 +8,10 @@
 			"path": "pages/Account/index"
 		}, {
 			"path": "pages/Account/ChildPages/AddAccount"
-		}, {
+		},
+		{
+			"path": "pages/Account/ChildPages/AddAccountForm"
+		},{
 			"path": "pages/Add/index"
 		}, {
 			"path": "pages/Statistic/index"
