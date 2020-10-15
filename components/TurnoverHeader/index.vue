@@ -27,7 +27,7 @@
 	
 	.turnover-header {
 		padding: 64rpx 32rpx;
-		border-radius: 16px;
+		border-radius: 10px;
 		background-color: #fff;
 	}
 	

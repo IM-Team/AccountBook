@@ -16,7 +16,7 @@
 				</view>
 				<view class="header-btn-wrap" slot="content">
 					<view class="trend-btn">资金趋势</view>
-					<view class="add_account-btn">添加账户</view>
+					<view class="add_account-btn" @click="onAddAccount">添加账户</view>
 				</view>
 			</im-cell>
 		</view>
@@ -55,12 +55,13 @@
 
 <script>
 	export default {
-		data() {
-			return {
-				
-			};
-		},
-		components: {
+		name: 'Account',
+		methods: {
+			onAddAccount() {
+				uni.navigateTo({
+					url: '/pages/AddAccount/index'
+				})
+			}
 		}
 	}
 </script>

@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import App from './App'
-
-import ImCell from 'components/common/ImCell'
+import ImCell from './components/common/ImCell'
 
 Vue.config.productionTip = false
 

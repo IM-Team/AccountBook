@@ -1,29 +1,24 @@
 {
-	"pages": [
-		{
-		  "path" : "pages/Index/Index"
-		}, {
-			"path": "pages/Turnover/index"
-		}, {
-			"path": "pages/Account/index"
-		}, {
-			"path": "pages/Account/ChildPages/AddAccount"
-		},
-		{
-			"path": "pages/Account/ChildPages/AddAccountForm"
-		},{
-			"path": "pages/Add/index"
-		}, {
-			"path": "pages/Statistic/index"
-		}, {
-			"path": "pages/Me/index"
-		}, {
-			"path": "pages/AccountBook/index",
-			"style": {
-				"navigationBarBackgroundColor": "#ffffff"
-			}
+	"pages": [{
+		"path": "pages/Index/index"
+	}, {
+		"path": "pages/Turnover/index"
+	}, {
+		"path": "pages/Account/index"
+	}, {
+		"path": "pages/AddAccount/index"
+	}, {
+		"path": "pages/Add/index"
+	}, {
+		"path": "pages/Statistic/index"
+	}, {
+		"path": "pages/Me/index"
+	}, {
+		"path": "pages/AccountBook/index",
+		"style": {
+			"navigationBarBackgroundColor": "#ffffff"
 		}
-  ],
+	}],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "记账本",
