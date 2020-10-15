@@ -22,7 +22,7 @@
 		</view>
 		
 		<view class="add-body">
-			<swiper :indicator-dots="true">
+			<swiper :indicator-dots="true" style="height: 360rpx">
 				<swiper-item>
 					<view class="swiper-row">
 						<view class="swiper-item" v-for="(item, index) in 4" :key="index">
@@ -33,7 +33,7 @@
 					<view class="swiper-row">
 						<view class="swiper-item" v-for="(item, index) in 4" :key="index">
 							<view class="iconfont icon-qian"></view>
-							<view class="name">工资</view>
+							<view class="name">工资</view> 
 						</view>		
 					</view>
 				</swiper-item>
@@ -54,6 +54,42 @@
 			</swiper>
 		</view>
 		
+		<view class="add-footer">
+			<view class="keyboard">
+				<view class="keyboard-top">
+					<view class="key-row">
+						<button class="key-item" hover-class="active-gray">1</button>
+						<button class="key-item" hover-class="active-gray">2</button>
+						<button class="key-item" hover-class="active-gray">3</button>
+						<button class="key-item" hover-class="active-gray">+</button>
+					</view>
+					<view class="key-row">
+						<button class="key-item" hover-class="active-gray">4</button>
+						<button class="key-item" hover-class="active-gray">5</button>
+						<button class="key-item" hover-class="active-gray">6</button>
+						<button class="key-item" hover-class="active-gray">-</button>
+					</view>
+				</view>
+				
+				<view class="keyboard-bottom">
+					<view class="keyboard-bottom-lf">
+						<view class="key-row">
+							<button class="key-item" hover-class="active-gray">7</button>
+							<button class="key-item" hover-class="active-gray">8</button>
+							<button class="key-item" hover-class="active-gray">9</button>
+						</view>
+						<view class="key-row">
+							<button class="key-item clear-btn" hover-class="active-clear">清除</button>
+							<button class="key-item" hover-class="active-gray">0</button>
+							<button class="key-item" hover-class="active-gray">.</button>
+						</view>
+					</view>
+					<view class="keyboard-bottom-rg">
+						<button class="commit-btn">确认</button>
+					</view>
+				</view>
+			</view>
+		</view>
 	</view>
 </template>
 
@@ -71,9 +107,16 @@
 </script>
 
 <style scoped>
+	.add-container {
+		height: 100vh;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		overflow: hidden;
+	}
 	.add-header {
-		padding: 32rpx;
-		box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.1);
+		padding: 0 32rpx 0;
+		/* box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.1); */
 	}
 	.add-header .tally-type {
 		display: flex;
@@ -84,7 +127,8 @@
 	}
 	.add-header .computed {
 		font-size: 96rpx;
-		padding: 48rpx 0;
+		padding-top: 48rpx;
+		padding-bottom: 28rpx;
 	}
 	.tally-type .income,
 	.tally-type .spend{
@@ -125,11 +169,12 @@
 	
 	
 	.add-body {
-		padding: 32rpx
+		padding-top: 32rpx;
 	}
 	.add-body .swiper-row {
 		display: flex;
 		justify-content: space-around;
+		padding-bottom: 32rpx;
 	}
 	.add-body .swiper-item {
 		text-align: center;
@@ -141,6 +186,75 @@
 		border-radius: 50%;
 		font-size: 60rpx;
 		text-align: center;
+		color: #fff;
+		background-color: #188AFF;
+	}
+	.swiper-item .name {
+		padding-top: 6rpx;
+	}
+	
+/* keybord style */
+	button {
+		background-color: unset;
+	}
+	button::after {
+		border: none;
+	}
+	.add-footer {
+		flex: 1;
+		border: solid 1px #EEEEEE;
+		max-height: 600rpx;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		background-color: #fff;
+	}
+	.keyboard {
+		padding: 0 32rpx;
+		box-sizing: border-box;
+	}
+	.key-row { 
+		display: flex;
+		padding: 8rpx 0;
+	}
+	.key-row .key-item {
+		width: 104rpx;
+		height: 104rpx; 
+		line-height: 104rpx;
+		font-size: 48rpx;
+		text-align: center;
+		border-radius: 8px
+	}
+	.keyboard-bottom {
+		display: flex;
+	}
+	.keyboard-bottom .keyboard-bottom-lf {
+		flex: 3;
+	}
+	.keyboard-bottom .keyboard-bottom-rg {
+		flex: 1;
+		margin: 8rpx 0;
+	}
+	.key-row .clear-btn {
+		font-size: 24rpx;
+		color: #FF4949;
+		background-color: unset;
+	}
+	.active-gray {
+		background-color: #EEEEEE;
+	}
+	.key-row .active-clear {
+		color: #fff;
+		background-color: #FF4949 !important;
+	}
+	.commit-btn {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 104rpx;
+		height: 100%;
+		font-size: 24rpx;
+		border-radius: 8px;
 		color: #fff;
 		background-color: #188AFF;
 	}
