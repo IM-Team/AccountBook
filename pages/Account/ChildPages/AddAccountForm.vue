@@ -45,6 +45,10 @@
 		flex-direction: column;
 		align-items: center;
 	}
+	.form-header-text {
+		padding: 16rpx 0 48rpx 0;
+		font-size: 32rpx;
+	}
 	.form-header .iconfont {
 		width: 120rpx;
 		height: 120rpx;
