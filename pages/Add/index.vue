@@ -67,7 +67,7 @@
 						<button class="key-item" hover-class="active-gray">4</button>
 						<button class="key-item" hover-class="active-gray">5</button>
 						<button class="key-item" hover-class="active-gray">6</button>
-						<button class="key-item" hover-class="active-gray">-</button>
+						<button class="key-item" hover-class="active-gray" style="line-height: 98rpx;">-</button>
 					</view>
 				</view>
 				
@@ -245,7 +245,7 @@
 	}
 	.key-row .active-clear {
 		color: #fff;
-		background-color: #FF4949 !important;
+		background-color: #FF4949;
 	}
 	.commit-btn {
 		display: flex;
