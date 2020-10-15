@@ -85,7 +85,7 @@
 						</view>
 					</view>
 					<view class="keyboard-bottom-rg">
-						<block v-if="1">
+						<block v-if="isShowCommit">
 							<button class="commit-btn" @click="handleCalc()">=</button>
 						</block>
 						<block v-else>
@@ -102,7 +102,8 @@
 	export default {
 		data() {
 			return {
-				digitList: []
+				digitList: [],
+				isShowCommit: false
 			}
 		},
 		computed: {
@@ -113,6 +114,7 @@
 				switch(digit) {
 					case -1:
 					 	this.digitList = [];
+						// this.isShowCommit = true;
 						break;
 					case '+':
 						if(this.digitList.length !== 0 && this.digitList[this.digitList.length-1] !== '+') {
@@ -120,6 +122,7 @@
 								this.digitList.pop();
 							}
 							this.digitList.push(digit);
+							this.isShowCommit = true;
 						}
 						break;
 					case '-':
@@ -127,7 +130,8 @@
 							if(this.digitList[this.digitList.length-1] === '+') {
 								this.digitList.pop();
 							}
-							this.digitList.push(digit);		
+							this.digitList.push(digit);	
+							this.isShowCommit = true;
 						}
 						break;
 					case '.':
@@ -140,14 +144,22 @@
 						break;
 					default: 
 						this.digitList.push(digit);
+						// if(!this.digitList.includes('+') && !this.digitList.includes('-')) {
+						// 	this.isShowCommit = true;
+						// }
 						break;
 				}
+				// console.log(this.digitList.includes('+'));
+
 			},
 			handleCalc() {
 				if(this.digitList.length !== 0) {
 					let digitArry = JSON.stringify(this.digitList.join('')).match(/([\-|\d]\d+)|(\d\.\d+)|\d+/g);
 					this.digitList = [digitArry.reduce((n, m) => Number(n) + Number(m))];
 					// console.log(digitArry);
+					if(!this.digitList.includes('+') && !this.digitList.includes('-')) {
+						this.isShowCommit = false;
+					}
 				}
 			}
 		}
