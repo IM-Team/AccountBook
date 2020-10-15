@@ -5,12 +5,18 @@
 				<view class="income active">收入</view>
 				<view class="spend">支出</view>
 			</view>
-			<picker mode="date" fields="month" :value="date" :start="startDate" :end="endDate" @change="bindDateChange">
-				<view class="calendar">{{date}}</view>
+			<picker
+				mode="date"
+				fields="month"
+				:value="date"
+				:start="startDate"
+				:end="endDate"
+				@change="onDateChange">
+				<view class="calendar">{{ date }}</view>
 			</picker>
 		</view>
 		
-		<view class="chart-wrap"></view>
+		<statistic-chart />
 		
 		<view class="classify-wrap">
 			<view class="classify" v-for="(item, index) in 5" :key="index">
@@ -26,79 +32,46 @@
 </template>
 
 <script>
-export default {
-    data() {
-      const currentDate = this.getDate({
-        format: true
-      })
-      return {
-        title: 'picker',
-        index: 0,
-        date: currentDate
-      }
-    },
-    computed: {
-       startDate() {
-        return this.getDate('start');
-       },
-       endDate() {
-        return this.getDate('end');
-       }
-    },
-    methods: {
-      bindPickerChange: function(e) {
-        console.log('picker发送选择改变，携带值为', e.target.value)
-        this.index = e.target.value
-      },
-      bindDateChange: function(e) {
-        this.date = e.target.value
-      },
-      bindTimeChange: function(e) {
-        this.time = e.target.value
-      },
-      // getDate(type) {
-      //   const date = new Date();
-      //   let year = date.getFullYear();
-      //   let month = date.getMonth() + 1;
-      //   let day = date.getDate();
+	
+	import StatisticChart from '@/components/StatisticChart'
 
-      //   if (type === 'start') {
-      //       year = year - 60;
-      //   } else if (type === 'end') {
-      //       year = year + 2;
-      //   }
-      //   month = month > 9 ? month : '0' + month;;
-      //   day = day > 9 ? day : '0' + day;
-      //   return `${year}-${month}-${day}`;
-      // },
-			getDate(type) {
-			  const date = new Date();
-			  let year = date.getFullYear();
-			  let month = date.getMonth() + 1;
-			  // let day = date.getDate();
-			
-			  if (type === 'start') {
-			      year = year - 60;
-			  } else if (type === 'end') {
-			      year = year + 2;
-			  }
-			  month = month > 9 ? month : '0' + month;;
-			  // day = day > 9 ? day : '0' + day;
-			  return `${year}-${month}`;
+	export default {
+		data() {
+			return {
+				date: '2000-01-01',
+				startDate: '2000-01-01',
+				endDate: '2000-01-01'
 			}
-    }
-}
+		},
+		components: {
+			StatisticChart
+		},
+		created() {
+			const date = new Date()
+			const currentDate = `${date.getFullYear()}-${date.getMonth() + 1}`
+			this.date = currentDate
+			this.endDate = currentDate
+		},
+		methods: {
+			onDateChange(e) {
+				this.date = e.target.value
+			}
+		}
+	}
 </script>
 
 <style scoped>
+
 	.statistic-container {
 		padding: 16rpx 32rpx;
 	}
+
 	.statistic-container .form-wrap {
 		display: flex;
 		justify-content: space-between;
-		padding-bottom: 32rpx; 
+		padding-bottom: 32rpx;
 	}
+
 	.form-wrap .statistic-type {
 		display: flex;
 		width: 200rpx;
@@ -106,6 +79,7 @@ export default {
 		border-radius: 26px;
 		overflow: hidden;
 	}
+
 	.form-wrap .calendar {
 		width: 200rpx;
 		height: 54rpx;
@@ -116,10 +90,10 @@ export default {
 		border-radius: 100rpx;
 		color: #188AFF;
 	}
-	
+
 	/* statistic in style */
 	.statistic-type .income,
-	.statistic-type .spend{
+	.statistic-type .spend {
 		flex: 1;
 		height: 54rpx;
 		line-height: 54rpx;
@@ -127,33 +101,37 @@ export default {
 		text-align: center;
 		color: #188AFF;
 	}
+
 	.statistic-type .active {
 		color: #fff;
 		background-color: #188AFF;
 	}
-	
-	
+
+
 	.chart-wrap {
 		height: 400rpx;
 		background-color: #eee;
 	}
-	
+
 	.classify-wrap {
 		padding-top: 32rpx;
 	}
+
 	.classify-wrap .classify {
 		display: flex;
 		justify-content: space-between;
 		font-size: 28rpx;
 		padding: 32rpx;
 		line-height: 60rpx;
-		border-radius: 16px;
+		border-radius: 10px;
 		margin-bottom: 28rpx;
 		background-color: #fff;
 	}
+
 	.classify .title {
 		display: flex;
 	}
+
 	.title .iconfont {
 		width: 60rpx;
 		height: 60rpx;
@@ -163,7 +141,8 @@ export default {
 		color: #fff;
 		background-color: #188AFF;
 	}
-	.title .title-text{
+
+	.title .title-text {
 		padding-left: 16rpx;
 	}
 </style>

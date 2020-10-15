@@ -1,10 +1,11 @@
 <script>
-	export default {}
+	export default {
+		name: 'App'
+	}
 </script>
 
 <style>
-	/*每个页面公共css */
-	
+
 	@import url("./common/iconfont/iconfont.css");
 	
 	page {

@@ -4,7 +4,11 @@
 		<turnover v-if="currentIndex === 0" />
 		<account v-else-if="currentIndex === 1" />
 		<statistic v-else-if="currentIndex === 3" />
-		<me v-else></me>
+		<me v-else-if="currentIndex === 4"></me>
+		
+		<bill-detail
+			:is-show="isShowBillDetail"
+			:hide-handle="hideBillDetail"></bill-detail>
 		
 		<!-- Tabbar -->
 		<custom-tabbar
@@ -20,13 +24,15 @@
 	import Statistic 	from '@/pages/Statistic'
 	import Me 			from '@/pages/Me'
 	import CustomTabbar from '@/components/CustomTabbar'
+	import BillDetail	from '@/components/BillDetail'
 	
 	export default {
 		name: 'Index',
 		data() {
 			return {
 				currentIndex: 0,
-				pageName: ['流水', '账户', '添加','统计', '我的']
+				pageName: ['流水', '账户', '添加','统计', '我的'],
+				isShowBillDetail: false
 			}
 		},
 		components: {
@@ -34,12 +40,17 @@
 			Account,
 			Statistic,
 			Me,
-			CustomTabbar
+			CustomTabbar,
+			BillDetail
 		},
 		methods: {
+			hideBillDetail() {
+				this.isShowBillDetail = false
+			},
+			showBillDetail() {
+				this.isShowBillDetail = true
+			},
 			onTabTap(index) {
-				// uni.setNavigationBarTitle({ title: this.pageName[index] })
-				
 				if (2 === index)
 					uni.navigateTo({ url: '/pages/Add/index'})
 				else

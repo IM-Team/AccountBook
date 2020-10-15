@@ -34,6 +34,7 @@
 
 <script>
 	export default {
+		name: 'IMCell',
 		props: {
 			icon: String || false,
 			title: String || false,
@@ -48,7 +49,7 @@
 		align-items: center;
 		margin-bottom: 28rpx;
 		padding: 32rpx;
-		border-radius: 16px;
+		border-radius: 10px;
 		background-color: #fff;
 	}
 	.cell-container .cell-title {
