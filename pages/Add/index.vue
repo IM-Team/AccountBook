@@ -2,16 +2,24 @@
 	<view class="add-container">
 		<view class="add-header">
 			<view class="tally-type">
-				<view class="income active">收入</view>
-				<view class="spend">支出</view>
+				<view class="income" :class="{active: tallyType === 0}" @click="hanleIncome()">收入</view>
+				<view class="spend" :class="{active: tallyType === 1}" @click="handleSpend()">支出</view>
 			</view>
-			<view class="computed">{{digitList.join('') || 0}}</view>
+			<view class="computed" :class="{isIcome: tallyType === 0, isSpend: tallyType === 1}">{{digitList.join('') || 0}}</view>
 			<view class="form-wrap">
 				<view class="note block_gray"><text class="iconfont icon-beizhu">备注</text></view>
 				<viewd class="form-right">
 					<view class="date block_gray">
 						<text class="iconfont icon-date">日期</text>
-						今天
+						<picker
+							mode="date"
+							fields="day"
+							:value="date"
+							:start="startDate"
+							:end="endDate"
+							@change="onDateChange">
+							<view class="calendar">{{ date }}</view>
+						</picker>
 					</view>
 					<view class="account-type block_gray">
 						<text class="iconfont icon-zhanghu">账户</text>
@@ -102,66 +110,88 @@
 	export default {
 		data() {
 			return {
-				digitList: [],
-				isShowCommit: false
+				digitList: [0],	// 键盘栈
+				isShowCommit: false,	// 确认按钮开关
+				tallyType: 0,	//记账类型
+				date: '2000-01-01',
+				startDate: '2000-01-01',
+				endDate: '2000-01-01'
 			}
+		},
+		created() {
+			const date = new Date()
+			const currentDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+			this.date = currentDate
+			this.endDate = currentDate
 		},
 		computed: {
 			
 		},
 		methods: {
+			onDateChange(e) {
+				this.date = e.target.value
+			},
+			// *start* calc methods
 			onDigit(digit) {
+				let digitList = this.digitList;
 				switch(digit) {
 					case -1:
-					 	this.digitList = [];
-						// this.isShowCommit = true;
+					 	digitList = [0];
+						this.isShowCommit = false;
 						break;
 					case '+':
-						if(this.digitList.length !== 0 && this.digitList[this.digitList.length-1] !== '+') {
-							if(this.digitList[this.digitList.length-1] === '-') {
-								this.digitList.pop();
-							}
-							this.digitList.push(digit);
-							this.isShowCommit = true;
-						}
-						break;
 					case '-':
-						if(this.digitList.length !== 0 && this.digitList[this.digitList.length-1] !== '-') {
-							if(this.digitList[this.digitList.length-1] === '+') {
-								this.digitList.pop();
-							}
-							this.digitList.push(digit);	
-							this.isShowCommit = true;
-						}
+						this.digitAddorSub(digitList, digit);
 						break;
 					case '.':
-						if(this.digitList[this.digitList.length-1] !== '.') {
-							if(isNaN(this.digitList[this.digitList.length-1])) {
-								this.digitList.push(0);
+						// 重复点击处理和自动补全0
+						if(digitList[digitList.length-1] !== '.') {
+							if(isNaN(digitList[digitList.length-1])) {
+								digitList.push(0);
 							}
-							this.digitList.push(digit);
+							digitList.push(digit);
 						}
 						break;
 					default: 
-						this.digitList.push(digit);
-						// if(!this.digitList.includes('+') && !this.digitList.includes('-')) {
-						// 	this.isShowCommit = true;
-						// }
+						digitList.push(digit);
+						// 第一次输入将栈内的0弹出
+						if(digitList[0] === 0) {
+							if(/\d/.test(digitList[1])) {
+								digitList.shift();
+							}
+						}
 						break;
 				}
-				// console.log(this.digitList.includes('+'));
-
+				this.digitList = digitList;
+			},
+			digitAddorSub(digitList, digit) {
+				// 非空判断和上一个字符是否为+or-的处理
+				if(digitList.length !== 0) {
+					if(digitList[digitList.length-1] === '+' || digitList[digitList.length-1] === '-') {
+						digitList.pop();
+					}
+					digitList.push(digit);
+					this.isShowCommit = true;
+				}
 			},
 			handleCalc() {
 				if(this.digitList.length !== 0) {
-					let digitArry = JSON.stringify(this.digitList.join('')).match(/([\-|\d]\d+)|(\d\.\d+)|\d+/g);
-					this.digitList = [digitArry.reduce((n, m) => Number(n) + Number(m))];
-					// console.log(digitArry);
+					this.digitList = [JSON.stringify(this.digitList.join('')).match(/(\-*\d+\.\d+)|([\-|\d]\d+)|\d+/g).reduce((n, m) => Number(n) + Number(m))];
+					// 如果点击了+ or - 则切换为等号
 					if(!this.digitList.includes('+') && !this.digitList.includes('-')) {
 						this.isShowCommit = false;
 					}
 				}
+			},
+			// *end* calc methods
+			
+			hanleIncome() {
+				this.tallyType = 0;
+			},
+			handleSpend() {
+				this.tallyType = 1;
 			}
+			
 		}
 	}
 </script>
@@ -184,6 +214,12 @@
 		border-radius: 100rpx;
 		font-size: 28rpx;
 		overflow: hidden;
+	}
+	.add-header .isIcome {
+		color: #0EA391;
+	}
+	.add-header .isSpend {
+		color: #FF4949;
 	}
 	.add-header .computed {
 		height: 210rpx;
@@ -224,6 +260,7 @@
 		display: flex;
 	}
 	.form-right .date {
+		display: flex;
 		margin-right: 32rpx;
 	}
 	.block_gray {
