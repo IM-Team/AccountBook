@@ -2,7 +2,7 @@
 	<view class="me-container">
 		<view class="user-info">
 			<!-- unlogin status -->
-			<block class="l" v-if='true'>
+			<block v-if='true'>
 				<view class="iconfont icon-my"></view>
 				<view class="login-tip">请登录</view>
 			</block>
@@ -16,15 +16,13 @@
 		</view>
 		
 		<view class="profile-group">
-			<view class="profile-item">
+			<view class="profile-item" @click="onGotoCate">
 				<im-cell icon="icon-zhifubao2" title="分类">
 					<view slot="content" class="iconfont icon-gengduo"></view>
 				</im-cell>
 			</view>
 			<view class="profile-item">
-				<im-cell icon="icon-zhifubao2" title="意见反馈">
-					<!-- <view slot="content" class="iconfont icon-gengduo"></view> -->
-				</im-cell>
+				<im-cell icon="icon-zhifubao2" title="意见反馈" />
 			</view>
 			<view class="profile-item">
 				<im-cell icon="icon-zhifubao2" title="设置">
@@ -36,16 +34,20 @@
 </template>
 
 <script>
+	
+	import ImCell from '@/components/common/ImCell'
+	
 	export default {
-		data() {
-			return {
-				
-			}
+		name: 'Me',
+		components: {
+			ImCell
 		},
 		methods: {
-			
-		},
-		components: {
+			onGotoCate() {
+				uni.navigateTo({
+					url: '/pages/CategoryEdit/index'
+				})
+			}
 		}
 	}
 </script>

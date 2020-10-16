@@ -4,11 +4,11 @@
 		<turnover v-if="currentIndex === 0" />
 		<account v-else-if="currentIndex === 1" />
 		<statistic v-else-if="currentIndex === 3" />
-		<me v-else-if="currentIndex === 4"></me>
+		<me v-else-if="currentIndex === 4" />
 		
 		<bill-detail
 			:is-show="isShowBillDetail"
-			:hide-handle="hideBillDetail"></bill-detail>
+			:hide-handle="hideBillDetail" />
 		
 		<!-- Tabbar -->
 		<custom-tabbar
@@ -31,7 +31,6 @@
 		data() {
 			return {
 				currentIndex: 0,
-				pageName: ['流水', '账户', '添加','统计', '我的'],
 				isShowBillDetail: false
 			}
 		},
@@ -40,8 +39,8 @@
 			Account,
 			Statistic,
 			Me,
-			CustomTabbar,
-			BillDetail
+			BillDetail,
+			CustomTabbar
 		},
 		methods: {
 			hideBillDetail() {

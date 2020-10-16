@@ -18,7 +18,7 @@
 
 <script>
 	
-	const app = getApp()
+	import ImCell from '@/components/common/ImCell'
 	
 	export default {
 		name: 'TurnoverListItem',
@@ -26,6 +26,9 @@
 			onTap() {
 				this.$root.showBillDetail()
 			}
+		},
+		components: {
+			ImCell
 		}
 	}
 </script>

@@ -12,4 +12,10 @@
 		background-color: #f4f4f4;
 	}
 	
+	.center {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	
 </style>

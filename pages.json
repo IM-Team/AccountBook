@@ -14,10 +14,11 @@
 	}, {
 		"path": "pages/Me/index"
 	}, {
-		"path": "pages/AccountBook/index",
-		"style": {
-			"navigationBarBackgroundColor": "#ffffff"
-		}
+		"path": "pages/AccountBook/index"
+	}, {
+		"path": "pages/CategoryEdit/index"
+	}, {
+		"path": "pages/AddCategory/index"
 	}],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

@@ -54,6 +54,9 @@
 </template>
 
 <script>
+	
+	import ImCell from '@/components/common/ImCell'
+	
 	export default {
 		name: 'Account',
 		methods: {
@@ -62,6 +65,9 @@
 					url: '/pages/AddAccount/index'
 				})
 			}
+		},
+		components: {
+			ImCell
 		}
 	}
 </script>

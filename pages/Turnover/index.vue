@@ -7,13 +7,13 @@
 
 <script>
 	
-	import TurnoverHeader from '../../components/TurnoverHeader'
-	import TurnoverList from '../../components/TurnoverList'
+	import TurnoverHeader from '@/components/TurnoverHeader'
+	import TurnoverList from '@/components/TurnoverList'
 	
 	export default {
 		components: {
 			TurnoverHeader,
-			TurnoverList
+			TurnoverList,
 		}
 	}
 	

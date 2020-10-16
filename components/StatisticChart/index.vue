@@ -9,9 +9,10 @@
 
 <script>
 	
-	import uCharts from '@/components/u-charts/u-charts.js';
+	import uCharts from '@/components/u-charts/u-charts.js'
 	
 	export default {
+		name: 'StatisticChart',
 		data() {
 			return {
 				cWidth: 340,

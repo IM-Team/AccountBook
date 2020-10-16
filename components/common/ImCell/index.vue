@@ -1,16 +1,3 @@
-<!-- 
-	tips:
-	1.<im-cell
-			icon="icon-canyin"
-			title="微信"
-			content="250"
-		/>
-		
-	2.<im-cell>
-			<view slot="title"></view>
-			<view slot="content"></view>
-		</im-cell>
- -->
 <template>
 	<view class="cell-container">
 		<view class="cell-title">
@@ -26,21 +13,23 @@
 			</view>
 		</view>
 		<view class="cell-content">
-			<text v-if="content">{{content}}</text>
+			<text v-if="content">{{ content }}</text>
 			<slot name="content"></slot>
 		</view>
 	</view>
 </template>
 
 <script>
+
 	export default {
 		name: 'IMCell',
 		props: {
-			icon: String || false,
-			title: String || false,
-			content: String || false
+			icon: String,
+			title: String,
+			content: String
 		}
 	}
+	
 </script>
 
 <style scoped>

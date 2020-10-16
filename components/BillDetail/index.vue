@@ -112,7 +112,7 @@
 		z-index: -1;
 		transition: .3s;
 		background-color: rgba(0, 0, 0, .4);
-		animation: mask-enter .4s;
+		animation: mask-enter .3s;
 	}
 	
 	.content {
@@ -122,7 +122,7 @@
 		overflow: hidden;
 		background-color: #fff;
 		transition: .3s;
-		animation: content-enter .4s;
+		animation: content-enter .3s;
 	}
 	
 	@keyframes mask-enter {
@@ -133,7 +133,7 @@
 	
 	@keyframes content-enter {
 		0% {
-			transform: translateY(100vh);
+			transform: translate3d(0, 100vh, 0);
 		}
 	}
 	
