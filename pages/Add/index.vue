@@ -5,7 +5,7 @@
 				<view class="income active">收入</view>
 				<view class="spend">支出</view>
 			</view>
-			<view class="computed">0.00</view>
+			<view class="computed">{{digitList.join('') || 0}}</view>
 			<view class="form-wrap">
 				<view class="note block_gray"><text class="iconfont icon-beizhu">备注</text></view>
 				<viewd class="form-right">
@@ -58,34 +58,39 @@
 			<view class="keyboard">
 				<view class="keyboard-top">
 					<view class="key-row">
-						<button class="key-item" hover-class="active-gray">1</button>
-						<button class="key-item" hover-class="active-gray">2</button>
-						<button class="key-item" hover-class="active-gray">3</button>
-						<button class="key-item" hover-class="active-gray">+</button>
+						<button class="key-item" hover-class="active-gray" @click="onDigit(1)">1</button>
+						<button class="key-item" hover-class="active-gray" @click="onDigit(2)">2</button>
+						<button class="key-item" hover-class="active-gray" @click="onDigit(3)">3</button>
+						<button class="key-item" hover-class="active-gray" @click="onDigit('+')">+</button>
 					</view>
 					<view class="key-row">
-						<button class="key-item" hover-class="active-gray">4</button>
-						<button class="key-item" hover-class="active-gray">5</button>
-						<button class="key-item" hover-class="active-gray">6</button>
-						<button class="key-item" hover-class="active-gray">-</button>
+						<button class="key-item" hover-class="active-gray" @click="onDigit(4)">4</button>
+						<button class="key-item" hover-class="active-gray" @click="onDigit(5)">5</button>
+						<button class="key-item" hover-class="active-gray" @click="onDigit(6)">6</button>
+						<button class="key-item" hover-class="active-gray" @click="onDigit('-')" style="line-height: 98rpx;">-</button>
 					</view>
 				</view>
 				
 				<view class="keyboard-bottom">
 					<view class="keyboard-bottom-lf">
 						<view class="key-row">
-							<button class="key-item" hover-class="active-gray">7</button>
-							<button class="key-item" hover-class="active-gray">8</button>
-							<button class="key-item" hover-class="active-gray">9</button>
+							<button class="key-item" hover-class="active-gray" @click="onDigit(7)">7</button>
+							<button class="key-item" hover-class="active-gray" @click="onDigit(8)">8</button>
+							<button class="key-item" hover-class="active-gray" @click="onDigit(9)">9</button>
 						</view>
 						<view class="key-row">
-							<button class="key-item clear-btn" hover-class="active-clear">清除</button>
-							<button class="key-item" hover-class="active-gray">0</button>
-							<button class="key-item" hover-class="active-gray">.</button>
+							<button class="key-item clear-btn" hover-class="active-clear" @click="onDigit(-1)">清除</button>
+							<button class="key-item" hover-class="active-gray" @click="onDigit(0)">0</button>
+							<button class="key-item" hover-class="active-gray" @click="onDigit('.')">.</button>
 						</view>
 					</view>
 					<view class="keyboard-bottom-rg">
-						<button class="commit-btn">确认</button>
+						<block v-if="isShowCommit">
+							<button class="commit-btn" @click="handleCalc()">=</button>
+						</block>
+						<block v-else>
+							<button class="commit-btn">确认</button>
+						</block>
 					</view>
 				</view>
 			</view>
@@ -95,13 +100,68 @@
 
 <script>
 	export default {
-		onShow() {
-			// uni.navigateTo({
-			//     url: './AddAccount'
-			// });
+		data() {
+			return {
+				digitList: [],
+				isShowCommit: false
+			}
 		},
-		created() {
-			// wx.hideTabBar();
+		computed: {
+			
+		},
+		methods: {
+			onDigit(digit) {
+				switch(digit) {
+					case -1:
+					 	this.digitList = [];
+						// this.isShowCommit = true;
+						break;
+					case '+':
+						if(this.digitList.length !== 0 && this.digitList[this.digitList.length-1] !== '+') {
+							if(this.digitList[this.digitList.length-1] === '-') {
+								this.digitList.pop();
+							}
+							this.digitList.push(digit);
+							this.isShowCommit = true;
+						}
+						break;
+					case '-':
+						if(this.digitList.length !== 0 && this.digitList[this.digitList.length-1] !== '-') {
+							if(this.digitList[this.digitList.length-1] === '+') {
+								this.digitList.pop();
+							}
+							this.digitList.push(digit);	
+							this.isShowCommit = true;
+						}
+						break;
+					case '.':
+						if(this.digitList[this.digitList.length-1] !== '.') {
+							if(isNaN(this.digitList[this.digitList.length-1])) {
+								this.digitList.push(0);
+							}
+							this.digitList.push(digit);
+						}
+						break;
+					default: 
+						this.digitList.push(digit);
+						// if(!this.digitList.includes('+') && !this.digitList.includes('-')) {
+						// 	this.isShowCommit = true;
+						// }
+						break;
+				}
+				// console.log(this.digitList.includes('+'));
+
+			},
+			handleCalc() {
+				if(this.digitList.length !== 0) {
+					let digitArry = JSON.stringify(this.digitList.join('')).match(/([\-|\d]\d+)|(\d\.\d+)|\d+/g);
+					this.digitList = [digitArry.reduce((n, m) => Number(n) + Number(m))];
+					// console.log(digitArry);
+					if(!this.digitList.includes('+') && !this.digitList.includes('-')) {
+						this.isShowCommit = false;
+					}
+				}
+			}
 		}
 	}
 </script>
@@ -126,9 +186,14 @@
 		overflow: hidden;
 	}
 	.add-header .computed {
+		height: 210rpx;
+		box-sizing: border-box;
 		font-size: 96rpx;
 		padding-top: 48rpx;
 		padding-bottom: 28rpx;
+		overflow-x: scroll;
+		overflow-y: hidden;
+		/* color: #188AFF; */
 	}
 	.tally-type .income,
 	.tally-type .spend{
@@ -245,7 +310,7 @@
 	}
 	.key-row .active-clear {
 		color: #fff;
-		background-color: #FF4949 !important;
+		background-color: #FF4949;
 	}
 	.commit-btn {
 		display: flex;

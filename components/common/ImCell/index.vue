@@ -1,15 +1,15 @@
 <!-- 
 	tips:
-	1.<cell
+	1.<im-cell
 			icon="icon-canyin"
 			title="微信"
 			content="250"
 		/>
 		
-	2.<cell>
+	2.<im-cell>
 			<view slot="title"></view>
 			<view slot="content"></view>
-		</cell>
+		</im-cell>
  -->
 <template>
 	<view class="cell-container">
