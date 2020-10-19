@@ -4,6 +4,7 @@
 			<view class="title">资金账户</view>
 			<im-cell
 				v-for="(item, index) in fundAccount"
+				@click.native="onAddFundAccount(index)"
 				:key="index"
 				:icon="item[1]"
 				:title="item[0]" />
@@ -13,6 +14,7 @@
 			<view class="title">信用账户</view>
 			<im-cell
 				v-for="(item, index) in creditAccount"
+				@click.native="onAddCreditAccount(index)"
 				:key="index"
 				:icon="item[1]"
 				:title="item[0]" />
@@ -46,6 +48,18 @@
 		},
 		components: {
 			ImCell
+		},
+		methods: {
+			onAddCreditAccount(index) {
+				uni.navigateTo({
+					url: '/pages/AccountEdit/index'
+				})
+			},
+			onAddFundAccount(index) {
+				uni.navigateTo({
+					url: '/pages/AccountEdit/index'
+				})
+			}
 		}
 	}
 </script>

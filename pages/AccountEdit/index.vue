@@ -33,6 +33,16 @@
 </template>
 
 <script>
+	
+	import ImCell from '@/components/common/ImCell'
+	
+	export default {
+		name: 'AccontEdit',
+		components: {
+			ImCell
+		}
+	}
+	
 </script>
 
 <style scoped>

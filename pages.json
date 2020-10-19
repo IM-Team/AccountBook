@@ -19,7 +19,9 @@
 		"path": "pages/CategoryEdit/index"
 	}, {
 		"path": "pages/AddCategory/index"
-	}],
+	}, {
+		"path" : "pages/AccountEdit/index"
+    }],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "记账本",
