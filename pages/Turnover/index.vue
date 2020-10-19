@@ -13,7 +13,7 @@
 	export default {
 		components: {
 			TurnoverHeader,
-			TurnoverList,
+			TurnoverList
 		}
 	}
 	

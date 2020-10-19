@@ -79,7 +79,9 @@
 	.add-header .computed {
 		box-sizing: border-box;
 		font-size: 96rpx;
-		padding: 40rpx 0;
+		/* padding: 40rpx 0; */
+		padding-top: 40rpx;
+		padding-bottom: 16rpx;
 		overflow: scroll hidden;
 	}
 	
