@@ -9,7 +9,7 @@
 			<type-swiper />
 		</view>
 		
-		<keyboard :digitList="digitList" @change="onChange"></keyboard>
+		<keyboard class="keyboard" :digitList="digitList" @change="onChange"></keyboard>
 		
 	</view>
 </template>
@@ -63,7 +63,7 @@
 	
 	.tally-type {
 		display: flex;
-		margin-top: 32rpx;
+		/* margin-top: 32rpx; */
 		border: solid 1px #188AFF;
 		border-radius: calc(calc(100vw - 64rpx) / 2);
 		font-size: 28rpx;
@@ -85,7 +85,6 @@
 	
 	.keyboard {
 		flex: 1;
-		max-height: 40%;
+		max-height: 42%;
 	}
-	
 </style>

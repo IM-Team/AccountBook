@@ -1,5 +1,5 @@
 <template>
-	<view class="add-footer">
+	<view class="keyboard-container">
 		<view class="keyboard">
 			<view class="keyboard-top">
 				<view class="key-row">
@@ -125,18 +125,17 @@
 	button::after {
 		border: none;
 	}
-	.add-footer {
-		flex: 1;
-		border: solid 1px #EEEEEE;
-		max-height: 600rpx;
+	.keyboard-container {
+		height: 100%;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
+		border: solid 1px #EEEEEE;
 		background-color: #fff;
 	}
 	.keyboard {
-		padding: 0 32rpx;
 		box-sizing: border-box;
+		padding: 0 32rpx;
 	}
 	.key-row { 
 		display: flex;
@@ -165,12 +164,12 @@
 		color: #FF4949;
 		background-color: unset;
 	}
-	.active-gray {
-		background-color: #EEEEEE;
-	}
 	.key-row .active-clear {
 		color: #fff;
 		background-color: #FF4949;
+	}
+	.active-gray {
+		background-color: #EEEEEE;
 	}
 	.commit-btn {
 		display: flex;
