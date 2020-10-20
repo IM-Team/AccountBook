@@ -17,19 +17,15 @@
 					<button class="key-item" hover-class="active-gray" @click="onDigit(7)">7</button>
 					<button class="key-item" hover-class="active-gray" @click="onDigit(8)">8</button>
 					<button class="key-item" hover-class="active-gray" @click="onDigit(9)">9</button>
-					<button class="key-item" hover-class="active-gray" @click="onDigit('-')" style="line-height: 98rpx;">-</button>
+					<button class="key-item" hover-class="active-gray" @click="onDigit('-')">-</button>
 				</view>
 				<view class="key-row">
 					<button class="key-item clear-btn" hover-class="active-clear" @click="onDigit('c')">清除</button>
 					<button class="key-item" hover-class="active-gray" @click="onDigit(0)">0</button>
 					<button class="key-item" hover-class="active-gray" @click="onDigit('.')">.</button>
-					<view class="key-commit">
-						<block v-if="isShowCommit">
-							<button class="commit-btn" @click="onDigit('e')">=</button>
-						</block>
-						<block v-else>
-							<button class="commit-btn">确认</button>
-						</block>
+					
+					<button v-if="isShowCommit" class="key-item commit-btn" @click="onDigit('e')">=</button>
+					<button v-else class="key-item commit-btn">确认</button>
 					</view>
 				</view>
 			</view>
@@ -96,7 +92,9 @@
 			// keyboard 退格按钮 事件处理函数
 			onBack() {
 				this.inputStack.pop();
+				// inputStack则补0
 				if(this.inputStack.length === 0) this.inputStack = [0];
+				// 如果没有+or-则显示确认按钮
 				if(!this.inputStack.includes('+') && !this.inputStack.includes('-')) this.isShowCommit = false;
 			},
 			
@@ -185,26 +183,31 @@
 	}
 	.keyboard-container {
 		height: 100%;
-		display: flex;
+/* 		display: flex;
 		flex-direction: column;
-		justify-content: center;
+		justify-content: center; */
 		border: solid 1px #EEEEEE;
 		background-color: #fff;
 	}
 	.keyboard {
-		box-sizing: border-box;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
 		padding: 0 32rpx;
 	}
 	.key-row { 
+		flex: 1;
 		display: flex;
 		padding: 8rpx 0;
 	}
 	.key-row .key-item {
-		width: 160rpx;
-		height: 104rpx;
-		line-height: 104rpx;
-		font-size: 48rpx;
-		text-align: center;
+		flex: 1;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 42rpx;
+		/* font-size: 1.6em; */
+		margin: 0 8rpx;
 		border-radius: 8px
 	}
 	.key-row .clear-btn {
@@ -219,12 +222,7 @@
 	.key-row .active-gray {
 		background-color: #EEEEEE;
 	}
-	.commit-btn {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 160rpx;
-		height: 100%;
+	.key-row .commit-btn {
 		font-size: 32rpx;
 		border-radius: 8px;
 		color: #fff;

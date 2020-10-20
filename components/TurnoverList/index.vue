@@ -1,6 +1,6 @@
 <template>
 	<view class="turnover_list-container">
-		<turnover-list-item v-for="(item, index) in 2" :key="index"></turnover-list-item>
+		<turnover-list-item v-for="(item, index) in 30" :key="index"></turnover-list-item>
 	</view>
 </template>
 
