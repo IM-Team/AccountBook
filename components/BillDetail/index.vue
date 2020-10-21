@@ -5,30 +5,26 @@
 			<view class="header">
 				<view class="name">
 					<text class="iconfont icon-canyin"></text>
-					<text>{{ billDetail.name }}</text>
+					<text>{{ data.name }}</text>
 				</view>
-				<view class="price">{{ billDetail.price }}</view>
+				<view class="price">{{ data.price }}</view>
 			</view>
 			<view class="info">
 				<view class="info-item">
 					<text>记账日期</text>
-					<text>{{ billDetail.date }}</text>
+					<text>{{ date }}</text>
 				</view>
 				<view class="info-item">
 					<text>记账时间</text>
-					<text>{{ billDetail.time }}</text>
+					<text>{{ time }}</text>
 				</view>
 				<view class="info-item">
 					<text>资金账户</text>
-					<text>{{ billDetail.account }}</text>
-				</view>
-				<view class="info-item">
-					<text>账本名称</text>
-					<text>{{ billDetail.accountBook }}</text>
+					<text>{{ data.account }}</text>
 				</view>
 				<view class="info-item">
 					<text>备注信息</text>
-					<text>{{ billDetail.note }}</text>
+					<text>{{ data.note }}</text>
 				</view>
 			</view>
 			<view class="options">
@@ -51,26 +47,34 @@
 			hideHandle: {
 				type: Function,
 				required: true
+			},
+			data: {
+				type: Object,
+				default() {
+					return {}
+				}
 			}
 		},
 		data() {
 			return {
 				isAnimate: false,	// 控制开始动画
 				isLeave: false,		// 控制结束动画
-				billDetail: {
-					name: '餐饮',
-					price: '-560.00',
-					date: '2020-10-10',
-					time: '16:00',
-					account: '支付宝',
-					accountBook: '默认账本',
-					note: '这是我写的备注信息'
-				}
+				time: '0',
+				date: '---'
 			}
 		},
 		watch: {
 			isShow(newValue) {
 				if (newValue) this.$nextTick(() => this.isAnimate = true)
+			},
+			data(newValue) {
+				if (newValue) {
+					const date = new Date(newValue.date)
+					const minutes = date.getMinutes()
+					
+					this.date = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+					this.time = `${date.getHours()}:${minutes < 10 ? '0' + minutes : minutes}`
+				}
 			}
 		},
 		methods: {

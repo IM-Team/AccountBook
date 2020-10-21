@@ -1,0 +1,79 @@
+{
+	"note": {
+		"note": "查询返回一个月的流水",
+		"account_type": "1: 资金账户，2: 信用账户",
+		"turnover_type": "1: 收入，2: 支出"
+	},
+	"error_code": 0,
+	"data": {
+		"account_book": "默认账本",
+		"month": 10,
+		"turnovers": [{
+				"day": 1,
+				"list": [{
+					"date": 1601550616000,
+					"turnover_type": 2,
+					"account_type": 1,
+					"name": "餐食",
+					"price": "320.00",
+					"account": "支付宝",
+					"note": "这是我写的备注"
+				}]
+			},
+			{
+				"day": 2,
+				"list": [{
+					"date": 1601626216000,
+					"turnover_type": 2,
+					"account_type": 1,
+					"name": "餐食",
+					"price": "456.00",
+					"account": "微信",
+					"note": "这是我写的备注"
+				}, {
+					"date": 1603182328944,
+					"turnover_type": 1,
+					"account_type": 1,
+					"name": "工资",
+					"price": "4560.00",
+					"account": "支付宝",
+					"note": "这是我写的备注"
+				}]
+			}, {
+				"day": 3,
+				"list": [{
+					"date": 1601684406000,
+					"turnover_type": 2,
+					"account_type": 1,
+					"name": "餐食",
+					"price": "23.00",
+					"account": "现金",
+					"note": "这是我写的备注"
+				}]
+			}, {
+				"day": 4,
+				"list": [{
+					"date": 1601805926000,
+					"turnover_type": 2,
+					"account_type": 1,
+					"name": "餐食",
+					"price": "6000.00",
+					"account": "支付宝",
+					"note": "这是我写的备注"
+				}]
+			},
+			{
+				"day": 5,
+				"list": [{
+					"date": 1601865026000,
+					"turnover_type": 2,
+					"account_type": 2,
+					"name": "餐食",
+					"price": "1000.00",
+					"account": "白条",
+					"note": "这是我写的备注"
+				}]
+			}
+		]
+	}
+}

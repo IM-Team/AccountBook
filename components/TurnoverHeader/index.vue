@@ -4,23 +4,55 @@
 			<text class="month">10</text>
 			<text>月结余</text>
 		</view>
-		<view class="over">90,683.00</view>
+		<view class="over">{{ surplus }}</view>
 		<view class="compute">
 			<view class="compute-item">
 				<text class="income">收入</text>
-				<text class="compute-price">5,000.00</text>
+				<text class="compute-price">{{ _income }}</text>
 			</view>
 			<view class="line"></view>
 			<view class="compute-item">
 				<text class="expenses">支出</text>
-				<text class="compute-price">6,520.00</text>
+				<text class="compute-price">{{ _expense }}</text>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
-	export default {}
+	
+	import { ruleOfThirds } from '@/utils/utils.js'
+	
+	export default {
+		name: 'TurnoverHeader',
+		props: {
+			income: {
+				type: String,
+				default: '0.00'
+			},
+			expense: {
+				type: String,
+				default: '0.00'
+			}
+		},
+		data() {
+			return {
+				_income: '0.00',
+				_expense: '0.00',
+				surplus: 0
+			}
+		},
+		created() {
+			this.surplus = ruleOfThirds(this.calcSurplus().toFixed(2))
+			this._income = ruleOfThirds(this.income)
+			this._expense = ruleOfThirds(this.expense)
+		},
+		methods: {
+			calcSurplus() {
+				return parseFloat(this.income) - parseFloat(this.expense)
+			}
+		}
+	}
 </script>
 
 <style scoped>

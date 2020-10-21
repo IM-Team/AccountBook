@@ -1,6 +1,9 @@
 {
 	"pages": [{
-		"path": "pages/Index/index"
+		"path": "pages/Index/index",
+		"style": {
+			"navigationStyle":"custom"
+		}
 	}, {
 		"path": "pages/Turnover/index"
 	}, {

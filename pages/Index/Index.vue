@@ -1,14 +1,18 @@
 <template>
 	<view class="index-container">
-		<!-- Tab pages -->
-		<turnover v-if="currentIndex === 0" />
-		<account v-else-if="currentIndex === 1" />
-		<statistic v-else-if="currentIndex === 3" />
-		<me v-else-if="currentIndex === 4" />
+		<navbar :top="navbarTop" />
+		<view class="main" :style="{ paddingTop: navbarTop + 44 + 'px' }">
+			<!-- Tab pages -->
+			<turnover v-if="currentIndex === 0" />
+			<account v-else-if="currentIndex === 1" />
+			<statistic v-else-if="currentIndex === 3" />
+			<me v-else-if="currentIndex === 4" />
+		</view>
 		
 		<bill-detail
 			:is-show="isShowBillDetail"
-			:hide-handle="hideBillDetail" />
+			:hide-handle="hideBillDetail"
+			:data="billDetailData" />
 		
 		<!-- Tabbar -->
 		<custom-tabbar
@@ -19,6 +23,7 @@
 
 <script>
 	
+	import Navbar 		from '@/components/Navbar'
 	import Turnover 	from '@/pages/Turnover'
 	import Account 		from '@/pages/Account'
 	import Statistic 	from '@/pages/Statistic'
@@ -31,10 +36,13 @@
 		data() {
 			return {
 				currentIndex: 0,
-				isShowBillDetail: false
+				isShowBillDetail: false,
+				navbarTop: 0,
+				billDetailData: {}
 			}
 		},
 		components: {
+			Navbar,
 			Turnover,
 			Account,
 			Statistic,
@@ -42,11 +50,18 @@
 			BillDetail,
 			CustomTabbar
 		},
+		created() {
+			this.navbarTop = (uni.getMenuButtonBoundingClientRect()).top
+		},
 		methods: {
 			hideBillDetail() {
+				this.billDetailData = null
 				this.isShowBillDetail = false
 			},
-			showBillDetail() {
+			showBillDetail(data) {
+				
+				if (data) this.billDetailData = data
+				
 				this.isShowBillDetail = true
 			},
 			onTabTap(index) {
@@ -63,7 +78,20 @@
 <style scoped>
 
 	.index-container {
+		display: flex;
+		flex-direction: column;
 		padding-bottom: 54px;
+	}
+	
+	.sub-container {
+		height: ;
+		flex: 1;
+		overflow: hidden auto;
+	}
+	
+	.main {
+		width: 100%;
+		height: 100%;
 	}
 
 </style>
