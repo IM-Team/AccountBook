@@ -1,19 +1,27 @@
 <template>
 	<view class="me-container">
-		<view class="user-info">
-			<!-- unlogin status -->
-			<block v-if='true'>
+		<!-- unlogin status -->
+		<block v-if='false'>
+			<view class="user-info" @click="handleLogin()">
 				<view class="iconfont icon-my"></view>
 				<view class="login-tip">请登录</view>
-			</block>
-			<!-- logining status -->
-			<block v-else>
+			</view>
+		</block>
+		<!-- logining status -->
+		<block v-else>
+			<view 
+				class="user-info"
+				@touchstart="handleTouchStart"
+				@touchmove="handleTouchMove"
+				@touchend="handleTouchEnd"
+				:style="{transform: `rotateY(${(startX - moveX)/10}deg) rotateX(${(startY - moveY)/8}deg)`}"
+			>
 				<view class="user-avatar-wrap">
 					<image class="user-avatar" src="../../static/image/icon_me.png" mode="widthFix"></image>
 				</view>
 				<text class="login-tip">IM Team</text>
-			</block>
-		</view>
+			</view>
+		</block>
 		
 		<view class="profile-group">
 			<view class="profile-item" @click="onGotoCate">
@@ -39,6 +47,14 @@
 	
 	export default {
 		name: 'Me',
+		data() {
+			return {
+				startX: 0,
+				startY: 0,
+				moveX: 0,
+				moveY: 0
+			}
+		},
 		components: {
 			ImCell
 		},
@@ -47,6 +63,34 @@
 				uni.navigateTo({
 					url: '/pages/CategoryEdit/index'
 				})
+			},
+			handleLogin() {
+				// uni.login({
+				//   provider: 'weixin',
+				//   success: res => {
+				// 		console.log(res);
+				// 		uni.getUserInfo({
+				// 		  provider: 'weixin',
+				// 		  success: function (infoRes) {
+				// 		    console.log(infoRes);
+				// 		  }
+				// 		});
+				// 	}
+				// });
+			},
+			handleTouchStart(event) {
+				this.startX = event.touches[0].clientX;
+				this.startY = event.touches[0].clientY;
+			},
+			handleTouchMove(event) {
+				this.moveX = event.touches[0].clientX;
+				this.moveY = event.touches[0].clientY;
+			},
+			handleTouchEnd() {
+				this.startX = 0;
+				this.startY = 0;
+				this.moveX = 0;
+				this.moveY = 0;
 			}
 		}
 	}
@@ -54,6 +98,7 @@
 
 <style scoped>
 	.me-container {
+		perspective: 800px;
 		padding: 32rpx;
 	}
 	.me-container .user-info {
@@ -61,6 +106,7 @@
 		padding: 64rpx 32rpx;
 		border-radius: 16px;
 		line-height: 120rpx;
+		transition: transform .3s;
 		background-color: #188AFF;
 	}
 	.me-container .profile-group {
