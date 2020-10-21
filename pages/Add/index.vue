@@ -6,7 +6,7 @@
 				<view class="spend" :class="{active: tallyType === 1}" @click="handleSpend()">支出</view>
 			</view>
 			<edit-area :tally-type="tallyType" :input="digitList" />
-			<type-swiper />
+			<type-swiper class="type-swiper" />
 		</view>
 		
 		<keyboard class="keyboard" :digitList="digitList" @change="onChange"></keyboard>
@@ -81,6 +81,10 @@
 	.tally-type .active {
 		color: #fff;
 		background-color: #188AFF;
+	}
+	.type-swiper {
+		height: 200rpx;
+		background-color: yellow !important;
 	}
 	
 	.keyboard {

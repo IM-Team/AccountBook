@@ -8,18 +8,25 @@
 			<view class="form-item">
 				<view class="form-title">账户名称</view>
 				<im-cell>
-					<input type="text" value="" slot="title" placeholder="请输入账户名称" />
-					<view slot="content">0/10</view>
+					<input 
+						class="input-account" 
+						type="text" 
+						v-model="accountName" 
+						slot="title" 
+						maxlength="10"
+						placeholder="请输入账户名称" 
+					/>
+					<view slot="content">{{ accountNameLength }}/10</view>
 				</im-cell>
 			</view>
 			
 			<view class="form-item">
 				<view class="form-title">账户信息</view>
 				<im-cell title="账户余额">
-					<input type="number" value="" slot="content" placeholder="0" />
+					<input class="input-balance" type="number" value="" slot="content" placeholder="0" />
 				</im-cell>
 				<im-cell title="备注">
-					<input type="text" value="" slot="content" placeholder="请输入" />
+					<input class="input-note" type="text" value="" slot="content" placeholder="请输入" />
 				</im-cell>
 			</view>
 			
@@ -28,6 +35,8 @@
 				<im-cell title="关联账本" content="默认账本 &gt;">
 				</im-cell>
 			</view>
+			
+			<view class="form-commit">添加账户</view>
 		</view>
 	</view>
 </template>
@@ -38,6 +47,16 @@
 	
 	export default {
 		name: 'AccontEdit',
+		data() {
+			return {
+				accountName: ''	// 绑定账户名称的输入数据
+			}
+		},
+		computed: {
+			accountNameLength() {
+				return this.accountName.split('').length;
+			}
+		},
 		components: {
 			ImCell
 		}
@@ -77,4 +96,18 @@
 		font-size: 28rpx;
 		color: #999;
 	}
+	.form-commit {
+		padding: 32rpx 0;
+		border-radius: calc((100vw - 32 * 2rpx) / 2);
+		text-align: center;
+		font-size: 32rpx;
+		color: #fff;
+		background-color: #188AFF;
+	}
+	.input-account,
+	.input-balance,
+	.input-note {
+		width: 500rpx;
+	}
+
 </style>

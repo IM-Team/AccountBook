@@ -36,13 +36,14 @@
 	.cell-container {
 		display: flex;
 		align-items: center;
+		justify-content: space-between;
 		margin-bottom: 28rpx;
 		padding: 32rpx;
 		border-radius: 10px;
 		background-color: #fff;
 	}
 	.cell-container .cell-title {
-		flex: 1;
+		/* flex: 1; */
 		display: flex;
 		align-items: center;
 	}

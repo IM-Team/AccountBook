@@ -19,35 +19,19 @@
 					<view class="add_account-btn" @click="onAddAccount">添加账户</view>
 				</view>
 			</im-cell>
-		</view>
+		</view>  <!--end header  -->		
+		
+		
 		
 		<view class="account-group-wrap">
-			<view class="account-group">
-				<view class="group-title">资金账户</view>
+			<view class="account-group" v-for="(item, index) in data.account" :key="index">
+				<view class="group-title">{{ typeMap[item.type] }}</view>
 				<im-cell
-					icon="icon-xianjin"
-					title="现金"
-					content="360.00"
-				></im-cell>
-				<im-cell
-					icon="icon-zhifubao2"
-					title="支付宝"
-					content="360.00"
-				></im-cell>
-				<im-cell
-					icon="icon-weixin"
-					title="微信"
-					content="360.00"
-				></im-cell>
-			</view>
-			
-			<view class="account-group">
-				<view class="group-title">信用账户</view>
-				<im-cell
-					icon="icon-xinyongka"
-					title="信用卡"
-					content="360.00"
-				></im-cell>
+					v-for="(cell, i) in item.list"
+					:icon="cell.icon"
+					:title="cell.title"
+					:content="cell.total"
+					:key="i" />
 			</view>
 		</view>
 	</view>
@@ -56,9 +40,22 @@
 <script>
 	
 	import ImCell from '@/components/common/ImCell'
+	import { data } from './Account.json'
 	
 	export default {
 		name: 'Account',
+		created() {
+			console.log(this.data);
+		},
+		data() {
+			return {
+				data: data,
+				typeMap: {
+					1: "资金账户",
+					2: "信用账户"
+				}
+			}
+		},
 		methods: {
 			onAddAccount() {
 				uni.navigateTo({
