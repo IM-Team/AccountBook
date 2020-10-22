@@ -1,8 +1,8 @@
 <template>
 	<view class="add_account_form-container">
 		<view class="form-header">
-			<view class="iconfont icon-zhifubao2"></view>
-			<view class="form-header-text">支付宝</view>
+			<view class="iconfont" :class="account.account_type[1]"></view>
+			<view class="form-header-text">{{ account.account_type[0] }}</view>
 		</view>
 		<view class="form-wrap">
 			<view class="form-item">
@@ -11,7 +11,7 @@
 					<input 
 						class="input-account" 
 						type="text" 
-						v-model="accountName" 
+						v-model="account.account_form.name" 
 						slot="title" 
 						maxlength="10"
 						placeholder="请输入账户名称" 
@@ -23,10 +23,23 @@
 			<view class="form-item">
 				<view class="form-title">账户信息</view>
 				<im-cell title="账户余额">
-					<input class="input-balance" type="number" value="" slot="content" placeholder="0" />
+					<input 
+						v-model="account.account_form.balance"
+						class="input-balance" 
+						type="number"
+						slot="content" 
+						placeholder="0" 
+						maxlength="10"
+					/>
 				</im-cell>
 				<im-cell title="备注">
-					<input class="input-note" type="text" value="" slot="content" placeholder="请输入" />
+					<input 
+						v-model="account.account_form.note"
+						class="input-note" 
+						type="text" 
+						slot="content" 
+						placeholder="请输入" 
+					/>
 				</im-cell>
 			</view>
 			
@@ -36,7 +49,7 @@
 				</im-cell>
 			</view>
 			
-			<view class="form-commit">添加账户</view>
+			<view class="form-commit" @click="handleCommit">确认</view>
 		</view>
 	</view>
 </template>
@@ -48,17 +61,54 @@
 	export default {
 		name: 'AccontEdit',
 		data() {
-			return {
-				accountName: ''	// 绑定账户名称的输入数据
+			return {	
+				account: {
+					account_type: null,
+					account_form: {
+						name: '',	// 绑定账户名称input
+						balance: 0,	// 绑定账户余额input
+						note: ''	// 绑定账户备注input
+					}
+				}
 			}
+		},
+		created() {
+			setTimeout(() => {
+				uni.getStorage({
+					key: "account",
+					success: res => {
+						console.log(res);
+						this.account = res.data;
+					}
+				})
+			}, 100);
 		},
 		computed: {
 			accountNameLength() {
-				return this.accountName.split('').length;
+				return this.account.account_form.name.split('').length;
 			}
 		},
 		components: {
 			ImCell
+		},
+		methods: {
+			handleCommit() {
+				if(this.account.account_form.name === '') {
+					uni.showToast({
+					    title: '账本名称不可为空',
+						icon: "none",
+					    duration: 1200
+					});
+				} else {
+					uni.setStorage({
+						key: 'account',
+						data: this.account,
+						success: res => {
+							console.log(res);
+						}
+					});
+				}
+			}
 		}
 	}
 	

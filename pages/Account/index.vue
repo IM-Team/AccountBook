@@ -24,14 +24,27 @@
 		
 		
 		<view class="account-group-wrap">
-			<view class="account-group" v-for="(item, index) in data.account" :key="index">
-				<view class="group-title">{{ typeMap[item.type] }}</view>
+			<view class="account-group">
+				<view class="group-title">资金账户</view>
 				<im-cell
-					v-for="(cell, i) in item.list"
-					:icon="cell.icon"
-					:title="cell.title"
-					:content="cell.total"
-					:key="i" />
+					v-for="(item, index) in accounts.capital.list"
+					:icon="item.icon"
+					:title="item.name"
+					:content="item.balance"
+					:key="index" 
+					@click.native="handleAccount(item)"
+				/>
+			</view>
+			<view class="account-group">
+				<view class="group-title">信用账户</view>
+				<im-cell
+					v-for="(item, index) in accounts.credit.list"
+					:icon="item.icon"
+					:title="item.name"
+					:content="item.balance"
+					:key="index" 
+					@click.native="handleAccount(item)"
+				/>
 			</view>
 		</view>
 	</view>
@@ -45,15 +58,20 @@
 	export default {
 		name: 'Account',
 		created() {
-			console.log(this.data);
+			uni.getStorage({
+				key: "account",
+				success: res => {
+					console.log(res);
+					if(res.data.type === 1) {
+						this.accounts.capital.list.push({name: res.data.account_form.name, icon: res.data.account_type[1], balance: res.data.account_form.balance})
+					}
+				}
+			})
+			// console.log(this.data);
 		},
 		data() {
 			return {
-				data: data,
-				typeMap: {
-					1: "资金账户",
-					2: "信用账户"
-				}
+				accounts: data.accounts
 			}
 		},
 		methods: {
@@ -61,6 +79,24 @@
 				uni.navigateTo({
 					url: '/pages/AddAccount/index'
 				})
+			},
+			handleAccount(item) {
+				uni.setStorage({
+				    key: 'account',
+				    data: {
+						account_type: [item.name, item.icon],
+						account_form: {
+							name: item.name,	// 绑定账户名称input
+							balance: item.balance,	// 绑定账户余额input
+							note: ''	// 绑定账户备注input
+						}
+					},
+				    success: () => {
+						uni.navigateTo({
+							url: '/pages/AccountEdit/index'
+						});
+				    }
+				});
 			}
 		},
 		components: {
