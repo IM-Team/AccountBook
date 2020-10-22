@@ -3,8 +3,9 @@
 		<view class="cell-title">
 			<block v-if="icon">
 				<view 
-					class="iconfont title-icon" 
+					class="iconfont title-icon"
 					:class="icon"
+					:style="{ backgroundColor: color }"
 				></view>
 			</block>
 			<view class="title-text">
@@ -26,7 +27,11 @@
 		props: {
 			icon: String,
 			title: String,
-			content: String
+			content: String,
+			color: {
+				type: String,
+				default: '#188AFF'
+			}
 		}
 	}
 	

@@ -18,4 +18,8 @@
 		justify-content: center;
 	}
 	
+	.page-padding {
+		padding: 0 32rpx;
+	}
+	
 </style>

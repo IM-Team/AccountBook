@@ -44,9 +44,6 @@
 	
 	export default {
 		name: 'Account',
-		created() {
-			console.log(this.data);
-		},
 		data() {
 			return {
 				data: data,

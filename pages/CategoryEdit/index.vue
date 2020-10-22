@@ -2,8 +2,14 @@
 	<view class="category_edit-container">
 		<view class="header">
 			<view class="tab">
-				<view class="expense">支出</view>
-				<view class="income">收入</view>
+				<view
+					class="expense"
+					:class="{ active: currentIndex === 1 }"
+					@click="currentIndex = 1">收入</view>
+				<view
+					class="income"
+					:class="{ active: currentIndex === 2 }"
+					@click="currentIndex = 2">支出</view>
 			</view>
 			<view class="add" @click="onGotoAddCate">添加分类</view>
 		</view>
@@ -11,9 +17,10 @@
 			<view class="content">
 				<im-cell
 					class="item"
-					icon="icon-canyin"
-					title="餐饮"
-					v-for="(item, index) in 10"
+					v-for="(item, index) in it"
+					:icon="item.icon"
+					:title="item.name"
+					:color="item.color"
 					:key="index" />
 			</view>
 		</view>
@@ -24,15 +31,39 @@
 	
 	import ImCell from '@/components/common/ImCell'
 	
+	import res from './data.json'
+	
 	export default {
 		name: 'CategoryEdit',
+		data() {
+			return {
+				data: res.data,
+				currentIndex: 1
+			}
+		},
 		components: {
 			ImCell
+		},
+		onShow() {
+			const res = uni.getStorage({
+				key: 'tmpCateInfo',
+				success: (res) => {
+					const key = this.currentIndex === 1 ? 'income' : 'expense'
+					this.data[key].push(res.data)
+					
+					uni.removeStorage({ key: 'tmpCateInfo' })
+				}
+			})
+		},
+		computed: {
+			it() {
+				return this.data[this.currentIndex === 1 ? 'income' : 'expense']
+			}
 		},
 		methods: {
 			onGotoAddCate() {
 				uni.navigateTo({
-					url: '/pages/AddCategory/index'
+					url: `/pages/AddCategory/index?index=${this.currentIndex}`
 				})
 			}
 		}
@@ -83,13 +114,13 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		background-color: #188AFF;
-		color: #fff;
-	}
-	
-	.income {
 		background-color: #fff;
 		color: #188AFF;
+	}
+	
+	.active {
+		background-color: #188AFF;
+		color: #fff;
 	}
 	
 	.scroll {

@@ -7,8 +7,8 @@
 
 <script>
 	
-	import TurnoverHeader from '@/components/TurnoverHeader'
-	import TurnoverList from '@/components/TurnoverList'
+	import TurnoverHeader from '@/components/Turnover/TurnoverHeader'
+	import TurnoverList from '@/components/Turnover/TurnoverList'
 	import res from './data.json'
 	
 	export default {

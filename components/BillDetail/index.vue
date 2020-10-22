@@ -5,9 +5,9 @@
 			<view class="header">
 				<view class="name">
 					<text class="iconfont icon-canyin"></text>
-					<text>{{ data.name }}</text>
+					<text>{{ info.name }}</text>
 				</view>
-				<view class="price">{{ data.price }}</view>
+				<view class="price">{{ info.price }}</view>
 			</view>
 			<view class="info">
 				<view class="info-item">
@@ -20,16 +20,16 @@
 				</view>
 				<view class="info-item">
 					<text>资金账户</text>
-					<text>{{ data.account }}</text>
+					<text>{{ info.account }}</text>
 				</view>
 				<view class="info-item">
 					<text>备注信息</text>
-					<text>{{ data.note }}</text>
+					<text>{{ info.note }}</text>
 				</view>
 			</view>
 			<view class="options">
 				<view class="iconfont icon-delete"></view>
-				<view class="iconfont icon-edit"></view>
+				<view class="iconfont icon-edit" @click="gotoEdit"></view>
 			</view>
 		</view>
 	</view>
@@ -48,7 +48,7 @@
 				type: Function,
 				required: true
 			},
-			data: {
+			info: {
 				type: Object,
 				default() {
 					return {}
@@ -67,7 +67,7 @@
 			isShow(newValue) {
 				if (newValue) this.$nextTick(() => this.isAnimate = true)
 			},
-			data(newValue) {
+			info(newValue) {
 				if (newValue) {
 					const date = new Date(newValue.date)
 					const minutes = date.getMinutes()
@@ -79,7 +79,6 @@
 		},
 		methods: {
 			hide() {
-				
 				this.isLeave = true
 				
 				setTimeout(() => {
@@ -87,6 +86,13 @@
 					this.isAnimate = false
 					this.hideHandle.call(this.$parent)
 				}, 300)
+			},
+			gotoEdit() {
+				uni.setStorage({
+					key: 'tmpBillDetail',
+					data: this.info
+				})
+				uni.navigateTo({ url: '/pages/Add/index' })
 			}
 		}
 	}
@@ -184,6 +190,7 @@
 	.options {
 		width: 100%;
 		height: 100rpx;
+		line-height: 100rpx;
 		padding: 0;
 		display: flex;
 		align-items: center;
@@ -191,7 +198,9 @@
 	}
 	
 	.options .iconfont {
+		flex: 1;
 		font-size: 40rpx;
+		text-align: center;
 	}
 
 </style>

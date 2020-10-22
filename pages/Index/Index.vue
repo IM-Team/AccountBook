@@ -12,7 +12,7 @@
 		<bill-detail
 			:is-show="isShowBillDetail"
 			:hide-handle="hideBillDetail"
-			:data="billDetailData" />
+			:info="billDetailData" />
 		
 		<!-- Tabbar -->
 		<custom-tabbar
@@ -59,7 +59,6 @@
 				this.isShowBillDetail = false
 			},
 			showBillDetail(data) {
-				
 				if (data) this.billDetailData = data
 				
 				this.isShowBillDetail = true

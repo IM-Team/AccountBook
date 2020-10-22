@@ -1,10 +1,16 @@
 <template>
 	<view class="add-body">
-		<swiper :indicator-dots="true" style="height: 360rpx">
+		<swiper class="swiper" :indicator-dots="true">
 			<swiper-item v-for="(page, index) in typePages" :key="index">
 				<view class="swiper-row">
-					<view class="swiper-item" v-for="(item, index) in page" :key="index">
-						<view class="iconfont icon-qian"></view>
+					<view
+						class="swiper-item"
+						v-for="item in page"
+						@click="onCheckItem(item)"
+						:key="item">
+						<view
+							class="iconfont icon-qian"
+							:class="{ active: item === current }"></view>
 						<view class="name">{{ item }}</view>
 					</view>
 				</view>
@@ -24,8 +30,7 @@
 				type: Array,
 				default() {
 					return ['薪资', '奖金', '礼金', '兼职', '红包', '分红', '借入',
-							'薪资', '奖金', '礼金', '兼职', '红包', '分红', '借入',
-							'薪资', '奖金', '礼金', '兼职', '红包', '分红', '借入']
+							'11', '22', '33', '44', '55', '66', '77', '88', '99']
 				}
 			},
 			singlePageCount: {
@@ -33,9 +38,19 @@
 				default: 8
 			}
 		},
+		data() {
+			return {
+				current: '薪资'
+			}
+		},
 		computed: {
 			typePages() {
 				return pagination(this.types, this.singlePageCount)
+			}
+		},
+		methods: {
+			onCheckItem(item) {
+				this.current = item
 			}
 		}
 	}
@@ -46,6 +61,10 @@
 	
 	.add-body {
 		padding-top: 32rpx;
+	}
+	
+	.swiper {
+		height: 320rpx;
 	}
 	
 	.add-body .swiper-row {
@@ -59,20 +78,31 @@
 		text-align: center;
 	}
 	
+	.swiper-item:nth-child(n + 5) {
+		margin-top: 10rpx;
+	}
+	
 	.swiper-item .iconfont {
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		margin: 0 auto;
 		width: 90rpx;
 		height: 90rpx;
-		line-height: 90rpx;
 		border-radius: 50%;
-		font-size: 60rpx;
+		font-size: 40rpx;
 		text-align: center;
-		color: #fff;
+		background-color: #ddd;
+		color: #111;
+	}
+	
+	.swiper-item .active {
 		background-color: #188AFF;
+		color: #fff;
 	}
 	
 	.swiper-item .name {
-		padding-top: 6rpx;
+		font-size: 24rpx;
 	}
 	
 </style>

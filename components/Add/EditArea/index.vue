@@ -4,9 +4,8 @@
 			:class="{
 				isIcome: tallyType === 0,
 				isSpend: tallyType === 1
-			}">{{ input.join('') || 0 }}</view>
+			}">{{ input.join('') }}</view>
 		<view class="form-wrap">
-			<view class="note block_gray"><text class="iconfont icon-beizhu">备注</text></view>
 			<viewd class="form-right">
 				<view class="date block_gray">
 					<text class="iconfont icon-date">日期</text>
@@ -22,7 +21,7 @@
 				</view>
 				<view class="account-type block_gray">
 					<text class="iconfont icon-zhanghu">账户</text>
-					<text>现金</text>
+					<text>{{ account }}</text>
 				</view>
 			</viewd>
 		</view>
@@ -38,12 +37,13 @@
 				type: Number,
 				default: 0
 			},
-			// input: {
-			// 	type: String,
-			// 	default: ''
-			// },
 			input: {
+				type: Array,
 				default() { return [] }
+			},
+			timestamp: {
+				type: Number,
+				default: Date.now()
 			}
 		},
 		data() {
@@ -58,6 +58,12 @@
 			const date = new Date()
 			const currentDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
 			this.date = currentDate
+			
+			// if ()
+			
+			console.log('edit');
+			
+			
 			this.endDate = currentDate
 		},
 		computed: {
@@ -68,6 +74,10 @@
 		methods: {
 			onDateChange(e) {
 				this.date = e.target.value
+			},
+			foramtDate(timeStamp) {
+				const date = new Date(timeStamp) 
+				return ``
 			}
 		}
 	}

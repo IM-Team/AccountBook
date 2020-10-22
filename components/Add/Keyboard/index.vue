@@ -1,82 +1,79 @@
 <template>
 	<view class="keyboard-container">
 		<view class="keyboard">
-				<view class="key-row">
-					<button class="key-item" hover-class="active-gray" @click="onDigit(1)">1</button>
-					<button class="key-item" hover-class="active-gray" @click="onDigit(2)">2</button>
-					<button class="key-item" hover-class="active-gray" @click="onDigit(3)">3</button>
-					<button class="key-item" hover-class="active-gray" @click="onDigit('b')"><view class="iconfont icon-delete_back"></view></button>
-				</view>
-				<view class="key-row">
-					<button class="key-item" hover-class="active-gray" @click="onDigit(4)">4</button>
-					<button class="key-item" hover-class="active-gray" @click="onDigit(5)">5</button>
-					<button class="key-item" hover-class="active-gray" @click="onDigit(6)">6</button>
-					<button class="key-item" hover-class="active-gray" @click="onDigit('+')">+</button>
-				</view>
-				<view class="key-row">
-					<button class="key-item" hover-class="active-gray" @click="onDigit(7)">7</button>
-					<button class="key-item" hover-class="active-gray" @click="onDigit(8)">8</button>
-					<button class="key-item" hover-class="active-gray" @click="onDigit(9)">9</button>
-					<button class="key-item" hover-class="active-gray" @click="onDigit('-')">-</button>
-				</view>
-				<view class="key-row">
-					<button class="key-item clear-btn" hover-class="active-clear" @click="onDigit('c')">清除</button>
-					<button class="key-item" hover-class="active-gray" @click="onDigit(0)">0</button>
-					<button class="key-item" hover-class="active-gray" @click="onDigit('.')">.</button>
-					
-					<button v-if="isShowCommit" class="key-item commit-btn" @click="onDigit('e')">=</button>
-					<button v-else class="key-item commit-btn">确认</button>
-					</view>
-				</view>
+			<view
+				class="key-wrap center"
+				v-for="(key, index) in keys"
+				:key="index">
+				<button
+					v-if="index === 3"
+					class="key-btn center"
+					hover-class="active-gray"
+					@click="onDigit(key)">
+					<text class="iconfont icon-delete_back"></text>
+				</button>
+				<button
+					v-else-if="index === 15"
+					class="key-btn center"
+					hover-class="active-gray"
+					@click="onDigit(key)">
+					<view class="center key-text">{{ isShowCommit ? '=' : key }}</view>
+				</button>
+				<button
+					v-else
+					class="key-btn center"
+					hover-class="active-gray"
+					@click="onDigit(key)">
+					<view class="center key-text">{{ key }}</view>
+				</button>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
-	
+
 	export default {
 		name: 'Keyboard',
-		props: {
-			// inputStack: {
-			// 	type: Array,
-			// 	default() { return [] }
-			// }
-		},
 		data() {
 			return {
-				inputStack: [0],
-				isShowCommit: false
+				inputStack: ['0'],
+				isShowCommit: false,
+				keys: [1, 2, 3, '删除', 4, 5, 6, '+', 7, 8, 9, '-', '清除', 0, '.', '确认']
 			}
+		},
+		created() {
+			uni.getStorage({
+				key: 'tmpBillDetail',
+				success: ({ data }) => {
+					this.inputStack = data.price.split('')
+				}
+			})
 		},
 		methods: {
 			onDigit(digit) {
 				switch(digit) {
-					case 'e':
+					case '确认':
 						this.onEqual();
 						break;
-					
-					case 'b':
+					case '删除':
 						this.onBack();
 						break;
-						
-					case 'c':
+					case '清除':
 						this.onClear();
 						break;
-						
 					case '+':
 					case '-':
 						this.onOperator(digit);
 						break;
-						
 					case '.':
 						this.onDot(digit);
 						break;
-						
 					default: 
 						this.onNumber(digit);
 						break;
 				}
+				
 				this.$emit('change', this.inputStack);
 			},
 			
@@ -164,6 +161,7 @@
 				// 重新拆分为单个digit
 				this.inputStack = String(this.inputStack[0]).split('');
 			},
+			
 			// keyboard 整合数字
 			digitToNumber(digitArray) {
 				return digitArray.join('').match(/(\+*\d+\.\d+)|([\+|\d]\d+)|(\-*\d+\.\d+)|([\-|\d]\d+)|\d+/g);
@@ -175,58 +173,56 @@
 
 <style scoped>
 	
-	button {
-		background-color: unset;
-	}
-	button::after {
-		border: none;
-	}
 	.keyboard-container {
 		height: 100%;
-/* 		display: flex;
-		flex-direction: column;
-		justify-content: center; */
-		border: solid 1px #EEEEEE;
 		background-color: #fff;
 	}
+	
 	.keyboard {
+		box-sizing: border-box;
+		width: 100%;
 		height: 100%;
 		display: flex;
-		flex-direction: column;
-		padding: 0 32rpx;
-	}
-	.key-row { 
-		flex: 1;
-		display: flex;
-		padding: 8rpx 0;
-	}
-	.key-row .key-item {
-		flex: 1;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		font-size: 42rpx;
-		/* font-size: 1.6em; */
-		margin: 0 8rpx;
-		border-radius: 8px
-	}
-	.key-row .clear-btn {
-		font-size: 32rpx;
-		color: #FF4949;
-		background-color: unset;
-	}
-	.key-row .active-clear {
-		color: #fff;
-		background-color: #FF4949;
-	}
-	.key-row .active-gray {
-		background-color: #EEEEEE;
-	}
-	.key-row .commit-btn {
-		font-size: 32rpx;
-		border-radius: 8px;
-		color: #fff;
-		background-color: #188AFF;
+		flex-wrap: wrap;
+		padding: 32rpx;
 	}
 	
+	.key-wrap {
+		width: 25%;
+		height: 25%;
+	}
+	
+	.key-btn::after { border: none; }
+	
+	.key-btn {
+		width: 90%;
+		height: 90%;
+		background-color: #fff;
+		margin: 0;
+		padding: 0;
+	}
+	
+	.key-text {
+		width: 100%;
+		height: 100%;
+	}
+	
+	.key-wrap:nth-child(13) .key-text,
+	.key-wrap:nth-child(16) .key-text {
+		font-size: 32rpx;
+	}
+	
+	.key-wrap:nth-child(13) .key-text {
+		color: #FF4949;
+	}
+	
+	.key-wrap:nth-child(16) .key-text {
+		background-color: #188AFF;
+		color: #fff;
+	}
+	
+	.active-gray {
+		background-color: #EEEEEE;
+	}
+
 </style>

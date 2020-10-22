@@ -1,19 +1,22 @@
 <template>
 	<view class="add_category-container">
 		<view class="sub-container">
-			<view class="iconfont icon-canyin center icon_preview"></view>
-			<input type="text" placeholder="请输入分类名">
+			<view
+				class="iconfont icon-canyin center icon_preview"
+				:style="{ backgroundColor: pickColor }"></view>
+			<input type="text" placeholder="请输入分类名" v-model="name">
 		</view>
 		<view class="color-pick">
 			<view class="title">选择图标颜色</view>
 			<view class="color-pick-wrap">
 				<view
 					class="color-wrap center cell-5"
-					v-for="item in 10"
-					@click="changePickColor(item)"
-					:class="{ 'active': item === currentPickColor }"
-					:key="item">
-					<view class="color"></view>
+					v-for="(item, index) in colors"
+					@click="changePickColor(index)"
+					:class="{ 'active': index === currentPickColor }"
+					:key="index">
+					<view class="color-circle" :style="{ borderColor: item }"></view>
+					<view class="color" :style="{ backgroundColor: item }"></view>
 				</view>
 			</view>
 		</view>
@@ -22,13 +25,18 @@
 			<view class="icon-pick-wrap">
 				<view
 					class="icon center cell-5 iconfont icon-canyin"
-					v-for="item in 10"
-					@click="changePickIcon(item)"
-					:class="{ 'active': item === currentPickIcon }"
-					:key="item"></view>
+					v-for="(item, index) in icons"
+					:class="item"
+					@click="changePickIcon(index)"
+					:style="{
+						borderColor: pickColor,
+						backgroundColor: currentPickIcon === index ? pickColor : '#fff',
+						color: currentPickIcon === index ? '#fff' : pickColor
+					}"
+					:key="index"></view>
 			</view>
 		</view>
-		<view class="center submit">保存</view>
+		<view class="center submit" @click="onConfirm">保存</view>
 	</view>
 </template>
 
@@ -38,8 +46,56 @@
 		name: 'AddCategory',
 		data() {
 			return {
+				type: 1,
 				currentPickIcon: 0,
-				currentPickColor: 0
+				currentPickColor: 0,
+				name: '',
+				colors: [
+					"#92CDCF",
+					"#4BB5C1",
+					"#91C46C",
+					"#42BA78",
+					"#BFA4D2",
+					"#FFA0B1",
+					"#2185C5",
+					"#188AFF",
+					"#F58653",
+					"#F2385A",
+				],
+				icons: [
+					'icon-canyin',
+					'icon-canyin',
+					'icon-canyin',
+					'icon-canyin',
+					'icon-canyin',
+					'icon-canyin',
+					'icon-canyin',
+					'icon-canyin',
+					'icon-canyin',
+					'icon-canyin'
+				]
+			}
+		},
+		onLoad(param) {
+			this.type = param.index
+		},
+		computed: {
+			normal() {
+				return {
+					backgroundColor: '#fff',
+					color: this.colors[this.currentPickColor],
+					borderColor: this.colors[this.currentPickColor]
+				}
+			},
+			iconActive() {
+				return {
+					backgroundColor: this.colors[this.currentPickColor],
+					color: '#fff',
+					borderColor: this.colors[this.currentPickColor]
+				}
+			},
+			pickColor() {
+				return this.colors[this.currentPickColor]
 			}
 		},
 		methods: {
@@ -48,6 +104,20 @@
 			},
 			changePickIcon(index) {
 				this.currentPickIcon = index
+			},
+			onConfirm() {
+				uni.setStorage({
+					key: 'tmpCateInfo',
+					data: {
+						type: this.type,
+						name: this.name,
+						color: this.pickColor,
+						icon: this.icons[this.currentPickIcon]
+					},
+					success: () => {
+						uni.navigateBack()
+					}
+				})
 			}
 		}
 	}
@@ -90,8 +160,7 @@
 	
 	.color-wrap { position: relative; }
 	
-	.color-wrap::after {
-		content: '';
+	.color-circle {
 		box-sizing: border-box;
 		position: absolute;
 		left: 0;
@@ -103,7 +172,7 @@
 		border: 2px solid #188AFF;
 	}
 	
-	.color-wrap.active::after { transform: scale(1.1); }
+	.color-wrap.active .color-circle { transform: scale(1.1); }
 
 	.color {
 		width: 100%;
