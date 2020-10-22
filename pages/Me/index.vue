@@ -14,11 +14,11 @@
 				@touchstart="handleTouchStart"
 				@touchmove="handleTouchMove"
 				@touchend="handleTouchEnd"
-				:style="{transform: `rotateY(${(startX - moveX)/10}deg) rotateX(${(startY - moveY)/8}deg)`}"
+				:style="{transform: `rotateY(${-(startX - moveX)/10}deg) rotateX(${(startY - moveY)/8}deg)`}"
 			>
 				<view class="user-avatar-wrap">
 					<image class="user-avatar" src="../../static/image/icon_me.png" mode="widthFix"></image>
-				</view>
+				</view> 
 				<text class="login-tip">IM Team</text>
 			</view>
 		</block>

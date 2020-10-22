@@ -4,7 +4,7 @@
 			<view class="title">资金账户</view>
 			<im-cell
 				v-for="(item, index) in fundAccount"
-				@click.native="onAddFundAccount(index)"
+				@click.native="onAddFundAccount(item)"
 				:key="index"
 				:icon="item[1]"
 				:title="item[0]" />
@@ -14,14 +14,14 @@
 			<view class="title">信用账户</view>
 			<im-cell
 				v-for="(item, index) in creditAccount"
-				@click.native="onAddCreditAccount(index)"
+				@click.native="onAddCreditAccount(item)"
 				:key="index"
 				:icon="item[1]"
 				:title="item[0]" />
 		</view>
 		
 		<view class="other">
-			<im-cell icon="icon-xinyongka" title="其它" />
+			<im-cell icon="icon-xinyongka" title="其它" @click.native="onAddFundAccount(['其他', 'icon-xinyongka'])" />
 		</view>
 	</view>
 </template>
@@ -50,15 +50,43 @@
 			ImCell
 		},
 		methods: {
-			onAddCreditAccount(index) {
-				uni.navigateTo({
-					url: '/pages/AccountEdit/index'
-				})
+			onAddCreditAccount(item) {
+				uni.setStorage({
+				    key: 'account',
+				    data: {
+						type: 2,
+						account_type: item,
+						account_form: {
+							name: '',	// 账户名称
+							balance: 0,	// 账户余额
+							note: ''	// 账户备注
+						}
+					},
+				    success: () => {
+						uni.navigateTo({
+							url: '/pages/AccountEdit/index'
+						});
+				    }
+				});
 			},
-			onAddFundAccount(index) {
-				uni.navigateTo({
-					url: '/pages/AccountEdit/index'
-				})
+			onAddFundAccount(item) {
+				uni.setStorage({
+				    key: 'account',
+				    data: {
+						type: 1,
+						account_type: item,
+						account_form: {
+							name: '',	// 账户名称
+							balance: 0,	// 账户余额
+							note: ''	// 账户备注
+						}
+					},
+				    success: () => {
+						uni.navigateTo({
+							url: '/pages/AccountEdit/index'
+						});
+				    }
+				});
 			}
 		}
 	}

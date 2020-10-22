@@ -1,46 +1,53 @@
 {
 	"data": {
-		"account": {
+		"accounts": {
 			"capital": {
 				"type": 1,
 				"list": [{
-						"title": "现金",
+						"id": 0,
+						"name": "现金",
 						"icon": "icon-xianjin",
-						"total": "12.00"
+						"balance": "12.00"
 					},
 					{
-						"title": "支付宝",
+						"id": 1,
+						"name": "支付宝",
 						"icon": "icon-zhifubao2",
-						"total": "100.00"
+						"balance": "100.00"
 					},
 					{
-						"title": "微信",
+						"id": 2,
+						"name": "微信",
 						"icon": "icon-weixin",
-						"total": "1.00"
+						"balance": "1.00"
 					},
 					{
-						"title": "银行卡",
+						"id": 3,
+						"name": "银行卡",
 						"icon": "icon-yinhangka",
-						"total": "3000.00"
+						"balance": "3000.00"
 					}
 				]
 			},
 			"credit": {
 				"type": 2,
 				"list": [{
-						"title": "信用卡",
+						"id": 4,
+						"name": "信用卡",
 						"icon": "icon-xinyongka",
-						"total": "166.00"
+						"balance": "166.00"
 					},
 					{
-						"title": "花呗",
+						"id": 5,
+						"name": "花呗",
 						"icon": "icon-zhifubao2",
-						"total": "12.00"
+						"balance": "12.00"
 					},
 					{
-						"title": "白条",
+						"id": 6,
+						"name": "白条",
 						"icon": "icon-xianjin",
-						"total": "10.00"
+						"balance": "10.00"
 					}
 				]
 			}
