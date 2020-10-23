@@ -17,7 +17,7 @@
 					class="key-btn center"
 					hover-class="active-gray"
 					@click="onDigit(key)">
-					<view class="center key-text">{{ isShowCommit ? '=' : key }}</view>
+					<view class="center key-text">{{ isCalc ? '=' : key }}</view>
 				</button>
 				<button
 					v-else
@@ -35,20 +35,17 @@
 
 	export default {
 		name: 'Keyboard',
+		props: ['digitList'],
 		data() {
 			return {
-				inputStack: ['0'],
-				isShowCommit: false,
-				keys: [1, 2, 3, '删除', 4, 5, 6, '+', 7, 8, 9, '-', '清除', 0, '.', '确认']
+				inputStack: [],
+				isCalc: false,
+                keys: [1, 2, 3, '删除', 4, 5, 6, '+', 7, 8, 9, '-', '清除', 0, '.', '确认'],
+                isConfirm: false
 			}
 		},
 		created() {
-			uni.getStorage({
-				key: 'tmpBillDetail',
-				success: ({ data }) => {
-					this.inputStack = data.price.split('')
-				}
-			})
+			if (this.digitList) this.inputStack = this.digitList
 		},
 		methods: {
 			onDigit(digit) {
@@ -73,17 +70,24 @@
 						this.onNumber(digit);
 						break;
 				}
-				
-				this.$emit('change', this.inputStack);
+                
+                if (this.isConfirm) {
+                    this.$emit('confirm')
+                    this.isConfirm = false
+                } else {
+                    this.$emit('change', this.inputStack);
+                }
+
 			},
-			
+
 			// keyboard 等于按钮 事件处理函数
 			onEqual() {
-				if(this.inputStack.length !== 0) {
+				if(this.isCalc && this.inputStack.length !== 0) {
 					this.countTotal();
-					// 切换为确认按钮
-					this.isShowCommit = false;
-				}
+					this.isCalc = false;
+				} else {
+                    this.isConfirm = true
+                }
 			},
 			
 			// keyboard 退格按钮 事件处理函数
@@ -92,14 +96,14 @@
 				// inputStack则补0
 				if(this.inputStack.length === 0) this.inputStack = [0];
 				// 如果没有+or-则显示确认按钮
-				if(!this.inputStack.includes('+') && !this.inputStack.includes('-')) this.isShowCommit = false;
+				if(!this.inputStack.includes('+') && !this.inputStack.includes('-')) this.isCalc = false;
 			},
 			
 			// keyboard 清除按钮 事件处理函数
 			onClear() {
 				this.inputStack = [0];
 				// 切换为确认按钮
-				this.isShowCommit = false;
+				this.isCalc = false;
 			},
 			
 			// keyboard 运算符按钮 事件处理函数
@@ -116,7 +120,7 @@
 					} 
 					this.inputStack.push(digit);
 					// 切换为等于按钮
-					this.isShowCommit = true;
+					this.isCalc = true;
 				}
 			},
 			

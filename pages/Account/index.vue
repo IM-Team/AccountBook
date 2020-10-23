@@ -19,9 +19,7 @@
 					<view class="add_account-btn" @click="onAddAccount">添加账户</view>
 				</view>
 			</im-cell>
-		</view>  <!--end header  -->		
-		
-		
+		</view>  <!--end header  -->
 		
 		<view class="account-group-wrap">
 			<view class="account-group">
@@ -57,21 +55,20 @@
 	
 	export default {
 		name: 'Account',
-<<<<<<< HEAD
-=======
 		created() {
 			uni.getStorage({
 				key: "account",
 				success: res => {
-					console.log(res);
 					if(res.data.type === 1) {
-						this.accounts.capital.list.push({name: res.data.account_form.name, icon: res.data.account_type[1], balance: res.data.account_form.balance})
+						this.accounts.capital.list.push({
+                            name: res.data.account_form.name, 
+                            icon: res.data.account_type[1], 
+                            balance: res.data.account_form.balance
+                        })
 					}
 				}
 			})
-			// console.log(this.data);
 		},
->>>>>>> 424108e21b45f55cd5df3c8f79757065c65aae03
 		data() {
 			return {
 				accounts: data.accounts
@@ -120,6 +117,7 @@
 		margin: 10rpx 0 16rpx;
 		font-size: 48rpx;
 		color: #188AFF;
+		font-weight: 100;
 	}
 	
 	.money .total-title {
@@ -128,7 +126,7 @@
 		margin-right: 10rpx;
 	}
 	
-	/* heder the button widge style */
+	/* header the button widge style */
 	.header-btn-wrap {
 		display: flex;
 		flex-direction: column;
@@ -149,10 +147,10 @@
 		background-color: #FF4949;
 	}
 	
-	
 	.account-group .group-title {
 		padding-bottom: 10rpx;
 		font-size: 24rpx;
 		color: #999;
 	}
+	
 </style>

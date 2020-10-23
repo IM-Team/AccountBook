@@ -2,8 +2,8 @@
 	<view class="add-header">
 		<view class="computed"
 			:class="{
-				isIcome: tallyType === 0,
-				isSpend: tallyType === 1
+				isIcome: turnoverType === 1,
+				isSpend: turnoverType === 2
 			}">{{ input.join('') }}</view>
 		<view class="form-wrap">
 			<viewd class="form-right">
@@ -14,7 +14,7 @@
 						fields="day"
 						:value="date"
 						:start="startDate"
-						:end="endDate"
+						:end="date"
 						@change="onDateChange">
 						<view class="calendar">{{ date }}</view>
 					</picker>
@@ -33,9 +33,9 @@
 	export default {
 		name: 'EditArea',
 		props: {
-			tallyType: {
+			turnoverType: {
 				type: Number,
-				default: 0
+				default: 1
 			},
 			input: {
 				type: Array,
@@ -44,40 +44,26 @@
 			timestamp: {
 				type: Number,
 				default: Date.now()
+			},
+			account: {
+				type: String,
+				default: '现金'
 			}
 		},
 		data() {
 			return {
-				digitList: [0],			// 键盘栈
+				digitList: [0],
 				date: '2000-01-01',
-				startDate: '2000-01-01',
-				endDate: '2000-01-01'
+				startDate: '2000-01-01'
 			}
 		},
 		created() {
-			const date = new Date()
-			const currentDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
-			this.date = currentDate
-			
-			// if ()
-			
-			console.log('edit');
-			
-			
-			this.endDate = currentDate
-		},
-		computed: {
-			value() {
-				return parseFloat(this.input).toFixed(2)
-			}
+			const date = new Date(this.timestamp)
+			this.date = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
 		},
 		methods: {
 			onDateChange(e) {
 				this.date = e.target.value
-			},
-			foramtDate(timeStamp) {
-				const date = new Date(timeStamp) 
-				return ``
 			}
 		}
 	}
@@ -89,7 +75,6 @@
 	.add-header .computed {
 		box-sizing: border-box;
 		font-size: 96rpx;
-		/* padding: 40rpx 0; */
 		padding-top: 40rpx;
 		padding-bottom: 16rpx;
 		overflow: scroll hidden;
@@ -104,12 +89,10 @@
 		font-size: 24rpx;
 		color: #999;
 	}
-	.form-wrap .note {
-		margin-right: auto;
-	}
-	.form-wrap .form-right {
-		display: flex;
-	}
+	
+	.form-wrap .note { margin-right: auto; }
+	.form-wrap .form-right { display: flex; }
+	
 	.form-right .date {
 		display: flex;
 		margin-right: 32rpx;
@@ -120,11 +103,7 @@
 		background-color: #eee;
 	}
 	
-	.isIcome {
-		color: #0EA391;
-	}
-	.isSpend {
-		color: #FF4949;
-	}
+	.isIcome { color: #0EA391; }
+	.isSpend { color: #FF4949; }
 	
 </style>

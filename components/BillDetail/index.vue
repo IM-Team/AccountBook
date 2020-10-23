@@ -5,7 +5,7 @@
 			<view class="header">
 				<view class="name">
 					<text class="iconfont icon-canyin"></text>
-					<text>{{ info.name }}</text>
+					<text>{{ info.icon.name }}</text>
 				</view>
 				<view class="price">{{ info.price }}</view>
 			</view>

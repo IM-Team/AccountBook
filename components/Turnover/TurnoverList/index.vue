@@ -1,7 +1,7 @@
 <template>
 	<view class="turnover_list-container">
 		<turnover-of-day
-			v-for="(item, index) in dataList"
+			v-for="(item, index) in turnovers"
 			:day-data="item"
 			:key="index" />
 	</view>
@@ -19,16 +19,8 @@
 				required: true
 			}
 		},
-		data() {
-			return {
-				dataList: []
-			}
-		},
 		components: {
 			TurnoverOfDay
-		},
-		created() {
-			this.dataList = this.turnovers.sort((f, s) => s.day - f.day)
 		}
 	}
 </script>

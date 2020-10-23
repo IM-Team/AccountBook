@@ -160,7 +160,7 @@ day   name    date      price    note      icon   turnover_type    account
 
 
 /**
- * Icon 表
+ * Category 表
  *
 -----------------------------------------------
 id    name   icon       color    turnover_type

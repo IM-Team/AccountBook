@@ -1,17 +1,20 @@
 <template>
 	<view class="add-body">
-		<swiper class="swiper" :indicator-dots="true">
+		<swiper class="swiper" :indicator-dots="isShowDot">
 			<swiper-item v-for="(page, index) in typePages" :key="index">
 				<view class="swiper-row">
 					<view
 						class="swiper-item"
 						v-for="item in page"
-						@click="onCheckItem(item)"
-						:key="item">
-						<view
-							class="iconfont icon-qian"
-							:class="{ active: item === current }"></view>
-						<view class="name">{{ item }}</view>
+						@click="onCheckItem(item.id)"
+						:key="item.id">
+						<view class="iconfont"
+							:class="[item.icon]"
+							:style="{
+								backgroundColor: item.id === iconId ? item.color : '#ddd',
+								color: item.id === iconId ? '#fff' : '#111'
+							}"></view>
+						<view class="name">{{ item.name }}</view>
 					</view>
 				</view>
 			</swiper-item>
@@ -27,30 +30,93 @@
 		name: 'TypeSwiper',
 		props: {
 			types: {
-				type: Array,
+				type: Object,
 				default() {
-					return ['薪资', '奖金', '礼金', '兼职', '红包', '分红', '借入',
-							'11', '22', '33', '44', '55', '66', '77', '88', '99']
+					return {
+                        1: [{
+                            id: 1,
+                            name: '薪资',
+                            icon: 'icon-qian',
+                            color: '#188AFF',
+                        }, {
+                            id: 2,
+                            name: '奖金',
+                            icon: 'icon-qian',
+                            color: '#F2385A',
+                        },  {
+                            id: 3,
+                            name: '礼金',
+                            icon: 'icon-qian',
+                            color: '#2185C5',
+                        }, {
+                            id: 4,
+                            name: '兼职',
+                            icon: 'icon-canyin',
+                            color: '#42BA78',
+                        }, {
+                            id: 5,
+                            name: '红包',
+                            icon: 'icon-qian',
+                            color: '#F58653',
+                        }],
+                        2: [{
+                            id: 6,
+                            name: '餐饮',
+                            icon: 'icon-qian',
+                            color: '#188AFF',
+                        }, {
+                            id: 7,
+                            name: '娱乐',
+                            icon: 'icon-qian',
+                            color: '#F2385A',
+                        }, {
+                            id: 8,
+                            name: '购物',
+                            icon: 'icon-qian',
+                            color: '#2185C5',
+                        }, {
+                            id: 9,
+                            name: '交通',
+                            icon: 'icon-canyin',
+                            color: '#42BA78',
+                        },  {
+                            id: 10,
+                            name: '医疗',
+                            icon: 'icon-qian',
+                            color: '#F58653',
+                        }, {
+                            id: 11,
+                            name: '教育',
+                            icon: 'icon-qian',
+                            color: '#F58653',
+                        }]
+                    }
 				}
 			},
+			iconId: {
+				type: Number,
+				required: true
+            },
+            turnoverType: {
+                type: Number,
+                default: 1
+            },
 			singlePageCount: {
 				type: Number,
 				default: 8
 			}
 		},
-		data() {
-			return {
-				current: '薪资'
-			}
-		},
 		computed: {
+			isShowDot() {
+				return this.typePages.length > 1
+			},
 			typePages() {
-				return pagination(this.types, this.singlePageCount)
+				return pagination(this.types[this.turnoverType], this.singlePageCount)
 			}
 		},
 		methods: {
-			onCheckItem(item) {
-				this.current = item
+			onCheckItem(id) {
+				this.$emit('changeIcon', id)
 			}
 		}
 	}

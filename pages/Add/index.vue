@@ -3,74 +3,69 @@
 		<view class="content">
 			<view class="tally-type">
 				<view class="income"
-					:class="{active: tallyType === 0}"
-					@click="hanleIncome">收入</view>
+					:class="{active: info.turnover_type === 1}"
+					@click="info.turnover_type = 1">收入</view>
 				<view class="spend"
-					:class="{active: tallyType === 1}"
-					@click="handleSpend">支出</view>
+					:class="{active: info.turnover_type === 2}"
+					@click="info.turnover_type = 2">支出</view>
 			</view>
 			<edit-area
-				:tally-type="tallyType"
+				:turnover-type="info.turnover_type"
 				:input="digitList"
-				:date="date"
-				:account="account" />
-			<type-swiper class="type-swiper" />
+				:timestamp="info.date"
+				:account="info.account" />
+			<type-swiper
+				class="type-swiper"
+				:icon-id="info.icon.id"
+                :turnover-type="info.turnover_type"
+				@changeIcon="onChangeIcon" />
 		</view>
 		
 		<view class="sub-container">
 			<view class="note">
 				<text class="iconfont icon-beizhu"></text>
 				<text class="note-name">备注:</text>
-				<input class="input" type="text" :value="noteInput" placeholder="请输入备注" />
+				<input class="input" type="text" :value="info.note" placeholder="请输入备注" />
 			</view>
-			<keyboard class="keyboard" @change="onChange"></keyboard>
+			<keyboard
+				class="keyboard"
+				:digit-list="isFromBillDetail ? digitList : null"
+				@change="onChange"
+                @confirm="onConfirm" />
 		</view>
 	</view>
 </template>
 
 <script>
 	
-	import EditArea from '@/components/Add/EditArea'
-	import TypeSwiper from '@/components/Add/TypeSwiper'
-	import Keyboard from '@/components/Add/Keyboard'
-	
-	
-	/**
-	 * 需要搜集的数据
-	 * {String}price			// 支出 or 收入的金额
-	 * {Number}account_type		// 资金账户 or 信用账户
-	 * {Number}turnover_type	// 支出 or 收入
-	 * {Number}date				// 产生流水的日期
-	 * {String}note				// 备注
-	 * {Icon}icon				// 图标信息 
-		Icon {
-			name,
-			icon,
-			color
-			type
-		}
-	*/
-	
+	import EditArea 	from '@/components/Add/EditArea'
+	import TypeSwiper 	from '@/components/Add/TypeSwiper'
+    import Keyboard 	from '@/components/Add/Keyboard'
+    
 	export default {
 		data() {
 			return {
-				tallyType: 0,
-				digitList: [0],
-				noteInput: '',
-				date: 0
+                isFromBillDetail: false,
+                digitList: ['0'],
+				info: {
+					turnover_type: 1,
+                    price: "0.00",
+					note: '',
+					date: -1,
+					account: '现金',
+					icon: {
+                        id: 1,
+                        name: '餐饮',
+                        icon: 'icon-canyin',
+                        color: '#188AFF'
+                    }
+				}
 			}
 		},
 		created() {
-			uni.getStorage({
-				key: 'tmpBillDetail',
-				success: ({ data }) => {
-					this.noteInput = data.note
-					this.digitList = data.price.split('')
-				}
-			})
+			this.init()
 		},
 		mounted() {
-			// 组件挂在之前各自读取所需的数据
 			uni.removeStorage({ key: 'tmpBillDetail' })
 		},
 		components: {
@@ -79,15 +74,38 @@
 			Keyboard
 		},
 		methods: {
+			init() {
+				const res = uni.getStorageSync('tmpBillDetail')
+
+				if (res) {
+                    this.isFromBillDetail = true
+                    this.digitList = res.price.split('')
+                    this.info = res
+				} else {
+					this.info.date = Date.now()
+				}
+			},
+			onChangeIcon(id) {
+				this.info.icon.id = id
+			},
 			onChange(v) {
 				this.digitList = v
-			},
-			hanleIncome() {
-				this.tallyType = 0;
-			},
-			handleSpend() {
-				this.tallyType = 1;
-			},
+            },
+            onConfirm() {
+				
+				this.info.price = this.digitList.join('')
+                const pointIndex = this.info.price.indexOf('.') 
+
+				if (pointIndex === -1) {
+					this.info.price += '.00'
+				} else if (pointIndex !== this.info.price.length - 3) {
+                    this.info.price += '0'
+                }
+
+                const app = getApp()
+
+                console.log(app.globalData.turnoverData.turnovers[0].list[0].price = 10000)
+            }
 		}
 	}
 </script>
