@@ -20,9 +20,6 @@
 				</view>
 			</im-cell>
 		</view>  
-		<!--end header  -->		
-		
-		
 		
 		<view class="account-group-wrap">
 			<account-group 
@@ -41,28 +38,28 @@
 	
 	import ImCell from '@/components/common/ImCell'
 	import AccountGroup from '../../components/AccountGroup'
-	 
 	import { accounts } from './Account.json'
 	
 	export default {     
 		name: 'Account',
+		created() {
+			// uni.getStorage({
+			// 	key: "account",
+			// 	success: res => {
+			// 		if(res.data.type === 1) {
+			// 			this.accounts.capital.list.push({
+   //                          name: res.data.account_form.name, 
+   //                          icon: res.data.account_type[1], 
+   //                          balance: res.data.account_form.balance
+   //                      })
+			// 		}
+			// 	}
+			// })
+		},
 		data() {
 			return {
 				accounts
 			}
-		},
-		created() {
-			// console.log("123");
-			// setTimeout(() => {
-			// 	uni.getStorage({
-			// 		key: "account",
-			// 		success: res => {
-			// 			console.log(res);
-						
-			// 			// this.accounts
-			// 		}
-			// 	})
-			// }, 300);
 		},
 		methods: {
 			onAddAccount() {
@@ -90,6 +87,7 @@
 		margin: 10rpx 0 16rpx;
 		font-size: 48rpx;
 		color: #188AFF;
+		font-weight: 100;
 	}
 	
 	.money .total-title {
@@ -98,7 +96,7 @@
 		margin-right: 10rpx;
 	}
 	
-	/* heder the button widge style */
+	/* header the button widge style */
 	.header-btn-wrap {
 		display: flex;
 		flex-direction: column;
@@ -118,4 +116,10 @@
 		margin-top: 32rpx;
 		background-color: #FF4949;
 	}
+	.account-group .group-title {
+		padding-bottom: 10rpx;
+		font-size: 24rpx;
+		color: #999;
+	}
+
 </style>

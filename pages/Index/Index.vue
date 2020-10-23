@@ -29,8 +29,8 @@
 	import Statistic 	from '@/pages/Statistic'
 	import Me 			from '@/pages/Me'
 	import CustomTabbar from '@/components/CustomTabbar'
-	import BillDetail	from '@/components/BillDetail'
-	
+    import BillDetail	from '@/components/BillDetail'
+
 	export default {
 		name: 'Index',
 		data() {
@@ -80,12 +80,6 @@
 		display: flex;
 		flex-direction: column;
 		padding-bottom: 54px;
-	}
-	
-	.sub-container {
-		height: ;
-		flex: 1;
-		overflow: hidden auto;
 	}
 	
 	.main {

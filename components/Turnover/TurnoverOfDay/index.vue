@@ -12,8 +12,8 @@
 			:key="index"
 			@click="onTap(item)">
 			<im-cell
-				:title="item.name"
-				icon="icon-canyin"
+				:title="item.category.name"
+				:icon="item.category.icon"
 				:content="ruleOfThirds(item.price)" />
 		</view>
 	</view>

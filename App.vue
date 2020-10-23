@@ -1,7 +1,12 @@
 <script>
+	
 	export default {
 		name: 'App',
+		globalData: {
+			turnoverData: {}
+		}
 	}
+	
 </script>
 
 <style>

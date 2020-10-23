@@ -23,10 +23,18 @@
 		components: {
 			TurnoverHeader,
 			TurnoverList
-		},
+        },
 		created() {
-			this.data = res.data
-			this.calcIncomeAndExpense()
+            const gData = getApp().globalData
+            gData.turnoverData = res.data
+
+            this.data = gData.turnoverData
+            this.calcIncomeAndExpense()
+
+            // setTimeout(() => {
+            //     gData.turnoverData.turnovers[0].list[0].price = 200000
+            // }, 3000)
+
 		},
 		methods: {
 			calcIncomeAndExpense() {

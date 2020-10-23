@@ -75,4 +75,5 @@
 		font-size: 28rpx;
 		color: #999;
 	}
+
 </style>
