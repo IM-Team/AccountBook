@@ -1,8 +1,8 @@
 <template>
 	<view class="add_account_form-container">
 		<view class="form-header">
-			<view class="iconfont" :class="account.account_type[1]"></view>
-			<view class="form-header-text">{{ account.account_type[0] }}</view>
+			<view class="iconfont" :class="account.icon"></view>
+			<view class="form-header-text">{{ account.name }}</view>
 		</view>
 		<view class="form-wrap">
 			<view class="form-item">
@@ -11,7 +11,7 @@
 					<input 
 						class="input-account" 
 						type="text" 
-						v-model="account.account_form.name" 
+						v-model="account.custom_name" 
 						slot="title" 
 						maxlength="10"
 						placeholder="请输入账户名称" 
@@ -24,21 +24,12 @@
 				<view class="form-title">账户信息</view>
 				<im-cell title="账户余额">
 					<input 
-						v-model="account.account_form.balance"
+						v-model="account.balance"
 						class="input-balance" 
 						type="number"
 						slot="content" 
 						placeholder="0" 
 						maxlength="10"
-					/>
-				</im-cell>
-				<im-cell title="备注">
-					<input 
-						v-model="account.account_form.note"
-						class="input-note" 
-						type="text" 
-						slot="content" 
-						placeholder="请输入" 
 					/>
 				</im-cell>
 			</view>
@@ -58,57 +49,40 @@
 	
 	import ImCell from '@/components/common/ImCell'
 	
+	import { accountMapMixin } from '@/utils/mixins'
+
 	export default {
 		name: 'AccontEdit',
+		mixins: [accountMapMixin],
+		onLoad(option) {
+			this.account.type = option.type;
+			this.account.icon = this.mixin_accounts[option.type].icon;
+			this.account.name = this.mixin_accounts[option.type].name;
+		},
 		data() {
 			return {	
 				account: {
-					account_type: null,
-					account_form: {
-						name: '',	// 绑定账户名称input
-						balance: 0,	// 绑定账户余额input
-						note: ''	// 绑定账户备注input
-					}
+					type: 0,
+					name: '',
+					custom_name: '',
+					icon: '',
+					balance: 0
 				}
 			}
 		},
 		created() {
-			setTimeout(() => {
-				uni.getStorage({
-					key: "account",
-					success: res => {
-						console.log(res);
-						this.account = res.data;
-					}
-				})
-			}, 100);
+
 		},
 		computed: {
 			accountNameLength() {
-				return this.account.account_form.name.split('').length;
+				return this.account.custom_name.split('').length;
 			}
 		},
 		components: {
 			ImCell
 		},
 		methods: {
-			handleCommit() {
-				if(this.account.account_form.name === '') {
-					uni.showToast({
-					    title: '账本名称不可为空',
-						icon: "none",
-					    duration: 1200
-					});
-				} else {
-					uni.setStorage({
-						key: 'account',
-						data: this.account,
-						success: res => {
-							console.log(res);
-						}
-					});
-				}
-			}
+
 		}
 	}
 	

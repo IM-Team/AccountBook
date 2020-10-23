@@ -19,91 +19,61 @@
 					<view class="add_account-btn" @click="onAddAccount">添加账户</view>
 				</view>
 			</im-cell>
-		</view>  <!--end header  -->		
+		</view>  
+		<!--end header  -->		
 		
 		
 		
 		<view class="account-group-wrap">
-			<view class="account-group">
-				<view class="group-title">资金账户</view>
-				<im-cell
-					v-for="(item, index) in accounts.capital.list"
-					:icon="item.icon"
-					:title="item.name"
-					:content="item.balance"
-					:key="index" 
-					@click.native="handleAccount(item)"
-				/>
-			</view>
-			<view class="account-group">
-				<view class="group-title">信用账户</view>
-				<im-cell
-					v-for="(item, index) in accounts.credit.list"
-					:icon="item.icon"
-					:title="item.name"
-					:content="item.balance"
-					:key="index" 
-					@click.native="handleAccount(item)"
-				/>
-			</view>
-		</view>
+			<account-group 
+				title="资金账户"
+				:accounts="accounts.capital"
+			/>
+			<account-group 
+				title="信用账户"
+				:accounts="accounts.credit"
+			/>
+		</view> 
 	</view>
 </template>
 
 <script>
 	
 	import ImCell from '@/components/common/ImCell'
-	import { data } from './Account.json'
+	import AccountGroup from '../../components/AccountGroup'
+	 
+	import { accounts } from './Account.json'
 	
-	export default {
+	export default {     
 		name: 'Account',
-<<<<<<< HEAD
-=======
-		created() {
-			uni.getStorage({
-				key: "account",
-				success: res => {
-					console.log(res);
-					if(res.data.type === 1) {
-						this.accounts.capital.list.push({name: res.data.account_form.name, icon: res.data.account_type[1], balance: res.data.account_form.balance})
-					}
-				}
-			})
-			// console.log(this.data);
-		},
->>>>>>> 424108e21b45f55cd5df3c8f79757065c65aae03
 		data() {
 			return {
-				accounts: data.accounts
+				accounts
 			}
+		},
+		created() {
+			// console.log("123");
+			// setTimeout(() => {
+			// 	uni.getStorage({
+			// 		key: "account",
+			// 		success: res => {
+			// 			console.log(res);
+						
+			// 			// this.accounts
+			// 		}
+			// 	})
+			// }, 300);
 		},
 		methods: {
 			onAddAccount() {
 				uni.navigateTo({
-					url: '/pages/AddAccount/index'
+					url: '/pages/AddAccount/index?'
 				})
-			},
-			handleAccount(item) {
-				uni.setStorage({
-				    key: 'account',
-				    data: {
-						account_type: [item.name, item.icon],
-						account_form: {
-							name: item.name,	// 绑定账户名称input
-							balance: item.balance,	// 绑定账户余额input
-							note: ''	// 绑定账户备注input
-						}
-					},
-				    success: () => {
-						uni.navigateTo({
-							url: '/pages/AccountEdit/index'
-						});
-				    }
-				});
 			}
 		},
 		components: {
-			ImCell
+			ImCell,
+			AccountGroup
 		}
 	}
 </script>
@@ -147,12 +117,5 @@
 	.header-btn-wrap .add_account-btn {
 		margin-top: 32rpx;
 		background-color: #FF4949;
-	}
-	
-	
-	.account-group .group-title {
-		padding-bottom: 10rpx;
-		font-size: 24rpx;
-		color: #999;
 	}
 </style>

@@ -1,56 +1,54 @@
 {
-	"data": {
-		"accounts": {
-			"capital": {
-				"type": 1,
-				"list": [{
-						"id": 0,
-						"name": "现金",
-						"icon": "icon-xianjin",
-						"balance": "12.00"
-					},
-					{
-						"id": 1,
-						"name": "支付宝",
-						"icon": "icon-zhifubao2",
-						"balance": "100.00"
-					},
-					{
-						"id": 2,
-						"name": "微信",
-						"icon": "icon-weixin",
-						"balance": "1.00"
-					},
-					{
-						"id": 3,
-						"name": "银行卡",
-						"icon": "icon-yinhangka",
-						"balance": "3000.00"
-					}
-				]
-			},
-			"credit": {
-				"type": 2,
-				"list": [{
-						"id": 4,
-						"name": "信用卡",
-						"icon": "icon-xinyongka",
-						"balance": "166.00"
-					},
-					{
-						"id": 5,
-						"name": "花呗",
-						"icon": "icon-zhifubao2",
-						"balance": "12.00"
-					},
-					{
-						"id": 6,
-						"name": "白条",
-						"icon": "icon-xianjin",
-						"balance": "10.00"
-					}
-				]
-			}
+	"accounts": {
+		"capital": {
+			"type": 1,
+			"list": [{
+					"id": 0,
+					"name": "现金",
+					"icon": "icon-xianjin",
+					"balance": "12.00"
+				},
+				{
+					"id": 1,
+					"name": "支付宝",
+					"icon": "icon-zhifubao2",
+					"balance": "100.00"
+				},
+				{
+					"id": 2,
+					"name": "微信",
+					"icon": "icon-weixin",
+					"balance": "1.00"
+				},
+				{
+					"id": 3,
+					"name": "银行卡",
+					"icon": "icon-yinhangka",
+					"balance": "3000.00"
+				}
+			]
+		},
+		"credit": {
+			"type": 2,
+			"list": [{
+					"id": 4,
+					"name": "信用卡",
+					"icon": "icon-xinyongka",
+					"balance": "166.00"
+				},
+				{
+					"id": 5,
+					"name": "花呗",
+					"icon": "icon-zhifubao2",
+					"balance": "12.00"
+				},
+				{
+					"id": 6,
+					"name": "白条",
+					"icon": "icon-xianjin",
+					"balance": "10.00"
+				}
+			]
 		}
 	}
 }
