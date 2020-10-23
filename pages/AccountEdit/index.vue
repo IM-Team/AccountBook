@@ -82,7 +82,19 @@
 			ImCell
 		},
 		methods: {
-
+			handleCommit() {
+				// console.log(this.accountNameLength);
+				if(this.accountNameLength === 0) {
+					uni.showToast({
+						title: '账户名不可为空',
+						icon: 'none',
+						duration: 1200
+					});
+				} else {
+					getApp().globalData.accountData = this.account;
+					console.log(getApp().globalData.accountData);
+				}
+			}
 		}
 	}
 	

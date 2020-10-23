@@ -33,7 +33,7 @@
 
             // setTimeout(() => {
             //     gData.turnoverData.turnovers[0].list[0].price = 200000
-            // }, 3000)
+            // }, 5000)
 
 		},
 		methods: {

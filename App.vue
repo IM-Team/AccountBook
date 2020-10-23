@@ -3,7 +3,8 @@
 	export default {
 		name: 'App',
 		globalData: {
-			turnoverData: {}
+			turnoverData: {},
+			accountData: {}	// 添加账户
 		}
 	}
 	

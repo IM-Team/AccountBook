@@ -43,18 +43,7 @@
 	export default {     
 		name: 'Account',
 		created() {
-			// uni.getStorage({
-			// 	key: "account",
-			// 	success: res => {
-			// 		if(res.data.type === 1) {
-			// 			this.accounts.capital.list.push({
-   //                          name: res.data.account_form.name, 
-   //                          icon: res.data.account_type[1], 
-   //                          balance: res.data.account_form.balance
-   //                      })
-			// 		}
-			// 	}
-			// })
+			console.log('HMP');
 		},
 		data() {
 			return {
