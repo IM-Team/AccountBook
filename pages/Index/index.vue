@@ -29,7 +29,7 @@
 	import Statistic 	from '@/pages/Statistic'
 	import Me 			from '@/pages/Me'
 	import CustomTabbar from '@/components/CustomTabbar'
-    import BillDetail	from '@/components/BillDetail'
+  import BillDetail	from '@/components/BillDetail'
 
 	export default {
 		name: 'Index',

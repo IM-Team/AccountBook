@@ -62,11 +62,12 @@
 		data() {
 			return {	
 				account: {
+					category: 1,
 					type: 0,
 					name: '',
 					custom_name: '',
 					icon: '',
-					balance: 0
+					balance: Number
 				}
 			}
 		},
@@ -82,7 +83,7 @@
 			ImCell
 		},
 		methods: {
-			handleCommit() {
+			async handleCommit() {
 				// console.log(this.accountNameLength);
 				if(this.accountNameLength === 0) {
 					uni.showToast({
@@ -92,10 +93,23 @@
 					});
 				} else {
 					getApp().globalData.accountData = this.account;
+					await uni.showToast({
+						title: '保存成功',
+						duration: 1200,
+					});
+					uni.navigateBack({
+    				delta: 2
+					});
+					// uni.navigateTo({ url: '/pages/Index/index?currentIndex=1' });
 					console.log(getApp().globalData.accountData);
 				}
 			}
-		}
+		},
+		watch: {
+			test() {
+				console.log('123');
+			}
+		},
 	}
 	
 </script>

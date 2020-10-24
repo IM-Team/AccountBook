@@ -43,18 +43,41 @@
 	export default {     
 		name: 'Account',
 		created() {
-			console.log('HMP');
+			const gData = getApp().globalData;
+			const globaAccount = gData.accounts;
+			this.data = globaAccount
+		
+			console.log(this.accounts);
 		},
 		data() {
 			return {
-				accounts
+				accounts,
+				data: {}
 			}
 		},
 		methods: {
 			onAddAccount() {
-				uni.navigateTo({
-					url: '/pages/AddAccount/index?'
-				})
+				uni.navigateTo({ url: '/pages/AddAccount/index?' });
+			}
+		},
+		watch: {
+			data() {
+
+				console.log('linljlkjlkmnsldkjfklj');
+
+
+
+
+
+				// 将globalData内的accounts push到当前this.accounts里
+				if(gData.accountData.category === 1) {
+					this.accounts.capital.list.push(gData.accountData);
+				} else if(gData.accountData.category === 2){
+					this.accounts.credit.list.push(gData.accountData);
+				}
+				// globalData.accounts 和 this.accounts 互相关联
+				gData.accountData = this.accounts;
+				this.accounts = gData.accountData;
 			}
 		},
 		components: {
