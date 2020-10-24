@@ -39,6 +39,11 @@
 				expense: 0
 			}
 		},
+		watch: {
+			dayData() {
+                this.countPrice()
+            }
+		},
 		created() {
 			this.countPrice()
 		},
@@ -48,8 +53,8 @@
 				this.$root.showBillDetail(data)
 			},
 			countPrice() {
-				let income = 0, expense = 0
-				
+                let income = 0, expense = 0
+
 				this.dayData.list.forEach(item => {
 					// 统计收支情况 1: 收入 2: 支出
 					if (item.turnover_type === 1) {
@@ -58,13 +63,6 @@
 						expense += item.price * 1
 					}
 				})
-				
-				// 保留后面的小数
-				income += ''
-				income = income.indexOf('.') !== -1 ? income : income + '.00'
-				
-				expense += ''
-				expense = expense.indexOf('.') !== -1 ? expense : expense + '.00'
 				
 				this.income = ruleOfThirds(income)
 				this.expense = ruleOfThirds(expense)

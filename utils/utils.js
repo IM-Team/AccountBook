@@ -49,18 +49,25 @@ function stringReverse(str) {
  * @return {String}				处理完的字符串
  */
 function addSymbolOfByte(target, byteNumber, symbol, isReverse = true) {
-	
-	if (target.length === byteNumber) return target
-	
+    
+    // 位数补足判断
+	if (target.length <= byteNumber) return target
+    
+    // 数组逆序
 	if (isReverse) target = stringReverse(target)
-	
-	const partCount = Math.floor(target.length / byteNumber)
+    
+    // 求需要添加的分割符数
+    let partCount = Math.floor(target.length / byteNumber)
+    if (target.length % byteNumber === 0) partCount--
+
 	let result = '', preIndex = 0
 	for (let i = 1; i <= partCount; i ++) {
 		result += target.slice(preIndex, i * byteNumber) + symbol
 		preIndex = i * byteNumber
-	}
-	result += target.slice(preIndex)
+    }
+
+    // 补上没有添加符号的位
+    result += target.slice(preIndex)
 
 	return isReverse ? stringReverse(result) : result
 }

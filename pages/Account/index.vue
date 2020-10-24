@@ -54,7 +54,7 @@
 				accounts,
 				data: {}
 			}
-		},
+        },
 		methods: {
 			onAddAccount() {
 				uni.navigateTo({ url: '/pages/AddAccount/index?' });

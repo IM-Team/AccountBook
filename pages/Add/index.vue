@@ -48,6 +48,7 @@
                 isFromBillDetail: false,
                 digitList: ['0'],
 				info: {
+                    id: 0,
 					turnover_type: 1,
                     price: "0.00",
 					note: '',
@@ -84,7 +85,34 @@
 				} else {
 					this.info.date = Date.now()
 				}
-			},
+            },
+            updateInfo(id) {
+                const turnoverData = getApp().globalData.turnoverData
+
+                turnoverData.turnovers.some(turnover => {
+                    const index = turnover.list.findIndex(item => item.id === id)
+
+                    if (index !== -1) {
+                        this.$set(turnover.list, index, this.info)
+                        return true
+                    }
+
+                    return false
+                })
+            },
+            saveInfo() {
+                
+            },
+            fixDicimalPoint() {
+                this.info.price = this.digitList.join('')
+                const pointIndex = this.info.price.indexOf('.')
+
+				if (pointIndex === -1) {
+					this.info.price += '.00'
+				} else if (pointIndex !== this.info.price.length - 3) {
+                    this.info.price += '0'
+                }
+            },
 			onChangeIcon(id) {
 				this.info.category.id = id
 			},
@@ -93,17 +121,12 @@
             },
             onConfirm() {
 				
-				this.info.price = this.digitList.join('')
-                const pointIndex = this.info.price.indexOf('.') 
+				this.fixDicimalPoint()
 
-				if (pointIndex === -1) {
-					this.info.price += '.00'
-				} else if (pointIndex !== this.info.price.length - 3) {
-                    this.info.price += '0'
-                }
+                const id = this.info.id
+                id ? this.updateInfo(id) : this.saveInfo()
 
-                // const app = getApp()
-                // console.log(app.globalData.turnoverData.turnovers[0].list[0].price = 10000)
+                uni.navigateBack()
             }
 		}
 	}
