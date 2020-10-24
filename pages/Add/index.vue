@@ -92,11 +92,12 @@
                 turnoverData.turnovers.some(turnover => {
                     const index = turnover.list.findIndex(item => item.id === id)
 
-                    // 进入这里表示是从流水的详情进来的，因此不需要检测是否存在 -1
                     if (index !== -1) {
                         this.$set(turnover.list, index, this.info)
                         return true
                     }
+
+                    return false
                 })
             },
             saveInfo() {
