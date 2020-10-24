@@ -79,15 +79,18 @@
 		},
 		methods: {
 			hide() {
-				this.isLeave = true
-				
-				setTimeout(() => {
-					this.isLeave = false
-					this.isAnimate = false
-					this.hideHandle.call(this.$parent)
-				}, 300)
-			},
+                this.isLeave = true
+                setTimeout(this.handleHide, 300)
+            },
+            handleHide() {
+                this.isLeave = false
+                this.isAnimate = false
+                this.hideHandle.call(this.$parent)  
+            },
 			gotoEdit() {
+
+                this.handleHide()
+
 				uni.setStorage({
 					key: 'tmpBillDetail',
 					data: this.info

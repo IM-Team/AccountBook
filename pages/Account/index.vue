@@ -49,7 +49,7 @@
 			return {
 				accounts
 			}
-		},
+        },
 		methods: {
 			onAddAccount() {
 				uni.navigateTo({

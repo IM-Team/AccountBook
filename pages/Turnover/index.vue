@@ -1,6 +1,9 @@
 <template>
 	<view class="turnover-container">
-		<turnover-header :income="income" :expense="expense" />
+		<turnover-header
+            :income="income"
+            :expense="expense"
+            :surplus="surplus" />
 		<turnover-list :turnovers="data.turnovers" />
 	</view>
 </template>
@@ -9,7 +12,8 @@
 	
 	import TurnoverHeader from '@/components/Turnover/TurnoverHeader'
 	import TurnoverList from '@/components/Turnover/TurnoverList'
-	import res from './data.json'
+    import res from './data.json'
+	import { ruleOfThirds } from '@/utils/utils.js'
 	
 	export default {
 		name: 'Turnover',
@@ -17,25 +21,25 @@
 			return {
 				data: {},
 				income: 0,
-				expense: 0
+                expense: 0,
+                surplus: 0
 			}
 		},
 		components: {
 			TurnoverHeader,
 			TurnoverList
         },
+        watch: {
+            data() {
+                this.calcIncomeAndExpense()
+            }
+        },
 		created() {
             const gData = getApp().globalData
             gData.turnoverData = res.data
 
             this.data = gData.turnoverData
-            this.calcIncomeAndExpense()
-
-            // setTimeout(() => {
-            //     gData.turnoverData.turnovers[0].list[0].price = 200000
-            // }, 5000)
-
-		},
+        },
 		methods: {
 			calcIncomeAndExpense() {
 				let _income = 0, _expense = 0
@@ -51,7 +55,8 @@
 				})
 				
 				this.income = _income
-				this.expense = _expense
+                this.expense = _expense
+                this.surplus = _income - _expense
 			}
 		}
 	}

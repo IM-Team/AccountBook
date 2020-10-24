@@ -4,16 +4,16 @@
 			<text class="month">10</text>
 			<text>月结余</text>
 		</view>
-		<view class="over">{{ surplus }}</view>
+		<view class="over">{{ ruleOfThirds(surplus) }}</view>
 		<view class="compute">
 			<view class="compute-item">
 				<text class="income">收入</text>
-				<text class="compute-price">{{ _income }}</text>
+				<text class="compute-price">{{ ruleOfThirds(income) }}</text>
 			</view>
 			<view class="line"></view>
 			<view class="compute-item">
 				<text class="expenses">支出</text>
-				<text class="compute-price">{{ _expense }}</text>
+				<text class="compute-price">{{ ruleOfThirds(expense) }}</text>
 			</view>
 		</view>
 	</view>
@@ -33,25 +33,16 @@
 			expense: {
 				type: String,
 				default: '0.00'
-			}
-		},
-		data() {
-			return {
-				_income: '0.00',
-				_expense: '0.00',
-				surplus: 0
-			}
-		},
-		created() {
-			this.surplus = ruleOfThirds(this.calcSurplus().toFixed(2))
-			this._income = ruleOfThirds(this.income)
-			this._expense = ruleOfThirds(this.expense)
-		},
-		methods: {
-			calcSurplus() {
-				return parseFloat(this.income) - parseFloat(this.expense)
-			}
-		}
+            },
+            surplus: {
+                type: String,
+                default: '0.00'
+            }
+        },
+        methods: {
+            ruleOfThirds,
+
+        }
 	}
 </script>
 
