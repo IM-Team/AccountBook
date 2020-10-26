@@ -1,35 +1,23 @@
 <template>
 	<view class="add-container">
 		<view class="content">
-			<view class="tally-type">
-				<view class="income"
-					:class="{active: info.turnover_type === 1}"
-					@click="info.turnover_type = 1">收入</view>
-				<view class="spend"
-					:class="{active: info.turnover_type === 2}"
-					@click="info.turnover_type = 2">支出</view>
-			</view>
-			<edit-area
-				:turnover-type="info.turnover_type"
-				:input="digitList"
-				:timestamp="info.date"
-				:account="info.account" />
-			<type-swiper
-				class="type-swiper"
-				:icon-id="info.category.id"
-                :turnover-type="info.turnover_type"
-				@changeIcon="onChangeIcon" />
+			<tally-type :type="info.turnover_type" @toggle="onToggle" />
+			<edit-area :input="digitList" />
+			<type-swiper class="type-swiper" />
 		</view>
 		
 		<view class="sub-container">
 			<view class="note">
 				<text class="iconfont icon-beizhu"></text>
 				<text class="note-name">备注:</text>
-				<input class="input" type="text" :value="info.note" placeholder="请输入备注" />
+				<input
+                    class="input"
+                    type="text"
+                    :value="info.note"
+                    placeholder="请输入备注" />
 			</view>
 			<keyboard
 				class="keyboard"
-				:digit-list="isFromBillDetail ? digitList : null"
 				@change="onChange"
                 @confirm="onConfirm" />
 		</view>
@@ -38,6 +26,7 @@
 
 <script>
 	
+    import TallyType    from '@/components/Add/TallyType'
 	import EditArea 	from '@/components/Add/EditArea'
 	import TypeSwiper 	from '@/components/Add/TypeSwiper'
     import Keyboard 	from '@/components/Add/Keyboard'
@@ -47,48 +36,64 @@
 			return {
                 isFromBillDetail: false,
                 digitList: ['0'],
-				info: {
-                    id: 0,
-					turnover_type: 1,
-                    price: "0.00",
-					note: '',
-					date: -1,
-					account: '现金',
-					category: {
-                        id: 1,
-                        name: '餐饮',
-                        icon: 'icon-canyin',
-                        color: '#188AFF'
-                    }
-				}
+				info: {}
 			}
 		},
 		created() {
 			this.init()
 		},
-		mounted() {
-			uni.removeStorage({ key: 'tmpBillDetail' })
-		},
 		components: {
+            TallyType,
 			EditArea,
 			TypeSwiper,
 			Keyboard
 		},
 		methods: {
 			init() {
-				const res = uni.getStorageSync('tmpBillDetail')
 
-				if (res) {
-                    this.isFromBillDetail = true
-                    this.digitList = res.price.split('')
-                    this.info = res
-				} else {
-					this.info.date = Date.now()
-				}
+                this.isFromBillDetail = this.$store.getters.getIsFromBillDetail()
+
+                if (this.isFromBillDetail) {
+
+                    this.$store.mutations.setIsFromBillDetail(false)
+
+                    const bt = this.$store.getters.getBillDetail()
+                    this.digitList = bt.price.split('')
+                    this.info = bt
+                } else {
+                    this.info = this.$store.mutations.setBillDetail({
+                        id: -1,
+                        turnover_type: 1,
+                        price: "0.00",
+                        note: '',
+                        date: Date.now(),
+                        account: '现金',
+                        category: {
+                            id: 1,
+                            name: '餐饮',
+                            icon: 'icon-canyin',
+                            color: '#188AFF'
+                        }
+                    })
+                }
+            },
+            onToggle(type) {
+                this.info.turnover_type = type
+            },
+			onChange(v) {
+				this.digitList = v
+            },
+            onConfirm() {
+				
+				this.fixDicimalPoint()
+
+                const id = this.info.id
+                id ? this.updateInfo(id) : this.addTurnover()
+
+                uni.navigateBack()
             },
             updateInfo(id) {
-                const turnoverData = getApp().globalData.turnoverData
-
+                const turnoverData = this.$store.getters.getTurnoverData()
                 turnoverData.turnovers.some(turnover => {
                     const index = turnover.list.findIndex(item => item.id === id)
 
@@ -100,8 +105,38 @@
                     return false
                 })
             },
-            saveInfo() {
-                
+            addTurnover() {
+                // const turnoverData = getApp().globalData.turnoverData
+                // turnoverData.turnovers.push({
+                //     day: 
+                // })
+
+
+                // 找到对应的只账本、判断本地数据是否是当前的
+
+
+
+
+                // 找到账本的年、月、日
+                // 添加
+
+
+                // "day": 1,
+				// "list": [{
+				// 	"id": 1,
+				// 	"date": 1601550616000,
+				// 	"turnover_type": 2,
+				// 	"account_type": 1,
+				// 	"price": "320.00",
+				// 	"account": "支付宝",
+                //     "note": "这是我写的备注",
+				// 	"category": {
+				// 		"id": 6,
+                //         "name": "餐饮",
+                //         "icon": "icon-canyin",
+				// 		"color": "#188AFF"
+                //     }
+				// }]
             },
             fixDicimalPoint() {
                 this.info.price = this.digitList.join('')
@@ -112,21 +147,6 @@
 				} else if (pointIndex !== this.info.price.length - 3) {
                     this.info.price += '0'
                 }
-            },
-			onChangeIcon(id) {
-				this.info.category.id = id
-			},
-			onChange(v) {
-				this.digitList = v
-            },
-            onConfirm() {
-				
-				this.fixDicimalPoint()
-
-                const id = this.info.id
-                id ? this.updateInfo(id) : this.saveInfo()
-
-                uni.navigateBack()
             }
 		}
 	}
@@ -143,28 +163,6 @@
 	}
 	
 	.content { padding: 0 32rpx; }
-	
-	.tally-type {
-		display: flex;
-		border: solid 1px #188AFF;
-		border-radius: calc(calc(100vw - 64rpx) / 2);
-		font-size: 28rpx;
-		overflow: hidden;
-	}
-	
-	.tally-type .income,
-	.tally-type .spend {
-		flex: 1;
-		height: 74rpx;
-		line-height: 74rpx;
-		text-align: center;
-		color: #188AFF;
-	}
-	
-	.tally-type .active {
-		color: #fff;
-		background-color: #188AFF;
-	}
 	
 	.sub-container {
 		flex: 1;

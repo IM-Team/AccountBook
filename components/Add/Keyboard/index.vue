@@ -45,7 +45,8 @@
 			}
 		},
 		created() {
-			if (this.digitList) this.inputStack = this.digitList
+            const { price } = this.$store.getters.getBillDetail()
+            this.inputStack = price.split('')
 		},
 		methods: {
 			onDigit(digit) {

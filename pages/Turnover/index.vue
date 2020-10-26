@@ -30,15 +30,15 @@
 			TurnoverList
         },
         watch: {
-            data() {
-                this.calcIncomeAndExpense()
+            data: {
+                handler() {
+                    this.calcIncomeAndExpense()
+                },
+                deep: true
             }
         },
 		created() {
-            const gData = getApp().globalData
-            gData.turnoverData = res.data
-
-            this.data = gData.turnoverData
+            this.data = this.$store.mutations.setTurnoverData(res.data)
         },
 		methods: {
 			calcIncomeAndExpense() {
@@ -56,7 +56,7 @@
 				
 				this.income = _income
                 this.expense = _expense
-                this.surplus = _income - _expense
+                this.surplus = (_income - _expense).toFixed(2)
 			}
 		}
 	}

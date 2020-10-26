@@ -89,12 +89,10 @@
             },
 			gotoEdit() {
 
-                this.handleHide()
+                this.$store.mutations.setBillDetail(this.info)
 
-				uni.setStorage({
-					key: 'tmpBillDetail',
-					data: this.info
-				})
+                this.handleHide()
+                this.$store.mutations.setIsFromBillDetail(true)
 				uni.navigateTo({ url: '/pages/Add/index' })
 			}
 		}
@@ -189,6 +187,10 @@
 		display: flex;
 		justify-content: space-between;
 	}
+
+    .info-item :first-child {
+        font-weight: bold;
+    }
 
 	.options {
 		width: 100%;

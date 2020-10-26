@@ -2,8 +2,8 @@
 	<view class="add-header">
 		<view class="computed"
 			:class="{
-				isIcome: turnoverType === 1,
-				isSpend: turnoverType === 2
+				is_icome: info.turnover_type === 1,
+				is_spend: info.turnover_type === 2
 			}">{{ input.join('') }}</view>
 		<view class="form-wrap">
 			<viewd class="form-right">
@@ -21,7 +21,7 @@
 				</view>
 				<view class="account-type block_gray">
 					<text class="iconfont icon-zhanghu">账户</text>
-					<text>{{ account }}</text>
+					<text>{{ info.account }}</text>
 				</view>
 			</viewd>
 		</view>
@@ -33,35 +33,28 @@
 	export default {
 		name: 'EditArea',
 		props: {
-			turnoverType: {
-				type: Number,
-				default: 1
-			},
 			input: {
 				type: Array,
 				default() { return [] }
-			},
-			timestamp: {
-				type: Number,
-				default: Date.now()
-			},
-			account: {
-				type: String,
-				default: '现金'
 			}
 		},
 		data() {
 			return {
 				digitList: [0],
 				date: '2000-01-01',
-				startDate: '2000-01-01'
+                startDate: '2000-01-01',
+                info: {}
 			}
 		},
 		created() {
-			const date = new Date(this.timestamp)
-			this.date = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+            this.init()
 		},
 		methods: {
+            init() {
+                this.info = this.$store.getters.getBillDetail()
+                const date = new Date(this.info.date)
+                this.date = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+            },
 			onDateChange(e) {
 				this.date = e.target.value
 			}
@@ -103,7 +96,7 @@
 		background-color: #eee;
 	}
 	
-	.isIcome { color: #0EA391; }
-	.isSpend { color: #FF4949; }
+	.is_icome { color: #0EA391; }
+	.is_spend { color: #FF4949; }
 	
 </style>
