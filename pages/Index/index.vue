@@ -49,7 +49,7 @@
 			Me,
 			BillDetail,
 			CustomTabbar
-		},
+        },
 		created() {
 			this.navbarTop = (uni.getMenuButtonBoundingClientRect()).top
 		},

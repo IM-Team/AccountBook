@@ -11,8 +11,8 @@
 						<view class="iconfont"
 							:class="[item.icon]"
 							:style="{
-								backgroundColor: item.id === iconId ? item.color : '#ddd',
-								color: item.id === iconId ? '#fff' : '#111'
+								backgroundColor: item.id === info.category.id ? item.color : '#ddd',
+								color: item.id === info.category.id ? '#fff' : '#111'
 							}"></view>
 						<view class="name">{{ item.name }}</view>
 					</view>
@@ -92,31 +92,29 @@
                         }]
                     }
 				}
-			},
-			iconId: {
-				type: Number,
-				required: true
-            },
-            turnoverType: {
-                type: Number,
-                default: 1
-            },
-			singlePageCount: {
-				type: Number,
-				default: 8
-			}
-		},
+            }
+        },
+        data() {
+            return {
+                info: {}
+            }
+        },
+        created() {
+            this.info = this.$store.getters.getBillDetail()
+        },
 		computed: {
 			isShowDot() {
 				return this.typePages.length > 1
 			},
 			typePages() {
-				return pagination(this.types[this.turnoverType], this.singlePageCount)
+				return pagination(this.types[this.info.turnover_type], 8)
 			}
 		},
 		methods: {
 			onCheckItem(id) {
-				this.$emit('changeIcon', id)
+                this.info.category.id = id
+                
+                console.log(this.info)
 			}
 		}
 	}
