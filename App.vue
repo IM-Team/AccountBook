@@ -4,7 +4,10 @@
 		name: 'App',
 		globalData: {
 			turnoverData: {},
-			accountData: {}	// 添加账户
+			accountData: {
+				capitalAccount: [],
+				creditAccount: []
+			}
 		}
 	}
 	

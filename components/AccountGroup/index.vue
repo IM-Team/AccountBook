@@ -4,9 +4,9 @@
 		<view class="group-wrap">
 			<im-cell
 				class="cell"
-				v-for="(item, index) in accounts.list"
+				v-for="(item, index) in accounts"
 				:icon="item.icon"
-				:title="item.name"
+				:title="item.custom_name || item.name"
 				:content="item.balance"
 				:key="index" 
 				@click.native="handleAccount(item)"
@@ -25,7 +25,7 @@
 				required: true
 			},
 			accounts: {
-				type: Object,
+				type: Array,
 				required: true
 			}
 		},
@@ -34,22 +34,15 @@
 		},
 		methods: {
 			handleAccount(item) {
-				uni.setStorage({
-				    key: 'account',
-				    data: {
-						account_type: [item.name, item.icon],
-						account_form: {
-							name: item.name,	// 绑定账户名称input
-							balance: item.balance,	// 绑定账户余额input
-							note: ''	// 绑定账户备注input
-						}
-					},
-				    success: () => {
-						uni.navigateTo({
-							url: '/pages/AccountEdit/index'
-						});
-				    }
-				});
+				console.log(item);
+				switch(item.account_type) {
+					case 1:
+						uni.navigateTo({ url: `/pages/AccountEdit/index?type=${item.type}&balance=${ item.balance }&custom_name=${ item.custom_name }` });
+						break;
+					case 2:
+						uni.navigateTo({ url: `/pages/AccountEdit/index?type=${item.type}&balance=${ item.balance }&custom_name=${ item.custom_name }` });
+						break;
+				}
 			}
 		}
 	}
