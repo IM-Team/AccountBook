@@ -59,7 +59,7 @@
  	.account {
 		position: relative;
 	}
-	/* .account::after {
+	.account::after {
 		position: absolute;
 		left: 50%;
 		bottom: 0;
@@ -67,7 +67,11 @@
 		content: "";
 		display: block;
 		width: calc(100vw - (32rpx * 2) - (32rpx * 2));
-		border-bottom: solid 1px #eee;
-	} */
+		height: 1px;
+		background: linear-gradient(to left, #eee, #fff);
+	}
+	.account:last-child::after {
+		height: 0;
+	}
 	
 </style>
