@@ -1,5 +1,6 @@
 <template>
 	<view class="acount-container">
+		<!-- *start* account-header -->
 		<view class="account-header">
 			<im-cell>
 				<view class="money" slot="title">
@@ -15,20 +16,21 @@
 					</view>
 				</view>
 				<view class="header-btn-wrap" slot="content">
-					<view class="trend-btn">资金趋势</view>
+					<view class="trend-btn" @click="onCapitalTrend">资金趋势</view>
 					<view class="add_account-btn" @click="onAddAccount">添加账户</view>
 				</view>
 			</im-cell>
 		</view>  
+		<!-- *end* account-header -->
 		
 		<view class="account-group-wrap">
 			<account-group 
 				title="资金账户"
-				:accounts="accounts.capital"
+				:accounts="capitalAccount"
 			/>
 			<account-group 
 				title="信用账户"
-				:accounts="accounts.credit"
+				:accounts="creditAccount"
 			/>
 		</view> 
 	</view>
@@ -38,47 +40,47 @@
 	
 	import ImCell from '@/components/common/ImCell'
 	import AccountGroup from '../../components/AccountGroup'
+	
 	import { accounts } from './Account.json'
+	// import { accountMapMixin } from '@/utils/mixins'
+
 	
 	export default {     
 		name: 'Account',
+		// mixins: [accountMapMixin],
 		created() {
 			const gData = getApp().globalData;
-			const globaAccount = gData.accounts;
-			this.data = globaAccount
-		
-			console.log(this.accounts);
+
+			// 分类资金账户和信用账户分别push到global
+			for(let item of accounts.list) {
+				if(item.account_type === 1) {
+					gData.accountData.capitalAccount.push(item);
+				} else {
+					gData.accountData.creditAccount.push(item);
+				}
+			}
+			// 关联global数据
+			this.capitalAccount = gData.accountData.capitalAccount;
+			this.creditAccount = gData.accountData.creditAccount;
 		},
 		data() {
 			return {
-				accounts,
-				data: {}
+				capitalAccount: [],	// 资金账户
+				creditAccount: []	// 信用账户
 			}
         },
 		methods: {
+			// 点击添加账户按钮处理事件
 			onAddAccount() {
-				uni.navigateTo({ url: '/pages/AddAccount/index?' });
+				uni.navigateTo({ url: '/pages/AddAccount/index' });
+			},
+			// 点击资金趋势按钮处理事件
+			onCapitalTrend() {
+
 			}
 		},
 		watch: {
-			data() {
-
-				console.log('linljlkjlkmnsldkjfklj');
-
-
-
-
-
-				// 将globalData内的accounts push到当前this.accounts里
-				if(gData.accountData.category === 1) {
-					this.accounts.capital.list.push(gData.accountData);
-				} else if(gData.accountData.category === 2){
-					this.accounts.credit.list.push(gData.accountData);
-				}
-				// globalData.accounts 和 this.accounts 互相关联
-				gData.accountData = this.accounts;
-				this.accounts = gData.accountData;
-			}
+			
 		},
 		components: {
 			ImCell,

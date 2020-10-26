@@ -55,36 +55,37 @@
 		name: 'AccontEdit',
 		mixins: [accountMapMixin],
 		onLoad(option) {
+			console.log(option);
 			this.account.type = option.type;
+			this.account.balance = option.balance || '';
+			this.account.custom_name = option.custom_name || '';
 			this.account.icon = this.mixin_accounts[option.type].icon;
 			this.account.name = this.mixin_accounts[option.type].name;
 		},
 		data() {
 			return {	
 				account: {
-					category: 1,
 					type: 0,
 					name: '',
 					custom_name: '',
 					icon: '',
-					balance: Number
+					balance: '',
+					account_type: 1,
 				}
 			}
 		},
-		created() {
-
-		},
+			components: {
+				ImCell
+			},
 		computed: {
+			// 计算账户名称的字数
 			accountNameLength() {
 				return this.account.custom_name.split('').length;
 			}
 		},
-		components: {
-			ImCell
-		},
 		methods: {
-			async handleCommit() {
-				// console.log(this.accountNameLength);
+			// 点击提交按钮的处理函数
+			handleCommit() {
 				if(this.accountNameLength === 0) {
 					uni.showToast({
 						title: '账户名不可为空',
@@ -92,24 +93,33 @@
 						duration: 1200
 					});
 				} else {
-					getApp().globalData.accountData = this.account;
-					await uni.showToast({
+					// if(this.account.account_type === 1) {
+					// 	getApp().globalData.accountData.capitalAccount.push(this.account);
+					// } else {
+					// 	getApp().globalData.accountData.creditAccount.push(this.account);
+					// }
+
+					switch(this.account.account_type) {
+						case 1: 
+							getApp().globalData.accountData.capitalAccount.push(this.account);
+							break;
+						case 2:
+							getApp().globalData.accountData.creditAccount.push(this.account);
+							break;
+					}
+
+					uni.showToast({
 						title: '保存成功',
 						duration: 1200,
+						success: () => {
+							uni.navigateBack({ delta: 2 });
+						}
 					});
-					uni.navigateBack({
-    				delta: 2
-					});
-					// uni.navigateTo({ url: '/pages/Index/index?currentIndex=1' });
+
 					console.log(getApp().globalData.accountData);
 				}
 			}
-		},
-		watch: {
-			test() {
-				console.log('123');
-			}
-		},
+		}
 	}
 	
 </script>

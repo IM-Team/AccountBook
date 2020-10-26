@@ -4,7 +4,7 @@
 		<view class="group-wrap">
 			<im-cell
 				class="cell"
-				v-for="(item, index) in accounts.list"
+				v-for="(item, index) in accounts"
 				:icon="item.icon"
 				:title="item.custom_name || item.name"
 				:content="item.balance"
@@ -25,19 +25,24 @@
 				required: true
 			},
 			accounts: {
-				type: Object,
+				type: Array,
 				required: true
 			}
-		},
-		created() {
-			console.log(this.accounts);
 		},
 		components: {
 			ImCell
 		},
 		methods: {
 			handleAccount(item) {
-				
+				console.log(item);
+				switch(item.account_type) {
+					case 1:
+						uni.navigateTo({ url: `/pages/AccountEdit/index?type=${item.type}&balance=${ item.balance }&custom_name=${ item.custom_name }` });
+						break;
+					case 2:
+						uni.navigateTo({ url: `/pages/AccountEdit/index?type=${item.type}&balance=${ item.balance }&custom_name=${ item.custom_name }` });
+						break;
+				}
 			}
 		}
 	}
