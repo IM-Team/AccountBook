@@ -40,7 +40,7 @@
 	
 	import ImCell from '@/components/common/ImCell'
 	import AccountGroup from '../../components/AccountGroup'
-	
+
 	import { accounts } from './Account.json'
 	// import { accountMapMixin } from '@/utils/mixins'
 
@@ -50,6 +50,9 @@
 		// mixins: [accountMapMixin],
 		created() {
 			const gData = getApp().globalData;
+			// 清空global
+			gData.accountData.capitalAccount = [];
+			gData.accountData.creditAccount = [];
 
 			// 分类资金账户和信用账户分别push到global
 			for(let item of accounts.list) {
