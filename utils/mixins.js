@@ -5,7 +5,7 @@ const accountMapMixin = {
 			mixin_accounts: {
 				1: {
 					name: "支付宝",
-					icon: "icon-zhifubao2",
+					icon: "icon-zhifubao",
 					account_type: 1
 				},
 				2: {

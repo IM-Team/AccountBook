@@ -22,18 +22,19 @@
 				<text class="login-tip">IM Team</text>
 			</view>
 		</block>
+		<!-- *end* login -->
 		
 		<view class="profile-group">
 			<view class="profile-item" @click="onGotoCate">
-				<im-cell icon="icon-zhifubao2" title="分类">
+				<im-cell icon="icon-fenlei" title="分类">
 					<view slot="content" class="iconfont icon-gengduo"></view>
 				</im-cell>
 			</view>
 			<view class="profile-item">
-				<im-cell icon="icon-zhifubao2" title="意见反馈" />
+				<im-cell icon="icon-yijianfankui" title="意见反馈" />
 			</view>
 			<view class="profile-item">
-				<im-cell icon="icon-zhifubao2" title="设置">
+				<im-cell icon="icon-shezhi" title="设置">
 					<view slot="content" class="iconfont icon-gengduo"></view>
 				</im-cell>
 			</view>

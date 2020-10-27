@@ -36,6 +36,18 @@ const mutations = {
 	},
 	pushCreditAccount(data) {
 		return state.accountData.creditAccount.push(data);
+	},
+	setCapitalAccountAttribute(option) {
+		const index = state.accountData.capitalAccount.findIndex(item => item.id == option.id);
+		return state.accountData.capitalAccount[index] = option;
+	},
+	setCreditAccountAttribute(option) {
+		const index = state.accountData.creditAccount.findIndex(item => item.id == option.id);
+		return state.accountData.creditAccount[index] = option;
+	},
+
+	pushCreditAccount(data) {
+		return state.accountData.creditAccount.push(data);
     },
     
     setAccountBooks(data) {

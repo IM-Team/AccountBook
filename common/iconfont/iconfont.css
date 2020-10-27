@@ -43,16 +43,8 @@
   content: "\e600";
 }
 
-.icon-zhifubao2:before {
-  content: "\e601";
-}
-
-.icon-bank:before {
+.icon-yinhangka:before {
   content: "\e76b";
-}
-
-.icon-weixin:before {
-  content: "\e643";
 }
 
 .icon-xinyongka:before {
