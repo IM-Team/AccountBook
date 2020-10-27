@@ -25,6 +25,11 @@
 		<!-- *end* login -->
 		
 		<view class="profile-group">
+			<view class="profile-item" @click="onGotoAccountBook">
+				<im-cell icon="icon-date" title="账本">
+					<view slot="content" class="iconfont icon-gengduo"></view>
+				</im-cell>
+			</view>
 			<view class="profile-item" @click="onGotoCate">
 				<im-cell icon="icon-fenlei" title="分类">
 					<view slot="content" class="iconfont icon-gengduo"></view>
@@ -60,6 +65,9 @@
 			ImCell
 		},
 		methods: {
+			onGotoAccountBook() {
+				uni.navigateTo({ url: '/pages/AccountBook/index' });
+			},
 			onGotoCate() {
 				uni.navigateTo({
 					url: '/pages/CategoryEdit/index'

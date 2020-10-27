@@ -26,7 +26,7 @@
 					<input 
 						v-model="account.balance"
 						class="input-balance" 
-						type="number"
+						type="digit"
 						slot="content" 
 						placeholder="0" 
 						maxlength="10"
