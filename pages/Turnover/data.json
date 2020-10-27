@@ -1,111 +1,108 @@
 {
 	"error_code": 0,
 	"data": {
-        "account_book": "默认账本",
-        "year": 2020,
+		"account_book": "默认账本",
+		"year": 2020,
 		"month": 10,
 		"turnovers": [{
-				"day": 1,
-				"list": [{
+			"day": 5,
+			"list": [{
+				"id": 6,
+				"date": 1601865026000,
+				"turnover_type": 2,
+				"account_type": 2,
+				"price": "1000.00",
+				"account": "白条",
+				"note": "这是我写的备注",
+				"category": {
+					"id": 10,
+					"name": "餐饮",
+					"icon": "icon-canyin",
+					"color": "#42BA78"
+				}
+			}]
+		}, {
+			"day": 4,
+			"list": [{
+				"id": 5,
+				"date": 1601805926000,
+				"turnover_type": 2,
+				"account_type": 1,
+				"price": "6000.00",
+				"account": "支付宝",
+				"note": "这是我写的备注",
+				"category": {
+					"id": 11,
+					"name": "餐饮",
+					"icon": "icon-canyin",
+					"color": "#188AFF"
+				}
+			}]
+		}, {
+			"day": 3,
+			"list": [{
+				"id": 4,
+				"date": 1601684406000,
+				"turnover_type": 2,
+				"account_type": 1,
+				"price": "23.00",
+				"account": "现金",
+				"note": "这是我写的备注",
+				"category": {
+					"id": 8,
+					"name": "餐饮",
+					"icon": "icon-canyin",
+					"color": "#F58653"
+				}
+			}]
+		}, {
+			"day": 2,
+			"list": [{
+				"id": 2,
+				"date": 1601626216000,
+				"turnover_type": 2,
+				"account_type": 1,
+				"price": "456.00",
+				"account": "微信",
+				"note": "这是我写的备注",
+				"category": {
+					"id": 9,
+					"name": "餐饮",
+					"icon": "icon-canyin",
+					"color": "#F2385A"
+				}
+			}, {
+				"id": 3,
+				"date": 1601611200000,
+				"turnover_type": 1,
+				"account_type": 1,
+				"price": "4560.00",
+				"account": "支付宝",
+				"note": "这是我写的备注",
+				"category": {
 					"id": 1,
-					"date": 1601550616000,
-					"turnover_type": 2,
-					"account_type": 1,
-					"price": "320.00",
-					"account": "支付宝",
-                    "note": "这是我写的备注",
-					"category": {
-						"id": 6,
-                        "name": "餐饮",
-                        "icon": "icon-canyin",
-						"color": "#188AFF"
-                    }
-				}]
-			},
-			{
-				"day": 2,
-				"list": [{
-					"id": 2,
-					"date": 1601626216000,
-					"turnover_type": 2,
-					"account_type": 1,
-					"price": "456.00",
-					"account": "微信",
-					"note": "这是我写的备注",
-					"category": {
-						"id": 9,
-						"name": "餐饮",
-						"icon": "icon-canyin",
-						"color": "#F2385A"
-					}
-				}, {
-					"id": 3,
-					"date": 1601611200000,
-					"turnover_type": 1,
-					"account_type": 1,
-					"price": "4560.00",
-					"account": "支付宝",
-					"note": "这是我写的备注",
-					"category": {
-						"id": 1,
-						"name": "工资",
-						"icon": "icon-canyin",
-						"color": "#188AFF"
-					}
-				}]
-			}, {
-				"day": 3,
-				"list": [{
-					"id": 4,
-					"date": 1601684406000,
-					"turnover_type": 2,
-					"account_type": 1,
-					"price": "23.00",
-					"account": "现金",
-					"note": "这是我写的备注",
-					"category": {
-						"id": 8,
-						"name": "餐饮",
-						"icon": "icon-canyin",
-						"color": "#F58653"
-					}
-				}]
-			}, {
-				"day": 4,
-				"list": [{
-					"id": 5,
-					"date": 1601805926000,
-					"turnover_type": 2,
-					"account_type": 1,
-					"price": "6000.00",
-					"account": "支付宝",
-					"note": "这是我写的备注",
-					"category": {
-						"id": 11,
-						"name": "餐饮",
-						"icon": "icon-canyin",
-						"color": "#188AFF"
-					}
-				}]
-			},
-			{
-				"day": 5,
-				"list": [{
+					"name": "工资",
+					"icon": "icon-canyin",
+					"color": "#188AFF"
+				}
+			}]
+		}, {
+			"day": 1,
+			"list": [{
+				"id": 1,
+				"date": 1601550616000,
+				"turnover_type": 2,
+				"account_type": 1,
+				"price": "320.00",
+				"account": "支付宝",
+				"note": "这是我写的备注",
+				"category": {
 					"id": 6,
-					"date": 1601865026000,
-					"turnover_type": 2,
-					"account_type": 2,
-					"price": "1000.00",
-					"account": "白条",
-					"note": "这是我写的备注",
-					"category": {
-						"id": 10,
-						"name": "餐饮",
-						"icon": "icon-canyin",
-						"color": "#42BA78"
-					}
-				}]
-			}
-		]
+					"name": "餐饮",
+					"icon": "icon-canyin",
+					"color": "#188AFF"
+				}
+			}]
+		}]
 	}
 }

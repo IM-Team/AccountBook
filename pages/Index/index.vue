@@ -1,6 +1,6 @@
 <template>
 	<view class="index-container">
-		<navbar :top="navbarTop" />
+		<custom-navbar :top="navbarTop" />
 		<view class="main" :style="{ paddingTop: navbarTop + 44 + 'px' }">
 			<!-- Tab pages -->
 			<turnover v-if="currentIndex === 0" />
@@ -23,13 +23,13 @@
 
 <script>
 	
-	import Navbar 		from '@/components/Navbar'
+	import CustomNavbar 		from '@/components/CustomNavbar'
 	import Turnover 	from '@/pages/Turnover'
 	import Account 		from '@/pages/Account'
 	import Statistic 	from '@/pages/Statistic'
 	import Me 			from '@/pages/Me'
 	import CustomTabbar from '@/components/CustomTabbar'
-  import BillDetail	from '@/components/BillDetail'
+	import BillDetail	from '@/components/BillDetail'
 
 	export default {
 		name: 'Index',
@@ -42,7 +42,7 @@
 			}
 		},
 		components: {
-			Navbar,
+			CustomNavbar,
 			Turnover,
 			Account,
 			Statistic,

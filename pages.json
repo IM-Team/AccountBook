@@ -23,7 +23,9 @@
 	}, {
 		"path": "pages/AddCategory/index"
 	}, {
-		"path" : "pages/AccountEdit/index"
+		"path": "pages/AccountEdit/index"
+    }, {
+        "path": "pages/AccountBookAdd/index"
     }],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

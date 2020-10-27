@@ -2,6 +2,7 @@
 	"error_code": 0,
 	"data": {
 		"income": [{
+            "id": 1,
 			"type": 1,
 			"name": "工资",
 			"color": "#188AFF",
