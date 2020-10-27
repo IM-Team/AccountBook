@@ -15,13 +15,17 @@
 		</view>
 		<view class="scroll">
 			<view class="content">
-				<im-cell
+				<view 
 					class="item"
 					v-for="(item, index) in it"
-					:icon="item.icon"
-					:title="item.name"
-					:color="item.color"
-					:key="index" />
+					:key="index"
+				>
+					<im-cell
+						:icon="item.icon"
+						:title="item.name"
+						:color="item.color"
+					/>
+				</view>
 			</view>
 		</view>
 	</view>
