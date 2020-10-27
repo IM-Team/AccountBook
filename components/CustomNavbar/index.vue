@@ -1,6 +1,9 @@
 <template>
-	<view class="navbar" :style="{ paddingTop: top + 'px' }" @click="gotoAccountBook">
-		默认账本
+	<view class="navbar"
+        :style="{ paddingTop: top + 'px' }"
+        @click="gotoAccountBook">
+		<text>默认账本</text>
+        <text class="iconfont icon-right"></text>
 	</view>
 </template>
 
@@ -35,7 +38,13 @@
 		position: fixed;
 		top: 0;
 		left: 0;
-		line-height: 34px;
+        display: flex;
+        align-items: center;
+	}
+	
+	.icon-right {
+		margin: 2px 0 0 6px;
+		font-size: 28rpx;
 	}
 	
 </style>

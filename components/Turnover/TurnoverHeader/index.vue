@@ -1,21 +1,30 @@
 <template>
 	<view class="turnover-header">
-		<view>
-			<text class="month">10</text>
-			<text>月结余</text>
-		</view>
-		<view class="over">{{ ruleOfThirds(surplus) }}</view>
-		<view class="compute">
-			<view class="compute-item">
-				<text class="income">收入</text>
-				<text class="compute-price">{{ ruleOfThirds(income) }}</text>
-			</view>
-			<view class="line"></view>
-			<view class="compute-item">
-				<text class="expenses">支出</text>
-				<text class="compute-price">{{ ruleOfThirds(expense) }}</text>
-			</view>
-		</view>
+        <picker
+            @change="onPickerChange"
+            mode="date"
+            fields="month"
+            start="2000-01"
+            :value="dateValue"
+            :end="dateValue"
+            >
+            <view>
+                <text class="month">10</text>
+                <text>月结余</text>
+            </view>
+            <view class="over">{{ ruleOfThirds(surplus) }}</view>
+            <view class="compute">
+                <view class="compute-item">
+                    <text class="income">收入</text>
+                    <text class="compute-price">{{ ruleOfThirds(income) }}</text>
+                </view>
+                <view class="line"></view>
+                <view class="compute-item">
+                    <text class="expenses">支出</text>
+                    <text class="compute-price">{{ ruleOfThirds(expense) }}</text>
+                </view>
+            </view>
+        </picker>
 	</view>
 </template>
 
@@ -39,9 +48,20 @@
                 default: '0.00'
             }
         },
+        data() {
+            return {
+                dateValue: ''
+            }
+        },
+        created() {
+            const date = new Date()
+            this.dateValue = `${date.getFullYear()}-${date.getMonth() + 1}`
+        },
         methods: {
             ruleOfThirds,
-
+            onPickerChange(v) {
+                this.dateValue = v.target.value
+            }
         }
 	}
 </script>
