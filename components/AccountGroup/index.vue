@@ -35,10 +35,11 @@
 			handleAccount(item) {
 				switch(item.account_type) {
 					case 1:
-						uni.navigateTo({ url: `/pages/AccountEdit/index?type=${item.type}&balance=${ item.balance }&custom_name=${ item.custom_name }` });
+						uni.navigateTo({ url: `/pages/AccountEdit/index?id=${ item.id }` });
 						break;
 					case 2:
-						uni.navigateTo({ url: `/pages/AccountEdit/index?type=${item.type}&balance=${ item.balance }&custom_name=${ item.custom_name }` });
+						// uni.navigateTo({ url: `/pages/AccountEdit/index?type=${item.type}&balance=${ item.balance }&custom_name=${ item.custom_name }` });
+						uni.navigateTo({ url: `/pages/AccountEdit/index?id=${ item.id }` });
 						break;
 				}
 			}
@@ -56,7 +57,7 @@
 		font-size: 24rpx;
 		color: #999;
 	}
- 	.account {
+/* 	.account {
 		position: relative;
 	}
 	.account::after {
@@ -72,6 +73,6 @@
 	}
 	.account:last-child::after {
 		height: 0;
-	}
+	} */
 	
 </style>

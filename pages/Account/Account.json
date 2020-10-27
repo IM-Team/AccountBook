@@ -13,7 +13,7 @@
 				"id": 1,
 				"type": 1,
 				"name": "支付宝",
-				"icon": "icon-zhifubao2",
+				"icon": "icon-zhifubao",
 				"custom_name": "",
 				"balance": "100.00",
 				"account_type": 1

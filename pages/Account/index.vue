@@ -53,35 +53,8 @@
 		name: 'Account',
 		// mixins: [accountMapMixin],
 		created() {
-			// const gData = getApp().globalData;
-			
-			// 清空global
-			// gData.accountData.capitalAccount = [];
-			// gData.accountData.creditAccount = [];
-			this.$store.mutations.setCapitalAccount([]);
-			this.$store.mutations.setCreditAccount([]);
-
-			// 分类资金账户和信用账户分别push到global
-			// for(let item of accounts.list) {
-			// 	if(item.account_type === 1) {
-			// 		gData.accountData.capitalAccount.push(item);
-			// 	} else {
-			// 		gData.accountData.creditAccount.push(item);
-			// 	}
-			// }
-			for(let item of accounts.list) {
-				if(item.account_type === 1) {
-					this.$store.mutations.pushCapitalAccount(item);
-				} else {
-					this.$store.mutations.pushCreditAccount(item);
-				}
-			}
-			
-			// 关联global数据
-			// this.capitalAccount = gData.accountData.capitalAccount;
-			// this.creditAccount = gData.accountData.creditAccount;
-			this.capitalAccount = this.$store.getters.getAccountData().capitalAccount;
-			this.creditAccount = this.$store.getters.getAccountData().creditAccount;
+			// 初始化数据inmo-vuex
+			this.initAccountData();
 		},
 		data() {
 			return {
@@ -89,6 +62,10 @@
 				creditAccount: []	// 信用账户
 			}
         },
+		components: {
+			ImCell,
+			AccountGroup
+		},
 		methods: {
 			// 点击添加账户按钮处理事件
 			onAddAccount() {
@@ -96,15 +73,24 @@
 			},
 			// 点击资金趋势按钮处理事件
 			onCapitalTrend() {
-
+				console.log("您太穷了...");
+			},
+			initAccountData() {
+				this.$store.mutations.setCapitalAccount([]);
+				this.$store.mutations.setCreditAccount([]);
+				
+				// 分类资金账户和信用账户分别push到inmo-vuex
+				for(let item of accounts.list) {
+					if(item.account_type === 1) {
+						this.$store.mutations.pushCapitalAccount(item);
+					} else {
+						this.$store.mutations.pushCreditAccount(item);
+					}
+				}
+				// 关联inmo-vuex数据
+				this.capitalAccount = this.$store.getters.getAccountData().capitalAccount;
+				this.creditAccount = this.$store.getters.getAccountData().creditAccount;
 			}
-		},
-		watch: {
-			
-		},
-		components: {
-			ImCell,
-			AccountGroup
 		}
 	}
 </script>
