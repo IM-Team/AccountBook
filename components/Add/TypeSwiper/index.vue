@@ -1,12 +1,12 @@
 <template>
 	<view class="add-body">
 		<swiper class="swiper" :indicator-dots="isShowDot">
-			<swiper-item v-for="(page, index) in typePages" :key="index">
+			<swiper-item v-for="(page, pageIndex) in typePages" :key="pageIndex">
 				<view class="swiper-row">
 					<view
 						class="swiper-item"
-						v-for="item in page"
-						@click="onCheckItem(item.id)"
+						v-for="(item, itemIndex) in page"
+						@click="onCheckItem(pageIndex, itemIndex)"
 						:key="item.id">
 						<view class="iconfont"
 							:class="[item.icon]"
@@ -111,10 +111,8 @@
 			}
 		},
 		methods: {
-			onCheckItem(id) {
-                this.info.category.id = id
-                
-                console.log(this.info)
+			onCheckItem(pageIndex, itemIndex) {
+                this.info.category = this.typePages[pageIndex][itemIndex]
 			}
 		}
 	}
