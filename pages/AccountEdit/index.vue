@@ -101,10 +101,12 @@
 
 					switch(this.account.account_type) {
 						case 1: 
-							getApp().globalData.accountData.capitalAccount.push(this.account);
+							// getApp().globalData.accountData.capitalAccount.push(this.account);
+							this.$store.mutations.pushCapitalAccount(this.account);
 							break;
 						case 2:
-							getApp().globalData.accountData.creditAccount.push(this.account);
+							// getApp().globalData.accountData.creditAccount.push(this.account);
+							this.$store.mutations.pushCreditAccount(this.account);
 							break;
 					}
 
@@ -115,8 +117,6 @@
 							uni.navigateBack({ delta: 2 });
 						}
 					});
-
-					console.log(getApp().globalData.accountData);
 				}
 			}
 		}

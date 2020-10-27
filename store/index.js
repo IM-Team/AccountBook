@@ -4,7 +4,11 @@ import Vue from 'vue'
 const state = Vue.observable({
     billDetail: null,
     isFromBillDetail: false,
-    turnoverData: null
+    turnoverData: null,
+	accountData: {
+		capitalAccount: [],
+		creditAccount: []
+	}
 })
 
 // 所有修改的监听数据都要通过 mutations 修改
@@ -17,7 +21,22 @@ const mutations = {
     },
     setTurnoverData(data) {
         return Vue.set(state, 'turnoverData', data)
-    }
+    },
+	
+	// account Data
+	setCapitalAccount(data) {
+		return state.accountData.capitalAccount = data;
+	},
+	setCreditAccount(data) {
+		return state.accountData.creditAccount = data;
+	},
+	pushCapitalAccount(data) {
+		return state.accountData.capitalAccount.push(data);
+	},
+	pushCreditAccount(data) {
+		return state.accountData.creditAccount.push(data);
+	}
+	
 }
 
 // 所有获取监听数据都要通过 getters 获取
@@ -30,7 +49,10 @@ const getters = {
     },
     getTurnoverData() {
         return state.turnoverData
-    }
+    },
+	getAccountData() {
+		return state.accountData;
+	}
 }
 
 export default {

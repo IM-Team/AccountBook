@@ -24,14 +24,18 @@
 		<!-- *end* account-header -->
 		
 		<view class="account-group-wrap">
-			<account-group 
-				title="资金账户"
-				:accounts="capitalAccount"
-			/>
-			<account-group 
-				title="信用账户"
-				:accounts="creditAccount"
-			/>
+			<view class="account-group">
+				<account-group
+					title="资金账户"
+					:accounts="capitalAccount"
+				/>
+			</view>
+			<view class="account-group">
+				<account-group
+					title="信用账户"
+					:accounts="creditAccount"
+				/>
+			</view>
 		</view> 
 	</view>
 </template>
@@ -40,7 +44,7 @@
 	
 	import ImCell from '@/components/common/ImCell'
 	import AccountGroup from '../../components/AccountGroup'
-	
+
 	import { accounts } from './Account.json'
 	// import { accountMapMixin } from '@/utils/mixins'
 
@@ -49,19 +53,35 @@
 		name: 'Account',
 		// mixins: [accountMapMixin],
 		created() {
-			const gData = getApp().globalData;
+			// const gData = getApp().globalData;
+			
+			// 清空global
+			// gData.accountData.capitalAccount = [];
+			// gData.accountData.creditAccount = [];
+			this.$store.mutations.setCapitalAccount([]);
+			this.$store.mutations.setCreditAccount([]);
 
 			// 分类资金账户和信用账户分别push到global
+			// for(let item of accounts.list) {
+			// 	if(item.account_type === 1) {
+			// 		gData.accountData.capitalAccount.push(item);
+			// 	} else {
+			// 		gData.accountData.creditAccount.push(item);
+			// 	}
+			// }
 			for(let item of accounts.list) {
 				if(item.account_type === 1) {
-					gData.accountData.capitalAccount.push(item);
+					this.$store.mutations.pushCapitalAccount(item);
 				} else {
-					gData.accountData.creditAccount.push(item);
+					this.$store.mutations.pushCreditAccount(item);
 				}
 			}
+			
 			// 关联global数据
-			this.capitalAccount = gData.accountData.capitalAccount;
-			this.creditAccount = gData.accountData.creditAccount;
+			// this.capitalAccount = gData.accountData.capitalAccount;
+			// this.creditAccount = gData.accountData.creditAccount;
+			this.capitalAccount = this.$store.getters.getAccountData().capitalAccount;
+			this.creditAccount = this.$store.getters.getAccountData().creditAccount;
 		},
 		data() {
 			return {
@@ -130,10 +150,9 @@
 		margin-top: 32rpx;
 		background-color: #FF4949;
 	}
-	.account-group .group-title {
-		padding-bottom: 10rpx;
-		font-size: 24rpx;
-		color: #999;
+
+	.account-group-wrap .account-group {
+		margin-top: 32rpx;
 	}
 
 </style>

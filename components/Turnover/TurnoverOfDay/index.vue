@@ -88,5 +88,8 @@
 	.expenses {
 		margin-left: 20rpx;
 	}
+	.cell {
+		margin-bottom: 32rpx;
+	}
 
 </style>

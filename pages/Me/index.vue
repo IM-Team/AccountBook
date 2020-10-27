@@ -112,6 +112,9 @@
 	.me-container .profile-group {
 		margin-top: 64rpx;
 	}
+	.profile-group .profile-item {
+		margin-bottom: 32rpx;
+	}
 	
 	.user-info .iconfont {
 		width: 120rpx;

@@ -2,15 +2,14 @@
 	<view class="account-group">
 		<view class="title">{{ title }}</view>
 		<view class="group-wrap">
-			<im-cell
-				class="cell"
-				v-for="(item, index) in accounts"
-				:icon="item.icon"
-				:title="item.custom_name || item.name"
-				:content="item.balance"
-				:key="index" 
-				@click.native="handleAccount(item)"
-			/>
+			<view class="account" v-for="(item, index) in accounts" :key="index">
+				<im-cell
+					:icon="item.icon"
+					:title="item.custom_name || item.name"
+					:content="item.balance"
+					@click.native="handleAccount(item)"
+				/>
+			</view>
 		</view>
 	</view>
 </template>
@@ -34,7 +33,6 @@
 		},
 		methods: {
 			handleAccount(item) {
-				console.log(item);
 				switch(item.account_type) {
 					case 1:
 						uni.navigateTo({ url: `/pages/AccountEdit/index?type=${item.type}&balance=${ item.balance }&custom_name=${ item.custom_name }` });
@@ -58,10 +56,22 @@
 		font-size: 24rpx;
 		color: #999;
 	}
- 	
-	.cell {
-		border-bottom: 10px solid  #0EA391;
+ 	.account {
+		position: relative;
 	}
-	
+	.account::after {
+		position: absolute;
+		left: 50%;
+		bottom: 0;
+		transform: translate(-50%);
+		content: "";
+		display: block;
+		width: calc(100vw - (32rpx * 2) - (32rpx * 2));
+		height: 1px;
+		background: linear-gradient(to left, #eee, #fff);
+	}
+	.account:last-child::after {
+		height: 0;
+	}
 	
 </style>

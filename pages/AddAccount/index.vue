@@ -2,24 +2,24 @@
 	<view class="add_account-container">
 		<view class="account-type">
 			<view class="title">资金账户</view>
-			<im-cell 
-				v-for="(item, index) in capitalAccount" 
-				:icon="item.icon" 
-				:title="item.name" 
-				:key="index"
-				@click.native="onAccount(item)" 
-			/>
+			<view class="account" v-for="(item, index) in capitalAccount" :key="index">
+				<im-cell 
+					:icon="item.icon" 
+					:title="item.name" 
+					@click.native="onAccount(item)" 
+				/>
+			</view>
 		</view>
 
 		<view class="account-type">
 			<view class="title">信用账户</view>
-			<im-cell 
-				v-for="(item, index) in creditAccount" 
-				:icon="item.icon" 
-				:title="item.name" 
-				:key="index"
-				@click.native="onAccount(item)" 
-			/>
+			<view class="account" v-for="(item, index) in creditAccount" :key="index">
+				<im-cell 
+					:icon="item.icon" 
+					:title="item.name" 
+					@click.native="onAccount(item)" 
+				/>
+			</view>
 		</view>
 
 	</view>
@@ -74,6 +74,9 @@
 		padding-bottom: 10rpx;
 		font-size: 28rpx;
 		color: #999;
+	}
+	.account-type .account {
+		margin-bottom: 32rpx;
 	}
 
 </style>
