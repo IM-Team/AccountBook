@@ -2,7 +2,7 @@
 	<view class="add-container">
 		<view class="content">
 			<tally-type :type="info.turnover_type" @toggle="onToggle" />
-			<edit-area :input="digitList" />
+			<edit-area :input="digitList" @change-date="onChangeDate"  />
 			<type-swiper class="type-swiper" />
 		</view>
 		
@@ -18,6 +18,7 @@
 			</view>
 			<keyboard
 				class="keyboard"
+                :isFromBillDetail="isFromBillDetail"
 				@change="onChange"
                 @confirm="onConfirm" />
 		</view>
@@ -65,7 +66,7 @@
                         id: -1,
                         turnover_type: 1,
                         price: "0.00",
-                        note: '',
+                        note: '还有有写!',
                         date: Date.now(),
                         account: '现金',
                         category: {
@@ -88,9 +89,22 @@
 				this.fixDicimalPoint()
 
                 const id = this.info.id
-                id ? this.updateInfo(id) : this.addTurnover()
+                id > 0 ? this.updateInfo(id) : this.addTurnover()
 
                 uni.navigateBack()
+            },
+            onChangeDate(timestamp) {
+                this.info.date = timestamp
+            },
+            fixDicimalPoint() {
+                this.info.price = this.digitList.join('')
+                const pointIndex = this.info.price.indexOf('.')
+
+				if (pointIndex === -1) {
+					this.info.price += '.00'
+				} else if (pointIndex !== this.info.price.length - 3) {
+                    this.info.price += '0'
+                }
             },
             updateInfo(id) {
                 const turnoverData = this.$store.getters.getTurnoverData()
@@ -106,46 +120,27 @@
                 })
             },
             addTurnover() {
-                // const turnoverData = getApp().globalData.turnoverData
-                // turnoverData.turnovers.push({
-                //     day: 
-                // })
-
+                const date = new Date(this.info.date)
+                const day = date.getDate()
 
                 // 找到对应的只账本、判断本地数据是否是当前的
+                const turnoverData = this.$store.getters.getTurnoverData()
+                
+                if (turnoverData.year === date.getFullYear() &&
+                    turnoverData.month === (date.getMonth() + 1)) {
+                    // 查找 day
+                    const index = turnoverData.turnovers.findIndex(item => item.day === day)
 
-
-
-
-                // 找到账本的年、月、日
-                // 添加
-
-
-                // "day": 1,
-				// "list": [{
-				// 	"id": 1,
-				// 	"date": 1601550616000,
-				// 	"turnover_type": 2,
-				// 	"account_type": 1,
-				// 	"price": "320.00",
-				// 	"account": "支付宝",
-                //     "note": "这是我写的备注",
-				// 	"category": {
-				// 		"id": 6,
-                //         "name": "餐饮",
-                //         "icon": "icon-canyin",
-				// 		"color": "#188AFF"
-                //     }
-				// }]
-            },
-            fixDicimalPoint() {
-                this.info.price = this.digitList.join('')
-                const pointIndex = this.info.price.indexOf('.')
-
-				if (pointIndex === -1) {
-					this.info.price += '.00'
-				} else if (pointIndex !== this.info.price.length - 3) {
-                    this.info.price += '0'
+                    if (index === -1) {
+                        turnoverData.turnovers.push({
+                            day,
+                            list: [this.info]
+                        })
+                    } else {
+                        turnoverData.turnovers[index].list.push(this.info)
+                    }
+                } else {
+                    // 发送网络请求
                 }
             }
 		}

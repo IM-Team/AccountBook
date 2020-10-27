@@ -56,7 +56,10 @@
                 this.date = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
             },
 			onDateChange(e) {
-				this.date = e.target.value
+                const date = new Date(e.target.value)
+
+                this.date = e.target.value
+                this.$emit('change-date', date.getTime())
 			}
 		}
 	}

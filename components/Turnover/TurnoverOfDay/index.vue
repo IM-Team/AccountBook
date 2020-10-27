@@ -14,6 +14,7 @@
 			<im-cell
 				:title="item.category.name"
 				:icon="item.category.icon"
+                :color="item.category.color"
 				:content="ruleOfThirds(item.price)" />
 		</view>
 	</view>

@@ -35,7 +35,7 @@
 
 	export default {
 		name: 'Keyboard',
-		props: ['digitList'],
+		props: ['isFromBillDetail'],
 		data() {
 			return {
 				inputStack: [],
@@ -45,8 +45,10 @@
 			}
 		},
 		created() {
-            const { price } = this.$store.getters.getBillDetail()
-            this.inputStack = price.split('')
+            if (this.isFromBillDetail) {
+                const { price } = this.$store.getters.getBillDetail()
+                this.inputStack = price.split('')
+            }
 		},
 		methods: {
 			onDigit(digit) {
