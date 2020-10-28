@@ -42,7 +42,10 @@
 			
 			<!-- commit button -->
 			<block v-if="isModifyAccount">
-				<view class="form-commit" @click="handleSave">保存修改</view>
+				<view class="modify-commit-wrap">
+					<view class="del-btn" @click="handleDelete">删除</view>
+					<view class="save-btn" @click="handleSave">保存</view>
+				</view>
 			</block>
 			<block v-else>
 				<view class="form-commit" @click="handleCommit">新建账户</view>
@@ -112,6 +115,22 @@
 			// 点击保存修改的处理函数
 			handleSave() {
 				this.commit(false);
+			},
+			// 点击删除按钮的处理函数
+			handleDelete() {
+				uni.showModal({
+				    title: '提示',
+				    content: '确认删除该账户',
+				    success: res => {
+				        if (res.confirm) {
+				            console.log('用户点击确定');
+							this.$store.mutations.popAccount(['capitalAccount', 'creditAccount'][this.account.account_type - 1], this.account);
+							uni.navigateBack({ delta: 1 });
+				        } else if (res.cancel) {
+				            console.log('用户点击取消');
+				        }
+				    }
+				});
 			},
 			commit(isAddAccount) {
 				// balance重排数位格式
@@ -189,6 +208,25 @@
 		font-size: 32rpx;
 		color: #fff;
 		background-color: #188AFF;
+	}
+	.modify-commit-wrap {
+		display: flex;
+	}
+	.del-btn,
+	.save-btn {
+		flex: 1;
+		padding: 28rpx 0;
+		margin: 0 32rpx ;
+		border-radius: calc((100vw/2) - (32rpx * 2) - (32rpx * 2));
+		font-size: 32rpx;
+		text-align: center;
+		color: #fff;
+	}
+	.save-btn {
+		background-color: #188AFF;
+	}
+	.del-btn {
+		background-color: #FF4949;
 	}
 	.input-account,
 	.input-balance,

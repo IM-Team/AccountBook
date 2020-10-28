@@ -17,7 +17,7 @@
 				:style="{transform: `rotateY(${-(startX - moveX)/10}deg) rotateX(${(startY - moveY)/8}deg)`}"
 			>
 				<view class="user-avatar-wrap">
-					<image class="user-avatar" src="../../static/image/icon_me.png" mode="widthFix"></image>
+					<image class="user-avatar" src="https://api.r10086.com/动漫综合1.php" mode="widthFix"></image>
 				</view> 
 				<text class="login-tip">IM Team</text>
 			</view>
