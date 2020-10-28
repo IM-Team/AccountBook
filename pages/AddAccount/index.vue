@@ -6,6 +6,7 @@
 				<im-cell 
 					:icon="item.icon" 
 					:title="item.name" 
+					:color="item.color"
 					@click.native="onAccount(item)" 
 				/>
 			</view>
@@ -17,6 +18,7 @@
 				<im-cell 
 					:icon="item.icon" 
 					:title="item.name" 
+					:color="item.color"
 					@click.native="onAccount(item)" 
 				/>
 			</view>

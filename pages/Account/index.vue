@@ -46,12 +46,12 @@
 	import AccountGroup from '../../components/AccountGroup'
 
 	import { accounts } from './Account.json'
-	// import { accountMapMixin } from '@/utils/mixins'
+	import { accountMapMixin } from '@/utils/mixins'
 
 	
 	export default {     
 		name: 'Account',
-		// mixins: [accountMapMixin],
+		mixins: [accountMapMixin],
 		created() {
 			// 初始化数据inmo-vuex
 			this.initAccountData();
@@ -75,12 +75,18 @@
 			onCapitalTrend() {
 				console.log("您太穷了...");
 			},
-			initAccountData() {
+			initAccountData() {				
 				this.$store.mutations.setCapitalAccount([]);
 				this.$store.mutations.setCreditAccount([]);
 				
 				// 分类资金账户和信用账户分别push到inmo-vuex
 				for(let item of accounts.list) {
+					// 映射minxin里的数据
+					item.name = this.mixin_accounts[item.type].name;
+					item.icon = this.mixin_accounts[item.type].icon;
+					item.color = this.mixin_accounts[item.type].color;
+					item.account_type = this.mixin_accounts[item.type].account_type;
+					
 					if(item.account_type === 1) {
 						this.$store.mutations.pushCapitalAccount(item);
 					} else {

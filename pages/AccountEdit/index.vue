@@ -1,7 +1,7 @@
 <template>
 	<view class="add_account_form-container">
 		<view class="form-header">
-			<view class="iconfont" :class="account.icon"></view>
+			<view class="iconfont" :class="account.icon" :style="{ backgroundColor: account.color }"></view>
 			<view class="form-header-text">{{ account.name }}</view>
 		</view>
 		<view class="form-wrap">
@@ -71,9 +71,10 @@
 				this.$store.getters.getAccountData()[['capitalAccount', 'creditAccount'][option.account_type - 1]].findIndex(item => item.id == option.id ? this.account = item : '');
 			} else {
 				// 新建账户根据type映射mixin的相关信息
-				const { icon, name } = { ...this.mixin_accounts[option.type] }
+				const { icon, name, color } = { ...this.mixin_accounts[option.type] }
 				this.account.icon = icon;
 				this.account.name = name;
+				this.account.color = color;
 				this.account.type = option.type;
 				this.account.account_type = Number(option.account_type);
 				this.account.id = Math.ceil(Math.random()*1000);

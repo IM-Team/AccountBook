@@ -7,6 +7,7 @@
 					:icon="item.icon"
 					:title="item.custom_name || item.name"
 					:content="item.balance"
+					:color="item.color"
 					@click.native="handleAccount(item)"
 				/>
 			</view>
