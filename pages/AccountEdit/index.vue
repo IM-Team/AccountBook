@@ -36,7 +36,7 @@
 			
 			<view class="form-item">
 				<view class="form-title">账户设置</view>
-				<im-cell title="关联账本" content="默认账本 &gt;">
+				<im-cell @click.native="inAccountBook" title="关联账本" :content="currentAccountBook">
 				</im-cell>
 			</view>
 			
@@ -59,6 +59,7 @@
 	import ImCell from '@/components/common/ImCell'
 	import { accountMapMixin } from '@/utils/mixins'
 	import { ruleOfThirds } from '@/utils/utils'
+	import { data } from '@/pages/AccountBook/data.json'
 
 	export default {
 		name: 'AccontEdit',
@@ -84,7 +85,8 @@
 			}
 		},
 		data() {
-			return {	
+			return {
+				// 当前 修改or新建 的账户
 				account: {
 					id: -1,
 					type: 0,
@@ -94,6 +96,7 @@
 					balance: '',
 					account_type: 1,
 				},
+				currentAccountBook: data[0].name,	// 当前关联的账本
 				isModifyAccount: false,	// 修改账户 or 新建账户
 				isCapitalAccount: true	// 资金账户 or 信用账户
 			}
@@ -108,6 +111,21 @@
 			}
 		},
 		methods: {
+			// 关联账本处理函数
+			inAccountBook() {
+				let AccountBook = [];
+				for(let item of data) AccountBook.push(item.name);
+				uni.showActionSheet({
+				    itemList: AccountBook,
+				    success: res => {
+						this.currentAccountBook = AccountBook[res.tapIndex];
+				        console.log('选中了第' + res.tapIndex + '个按钮');
+				    },
+				    fail: res => {
+				        console.log(res.errMsg);
+				    }
+				});
+			},
 			// 点击提交按钮的处理函数
 			handleCommit() {
 				this.commit(true);
