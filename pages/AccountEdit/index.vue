@@ -22,7 +22,7 @@
 			
 			<view class="form-item">
 				<view class="form-title">账户信息</view>
-				<im-cell title="账户余额">
+				<im-cell :title=" isCapitalAccount ? '账户余额' : '负债额度' ">
 					<input 
 						v-model="account.balance"
 						class="input-balance" 
@@ -61,6 +61,14 @@
 		name: 'AccontEdit',
 		mixins: [accountMapMixin],
 		onLoad(option) {
+			// if(option.account_type === 1) {
+			// 	true;
+			// } else {
+			// 	this.isCapitalAccount = false;
+			// }
+			console.log(option.account_type);
+			this.isCapitalAccount = option.account_type == 1 ? true : false;
+			console.log(this.isCapitalAccount);
 			// 修改账户或新建账户的相关处理
 			if(option.hasOwnProperty('id')) {
 				// 切换按钮为保存修改
@@ -76,6 +84,7 @@
 				this.account.icon = icon;
 				this.account.name = name;
 				this.account.type = option.type;
+				this.account.account_type = Number(option.account_type);
 				this.account.id = Math.ceil(Math.random()*1000);
 			}
 		},
@@ -90,7 +99,8 @@
 					balance: '',
 					account_type: 1,
 				},
-				isModifyAccount: false	// 是否为修改账户开关
+				isModifyAccount: false,	// 是否为修改账户开关
+				isCapitalAccount: true
 			}
 		},
 			components: {

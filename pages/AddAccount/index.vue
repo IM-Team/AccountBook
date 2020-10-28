@@ -54,7 +54,7 @@
 		methods: {
 			onAccount(item) {
 				uni.navigateTo({
-					url: `/pages/AccountEdit/index?type=${item.type}`
+					url: `/pages/AccountEdit/index?type=${ item.type }&account_type=${ item.account_type }`
 				});
 			}
 		}
