@@ -38,7 +38,6 @@
 						uni.navigateTo({ url: `/pages/AccountEdit/index?id=${ item.id }&account_type=${ item.account_type }` });
 						break;
 					case 2:
-						// uni.navigateTo({ url: `/pages/AccountEdit/index?type=${item.type}&balance=${ item.balance }&custom_name=${ item.custom_name }` });
 						uni.navigateTo({ url: `/pages/AccountEdit/index?id=${ item.id }&account_type=${ item.account_type }` });
 						break;
 				}
