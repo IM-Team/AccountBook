@@ -31,6 +31,10 @@
 	}, {
 		"path": "pages/Setting/index"
 
+	}, {
+		"path": "pages/AboutUs/index"
+	}, {
+		"path": "pages/UpdataLog/index"
 	}],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

@@ -1,9 +1,9 @@
 <template>
 	<view class="setting-container">
-		<view class="item">
+		<view class="item" @click="onGotoUpdataLog">
 			<im-cell title="更新记录" icon="icon-date" />
 		</view>
-		<view class="item">
+		<view class="item" @click="onGotoAboutUs">
 			<im-cell title="关于我们" icon="icon-me" />
 		</view>
 		<view class="logout-btn">退出登录</view>
@@ -20,7 +20,12 @@
 			}
 		},
 		methods: {
-			
+			onGotoUpdataLog() {
+				uni.navigateTo({ url: '/pages/UpdataLog/index' });
+			},
+			onGotoAboutUs() {
+				uni.navigateTo({ url: '/pages/AboutUs/index' });
+			}
 		},
 		components: {
 			ImCell
