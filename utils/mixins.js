@@ -7,13 +7,13 @@ const accountMapMixin = {
 					name: "支付宝",
 					icon: "icon-zhifubao",
 					account_type: 1,
-					color: "#5377FE"
+					color: "#1678ff"
 				},
 				2: {
 					name: "微信",
 					icon: "icon-weixin",
 					account_type: 1,
-					color: "#07c160"
+					color: "#03d969"
 				},
 				3: {
 					name: "银行卡",

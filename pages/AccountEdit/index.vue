@@ -36,20 +36,26 @@
 			
 			<view class="form-item">
 				<view class="form-title">账户设置</view>
-				<im-cell @click.native="inAccountBook" title="关联账本" :content="currentAccountBook">
+				<im-cell @click.native="inAccountBook" title="关联账本">
+					<view slot="content" class="account_book">
+						<text>{{ currentAccountBook }}</text>
+						<view class="iconfont icon-gengduo"></view>
+					</view>
 				</im-cell>
 			</view>
 			
 			<!-- commit button -->
-			<block v-if="isModifyAccount">
-				<view class="modify-commit-wrap">
-					<view class="del-btn" @click="handleDelete">删除</view>
-					<view class="save-btn" @click="handleSave">保存</view>
-				</view>
-			</block>
-			<block v-else>
-				<view class="form-commit" @click="handleCommit">新建账户</view>
-			</block>
+			<view class="commit-btn-wrap">
+				<block v-if="isModifyAccount">
+					<view class="modify-commit-wrap">
+						<view class="del-btn" @click="handleDelete">删除</view>
+						<view class="save-btn" @click="handleSave">保存</view>
+					</view>
+				</block>
+				<block v-else>
+					<view class="form-commit" @click="handleCommit">新建账户</view>
+				</block>
+			</view>
 		</view>
 	</view>
 </template>
@@ -219,6 +225,16 @@
 		font-size: 28rpx;
 		color: #999;
 	}
+	.account_book {
+		display: flex;
+		align-items: center;
+	}
+	.account_book .iconfont {
+		padding-left: 10rpx;
+	}
+	.commit-btn-wrap {
+		padding-top: 32rpx;
+	}
 	.form-commit {
 		padding: 32rpx 0;
 		border-radius: calc((100vw - 32 * 2rpx) / 2);
@@ -229,22 +245,24 @@
 	}
 	.modify-commit-wrap {
 		display: flex;
+		border-radius: calc(100vw - 32rpx * 2);
+		overflow: hidden;
 	}
 	.del-btn,
 	.save-btn {
 		flex: 1;
 		padding: 28rpx 0;
-		margin: 0 32rpx ;
-		border-radius: calc((100vw/2) - (32rpx * 2) - (32rpx * 2));
 		font-size: 32rpx;
 		text-align: center;
 		color: #fff;
 	}
 	.save-btn {
+		color: #FFFFFF;
 		background-color: #188AFF;
 	}
 	.del-btn {
-		background-color: #FF4949;
+		color: #FF4949;
+		background-color: #fff;
 	}
 	.input-account,
 	.input-balance,
