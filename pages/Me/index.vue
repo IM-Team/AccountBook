@@ -35,10 +35,10 @@
 					<view slot="content" class="iconfont icon-gengduo"></view>
 				</im-cell>
 			</view>
-			<view class="profile-item">
+			<view class="profile-item" @click="onGotoFeedback">
 				<im-cell icon="icon-yijianfankui" title="意见反馈" />
 			</view>
-			<view class="profile-item">
+			<view class="profile-item" @click="onGotoSetting">
 				<im-cell icon="icon-shezhi" title="设置">
 					<view slot="content" class="iconfont icon-gengduo"></view>
 				</im-cell>
@@ -69,9 +69,13 @@
 				uni.navigateTo({ url: '/pages/AccountBook/index' });
 			},
 			onGotoCate() {
-				uni.navigateTo({
-					url: '/pages/CategoryEdit/index'
-				})
+				uni.navigateTo({ url: '/pages/CategoryEdit/index' })
+			},
+			onGotoFeedback() {
+				uni.navigateTo({ url: '/pages/Feedback/index' })
+			},
+			onGotoSetting() {
+				uni.navigateTo({ url: '/pages/Setting/index' })
 			},
 			handleLogin() {
 				// uni.login({
