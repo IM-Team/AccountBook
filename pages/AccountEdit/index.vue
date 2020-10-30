@@ -39,7 +39,7 @@
 				<im-cell title="关联账本" content="默认账本 &gt;">
 				</im-cell>
 			</view>
-			
+
 			<!-- commit button -->
 			<block v-if="isModifyAccount">
 				<view class="form-commit" @click="handleSave">保存修改</view>
@@ -52,9 +52,8 @@
 </template>
 
 <script>
-	
+
 	import ImCell from '@/components/common/ImCell'
-	
 	import { accountMapMixin } from '@/utils/mixins'
 
 	export default {
@@ -120,7 +119,7 @@
 					});
 				} else {
 					switch(this.account.account_type) {
-						case 1: 
+						case 1:
 							if(isAddAccount) {
 								// 向inmo-vuex的资金账户栈中推入新建账户
 								this.$store.mutations.pushCapitalAccount(this.account);
@@ -128,7 +127,7 @@
 								// 根据账户ID在inmo-vuex中修改账户相关新
 								this.$store.mutations.setCapitalAccountAttribute(this.account);
 							}
-							break;
+                            break;
 						case 2:
 							if(isAddAccount) {
 								// 向inmo-vuex的资金账户栈中推入新建账户

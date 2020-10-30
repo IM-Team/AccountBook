@@ -3,7 +3,11 @@
 		v-if="canvasId"
 		:id="canvasId"
 		:canvasId="canvasId"
-		:style="{'width':cWidth*pixelRatio+'px','height':cHeight*pixelRatio+'px', 'transform': 'scale('+(1/pixelRatio)+')','margin-left':-cWidth*(pixelRatio-1)/2+'px','margin-top':-cHeight*(pixelRatio-1)/2+'px'}"
+		:style="{
+            'width':cWidth*pixelRatio+'px',
+            'height':cHeight*pixelRatio+'px', 
+            'transform': 'scale('+(1/pixelRatio)+')'
+        }"
 		@touchstart="touchStart"
 		@touchmove="touchMove"
 		@touchend="touchEnd"

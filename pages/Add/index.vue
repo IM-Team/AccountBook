@@ -31,13 +31,14 @@
 	import EditArea 	from '@/components/Add/EditArea'
 	import TypeSwiper 	from '@/components/Add/TypeSwiper'
     import Keyboard 	from '@/components/Add/Keyboard'
-    
+
 	export default {
 		data() {
 			return {
                 isFromBillDetail: false,
                 digitList: ['0'],
-				info: {}
+				info: {},
+				oldDate: ''
 			}
 		},
 		created() {
@@ -61,12 +62,15 @@
                     const bt = this.$store.getters.getBillDetail()
                     this.digitList = bt.price.split('')
                     this.info = bt
+					
+					// 记录旧的时间
+					this.oldDate = bt.date
                 } else {
                     this.info = this.$store.mutations.setBillDetail({
                         id: -1,
                         turnover_type: 1,
                         price: "0.00",
-                        note: '还有有写!',
+                        note: '还没有写!',
                         date: Date.now(),
                         account: '现金',
                         category: {
@@ -77,7 +81,7 @@
                         }
                     })
                 }
-            },
+            }, // end init
             onToggle(type) {
                 this.info.turnover_type = type
             },
@@ -85,11 +89,8 @@
 				this.digitList = v
             },
             onConfirm() {
-				
 				this.fixDicimalPoint()
-
-                const id = this.info.id
-                id > 0 ? this.updateInfo(id) : this.addTurnover()
+                this.isFromBillDetail ? this.updateInfo() : this.addTurnover()
 
                 uni.navigateBack()
             },
@@ -106,19 +107,133 @@
                     this.info.price += '0'
                 }
             },
-            updateInfo(id) {
+            updateInfo2() {
+
                 const turnoverData = this.$store.getters.getTurnoverData()
-                turnoverData.turnovers.some(turnover => {
-                    const index = turnover.list.findIndex(item => item.id === id)
+				
+				const date = new Date(this.info.date)
+				// 在本地对象
+				if (this.info.date !== this.oldDate && 
+					turnoverData.year === date.getFullYear() &&
+					turnoverData.month === date.getMonth() + 1) {
+					
+					const findDay = date.getDate()
+					const findedIndex = turnoverData.turnovers.findIndex(item => item.day === findDay)
 
-                    if (index !== -1) {
-                        this.$set(turnover.list, index, this.info)
-                        return true
-                    }
-
-                    return false
-                })
+					// 流水对象有对应的
+					if (findedIndex !== -1) {
+						const turnvoer = turnoverData.turnovers[findedIndex]
+						turnvoer.list.push(this.info)
+					} else {
+						console.log('push');
+						turnoverData.turnovers.push({
+							day: date.getDate(),
+							list: [this.info]
+						})
+					}
+				} else {
+					// update request
+				}
+				
+				console.log(turnoverData);
+				
+                turnoverData.turnovers.some(this.modifyTurnvoer)
             },
+			updateInfo() {
+				
+				const turnoverData = this.$store.getters.getTurnoverData(),
+					  turnovers = turnoverData.turnovers,
+					  tId = this.info.id
+				
+				const isUpdateDate = this.info.date !== this.oldDate
+				
+				// 不需更新日期
+				const modifyPos = this.findTurnvoerOfLocal(turnovers, 'id', tId)
+				if (!isUpdateDate) {
+					this.$set(turnovers[modifyPos[0]].list, modifyPos[1], this.info)
+					return
+				}
+				
+				// ========== Need Update Date ===========
+				
+				const targetDate = this.formatDateToObj(this.info.date)
+
+				// 3 目标日期是否在本地
+				const isInLocal = targetDate.year === turnoverData.year &&
+								  targetDate.month === turnoverData.month;
+				
+				// 4 找到目标日期
+				const targetIndex = turnovers.findIndex(item => item.day === targetDate.day)
+				
+				// 清除之前的
+				if (turnovers[modifyPos[0]].list.length === 1) {
+					this.$delete(turnovers, modifyPos[0])
+				} else {
+					this.$delete(turnovers[modifyPos[0]].list, modifyPos[1])
+				}
+				
+				// 在本地但没有对应的日期对象
+				if (isInLocal && targetIndex === -1) {
+					turnovers.unshift({
+						day: targetDate.day,
+						list: [this.info]
+					})
+				} else if (isInLocal && targetIndex !== -1) {
+					turnovers[targetIndex].list.push(this.info)
+				} else {
+					// send request
+					console.log('Send request');
+				}
+			},
+			
+			/**
+			 * @params {Object} turnovers	总流水对象
+			 * @params {String} key			根据流水的 key 查找：item[key]
+			 * @params {String} value		预期的 value : item[key] === value
+			 * @return {Array} turnoverPos	返回这个流水在 turnover 对象中的位置：[level1, level2]
+			 */
+			findTurnvoerOfLocal(turnovers, key, value) {
+				
+				const turnoverPos = []
+				turnovers.some((turnover, _tIndex) => {
+					
+					const index = turnover.list.findIndex(item => item[key] === value)
+					
+					if (index !== -1) {
+						turnoverPos.push(_tIndex)
+						turnoverPos.push(index)
+						return true
+					}
+				
+					return false
+				})
+				
+				return turnoverPos.length ?  turnoverPos : null
+			},
+			formatDateToObj(timestamp) {
+				const date = new Date(timestamp)
+				return {
+					year: date.getFullYear(),
+					month: date.getMonth() + 1,
+					day: date.getDate()
+				}
+			},
+			modifyTurnvoer(turnover) {
+				// 查找修改的元素
+				const id = this.info.id
+				const index = turnover.list.findIndex(item => item.id === id)
+				if (index !== -1) {
+					if (this.info.date !== this.oldDate) {
+						this.$delete(turnover.list, index)
+					} else {
+						this.$set(turnover.list, index, this.info)
+					}
+			
+					return true
+				}
+
+				return false
+			},
             addTurnover() {
                 const date = new Date(this.info.date)
                 const day = date.getDate()
@@ -132,17 +247,14 @@
                     const index = turnoverData.turnovers.findIndex(item => item.day === day)
 
                     if (index === -1) {
-                        turnoverData.turnovers.push({
-                            day,
-                            list: [this.info]
-                        })
+                        turnoverData.turnovers.push({ day, list: [this.info] })
                     } else {
                         turnoverData.turnovers[index].list.push(this.info)
                     }
                 } else {
                     // 发送网络请求
                 }
-            }
+            } // end addTurnover
 		}
 	}
 </script>

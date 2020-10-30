@@ -77,8 +77,8 @@
 			},
 			initAccountData() {
 				this.$store.mutations.setCapitalAccount([]);
-				this.$store.mutations.setCreditAccount([]);
-				
+                this.$store.mutations.setCreditAccount([]);
+
 				// 分类资金账户和信用账户分别push到inmo-vuex
 				for(let item of accounts.list) {
 					if(item.account_type === 1) {
@@ -86,7 +86,8 @@
 					} else {
 						this.$store.mutations.pushCreditAccount(item);
 					}
-				}
+                }
+
 				// 关联inmo-vuex数据
 				this.capitalAccount = this.$store.getters.getAccountData().capitalAccount;
 				this.creditAccount = this.$store.getters.getAccountData().creditAccount;
