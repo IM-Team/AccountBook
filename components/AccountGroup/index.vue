@@ -7,6 +7,7 @@
 					:icon="item.icon"
 					:title="item.custom_name || item.name"
 					:content="item.balance"
+					:color="item.color"
 					@click.native="handleAccount(item)"
 				/>
 			</view>
@@ -35,11 +36,10 @@
 			handleAccount(item) {
 				switch(item.account_type) {
 					case 1:
-						uni.navigateTo({ url: `/pages/AccountEdit/index?id=${ item.id }` });
+						uni.navigateTo({ url: `/pages/AccountEdit/index?id=${ item.id }&account_type=${ item.account_type }` });
 						break;
 					case 2:
-						// uni.navigateTo({ url: `/pages/AccountEdit/index?type=${item.type}&balance=${ item.balance }&custom_name=${ item.custom_name }` });
-						uni.navigateTo({ url: `/pages/AccountEdit/index?id=${ item.id }` });
+						uni.navigateTo({ url: `/pages/AccountEdit/index?id=${ item.id }&account_type=${ item.account_type }` });
 						break;
 				}
 			}

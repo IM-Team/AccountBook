@@ -17,7 +17,11 @@
 				:style="{transform: `rotateY(${-(startX - moveX)/10}deg) rotateX(${(startY - moveY)/8}deg)`}"
 			>
 				<view class="user-avatar-wrap">
+<<<<<<< HEAD
 					<!-- <image class="user-avatar" src="../../static/image/icon_me.png" mode="widthFix"></image> -->
+=======
+					<image class="user-avatar" src="https://api.r10086.com/动漫综合1.php" mode="widthFix"></image>
+>>>>>>> 120542dda921be1c9680be84e7c96de94ce949d0
 				</view> 
 				<text class="login-tip">IM Team</text>
 			</view>
@@ -25,15 +29,20 @@
 		<!-- *end* login -->
 		
 		<view class="profile-group">
+			<view class="profile-item" @click="onGotoAccountBook">
+				<im-cell icon="icon-date" title="账本">
+					<view slot="content" class="iconfont icon-gengduo"></view>
+				</im-cell>
+			</view>
 			<view class="profile-item" @click="onGotoCate">
 				<im-cell icon="icon-fenlei" title="分类">
 					<view slot="content" class="iconfont icon-gengduo"></view>
 				</im-cell>
 			</view>
-			<view class="profile-item">
+			<view class="profile-item" @click="onGotoFeedback">
 				<im-cell icon="icon-yijianfankui" title="意见反馈" />
 			</view>
-			<view class="profile-item">
+			<view class="profile-item" @click="onGotoSetting">
 				<im-cell icon="icon-shezhi" title="设置">
 					<view slot="content" class="iconfont icon-gengduo"></view>
 				</im-cell>
@@ -60,10 +69,17 @@
 			ImCell
 		},
 		methods: {
+			onGotoAccountBook() {
+				uni.navigateTo({ url: '/pages/AccountBook/index' });
+			},
 			onGotoCate() {
-				uni.navigateTo({
-					url: '/pages/CategoryEdit/index'
-				})
+				uni.navigateTo({ url: '/pages/CategoryEdit/index' })
+			},
+			onGotoFeedback() {
+				uni.navigateTo({ url: '/pages/Feedback/index' })
+			},
+			onGotoSetting() {
+				uni.navigateTo({ url: '/pages/Setting/index' })
 			},
 			handleLogin() {
 				// uni.login({

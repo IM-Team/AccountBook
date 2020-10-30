@@ -45,11 +45,14 @@ const mutations = {
 		const index = state.accountData.creditAccount.findIndex(item => item.id == option.id);
 		return state.accountData.creditAccount[index] = option;
 	},
-
 	pushCreditAccount(data) {
 		return state.accountData.creditAccount.push(data);
     },
-    
+	popAccount(type, data) {
+		const index = state.accountData[type].findIndex(item => item.id == data.id);
+		return state.accountData[type].splice(index, 1);
+	},
+  
     setAccountBooks(data) {
         return Vue.set(state, 'accountBooks', data)
     }

@@ -2,7 +2,7 @@
 	"pages": [{
 		"path": "pages/Index/index",
 		"style": {
-			"navigationStyle":"custom"
+			"navigationStyle": "custom"
 		}
 	}, {
 		"path": "pages/Turnover/index"
@@ -24,9 +24,18 @@
 		"path": "pages/AddCategory/index"
 	}, {
 		"path": "pages/AccountEdit/index"
-    }, {
-        "path": "pages/AccountBookAdd/index"
-    }],
+	}, {
+		"path": "pages/AccountBookAdd/index"
+	}, {
+		"path": "pages/Feedback/index"
+	}, {
+		"path": "pages/Setting/index"
+
+	}, {
+		"path": "pages/AboutUs/index"
+	}, {
+		"path": "pages/UpdataLog/index"
+	}],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "记账本",
