@@ -82,6 +82,7 @@
                     })
                 }
             }, // end init
+            
             onToggle(type) {
                 this.info.turnover_type = type
             },
@@ -156,9 +157,9 @@
 			},
 			
 			/**
-			 * @params {Object} turnovers	总流水对象
-			 * @params {String} key			根据流水的 key 查找：item[key]
-			 * @params {String} value		预期的 value : item[key] === value
+			 * @param {Object} turnovers	总流水对象
+			 * @param {String} key			根据流水的 key 查找：item[key]
+			 * @param {String} value		预期的 value : item[key] === value
 			 * @return {Array} turnoverPos	返回这个流水在 turnover 对象中的位置：[level1, level2]
 			 */
 			findTurnvoerOfLocal(turnovers, key, value) {
