@@ -8,8 +8,8 @@
 			</view>
 		</view>
 		<view class="cell"
-			v-for="(item, index) in dayData.list"
-			:key="index"
+			v-for="item in dayData.list"
+			:key="item.id"
 			@click="onTap(item)">
 			<im-cell
 				:title="item.category.name"

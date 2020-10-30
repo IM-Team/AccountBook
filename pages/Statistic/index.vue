@@ -1,63 +1,146 @@
 <template>
 	<view class="statistic-container">
-		<view class="form-wrap">
-			<view class="statistic-type">
-				<view class="income active">收入</view>
-				<view class="spend">支出</view>
-			</view>
-			<picker
-				mode="date"
-				fields="month"
-				:value="date"
-				:start="startDate"
-				:end="endDate"
-				@change="onDateChange">
-				<view class="calendar">{{ date }}</view>
-			</picker>
+		<statistic-header
+			:current-index="currentIndex"
+			@changeIndex="onChangeIndex"
+			@changeDate="onChangeDate" />
+		<view class="sub-container">
+			<canvas
+				class="charts"
+				canvas-id="pie-canvas"
+				@touchstart="touchPie"></canvas>
 		</view>
-		
-		<statistic-chart />
-		
-		<view class="classify-wrap">
-			<view class="classify" v-for="(item, index) in 5" :key="index">
-				<view class="title">
-					<view class="iconfont icon-yaowan"></view>
-					<view class="title-text">药品</view>
-				</view>
-				<view class="scale">33.5%</view>
-				<view class="total">560.00</view>
-			</view>
-		</view>
+		<statistic-list :series="currentData" />
 	</view>
 </template>
 
 <script>
 	
-	import StatisticChart from '@/components/StatisticChart'
+	import uCharts from '@/common/charts/u-charts.min.js'
+	import StatisticHeader from '@/components/Statistic/StastisticHeader'
+	import StatisticList from '@/components/Statistic/StatisticList'
+
+	let pieCanvas = null
 
 	export default {
 		data() {
 			return {
-				date: '2000-01-01',
-				startDate: '2000-01-01',
-				endDate: '2000-01-01'
+                data: {},
+                currentIndex: 0,
+				cWidth: 335,
+				cHeight: 300,
+				pixelRatio: 1,
+				currentData: []
 			}
 		},
 		components: {
-			StatisticChart
+			// StatisticChart
+			StatisticHeader,
+			StatisticList
 		},
 		created() {
-			const date = new Date()
-			const currentDate = `${date.getFullYear()}-${date.getMonth() + 1}`
-			this.date = currentDate
-			this.endDate = currentDate
+            this.initChartData()
+			this.currentData = this.deReactive(this.data.income)
+        },
+		mounted() {
+			this.createPie(this.currentData)
+		},
+		watch: {
+			currentIndex(newData) {
+				const tmpVal = this.currentIndex ? this.data.expense : this.data.income
+				const tmpData = this.deReactive(tmpVal)
+
+				this.currentData = tmpData
+				pieCanvas.updateData({ series: tmpData })
+			}
 		},
 		methods: {
-			onDateChange(e) {
-				this.date = e.target.value
+			onChangeDate(date) {
+				this.date = date
+			},
+			onChangeIndex(index) {
+				this.currentIndex = index
+			},
+            initChartData() {
+
+                const turnoverData = this.$store.getters.getTurnoverData(),
+                    flatArr = [];
+
+                const pieData = {
+                    income: [],
+                    expense: []
+                }
+
+                // 扁平化
+                turnoverData.turnovers.forEach(dayTurnover => flatArr.push(...dayTurnover.list))
+
+                // 分类
+                flatArr.forEach(dayTurnover => {
+                    this.addTo({
+                        arr: dayTurnover.turnover_type === 1 ? pieData.income : pieData.expense,
+                        name: dayTurnover.category.name, 
+                        price: dayTurnover.price
+                    })
+                })
+
+                this.data = pieData
+            },
+            addTo({arr, name, price}) {
+                const pieItem = arr.find(item => item.name === name)
+
+                if (pieItem) {
+                    pieItem.data = parseFloat(pieItem.data + parseFloat(price)).toFixed(2)
+                } else {
+                    arr.push({
+                        name: name,
+                        data: parseFloat(price).toFixed(2)
+                    })
+                }
+            },
+			createPie(series) {
+				pieCanvas = new uCharts({
+					$this: this,
+					canvasId: 'pie-canvas',
+					type: 'pie',
+					fontSize: 12,
+					legend: {
+						show: true
+					},
+					background: '#FFFFFF',
+					pixelRatio: this.pixelRatio,
+					series: this.currentData,
+					animation: true,
+					width: this.cWidth,
+					height: this.cHeight,
+					dataLabel: true,
+					extra: {
+						pie: {
+							labelWidth: 14
+						}
+					}
+				})
+			},
+			touchPie(e){
+				pieCanvas.showToolTip(e, {
+					format: (item) => `${item.name} : ${item.data}`
+				})
+			},
+			deReactive(data = []) {
+				
+				const result = []
+
+				for (let item of data) {
+					result.push({
+						name: item.name,
+						data: parseFloat(item.data)
+					})
+				}
+				
+				return result
 			}
 		}
 	}
+	
 </script>
 
 <style scoped>
@@ -65,84 +148,11 @@
 	.statistic-container {
 		padding: 16rpx 32rpx;
 	}
-
-	.statistic-container .form-wrap {
-		display: flex;
-		justify-content: space-between;
-		padding-bottom: 32rpx;
+	
+	.charts {
+		width: 100%;
+		min-height: 580rpx;
+		max-height: 50vh;
 	}
-
-	.form-wrap .statistic-type {
-		display: flex;
-		width: 200rpx;
-		border: solid 1px #188AFF;
-		border-radius: 26px;
-		overflow: hidden;
-	}
-
-	.form-wrap .calendar {
-		width: 200rpx;
-		height: 54rpx;
-		line-height: 54rpx;
-		font-size: 28rpx;
-		text-align: center;
-		border: solid 1px #188AFF;
-		border-radius: 100rpx;
-		color: #188AFF;
-	}
-
-	/* statistic in style */
-	.statistic-type .income,
-	.statistic-type .spend {
-		flex: 1;
-		height: 54rpx;
-		line-height: 54rpx;
-		font-size: 28rpx;
-		text-align: center;
-		color: #188AFF;
-	}
-
-	.statistic-type .active {
-		color: #fff;
-		background-color: #188AFF;
-	}
-
-
-	.chart-wrap {
-		height: 400rpx;
-		background-color: #eee;
-	}
-
-	.classify-wrap {
-		padding-top: 32rpx;
-	}
-
-	.classify-wrap .classify {
-		display: flex;
-		justify-content: space-between;
-		font-size: 28rpx;
-		padding: 32rpx;
-		line-height: 60rpx;
-		border-radius: 10px;
-		margin-bottom: 28rpx;
-		background-color: #fff;
-	}
-
-	.classify .title {
-		display: flex;
-	}
-
-	.title .iconfont {
-		width: 60rpx;
-		height: 60rpx;
-		line-height: 60rpx;
-		text-align: center;
-		border-radius: 50%;
-		color: #fff;
-		background-color: #188AFF;
-	}
-
-	.title .title-text {
-		padding-left: 16rpx;
-	}
+	
 </style>

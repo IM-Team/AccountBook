@@ -14,7 +14,7 @@
 						fields="day"
 						:value="date"
 						:start="startDate"
-						:end="date"
+						:end="endDate"
 						@change="onDateChange">
 						<view class="calendar">{{ date }}</view>
 					</picker>
@@ -43,6 +43,7 @@
 				digitList: [0],
 				date: '2000-01-01',
                 startDate: '2000-01-01',
+				endDate: '2000-01-01',
                 info: {}
 			}
 		},
@@ -52,14 +53,27 @@
 		methods: {
             init() {
                 this.info = this.$store.getters.getBillDetail()
-                const date = new Date(this.info.date)
-                this.date = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+				this.date = this.dateFormat(this.info.date)
+				
+				// 非从 billDetail 进来
+				if (this.info.id === -1) {
+					this.endDate = this.date
+				} else {
+					this.endDate = this.dateFormat()
+				}
             },
 			onDateChange(e) {
-                const date = new Date(e.target.value)
-
                 this.date = e.target.value
-                this.$emit('change-date', date.getTime())
+
+                const date = new Date(e.target.value)
+                this.$emit('changeDate', date.getTime())
+			},
+			dateFormat(timestamp) {
+				
+				timestamp = timestamp || Date.now()
+				
+				const date = new Date(timestamp)
+				return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
 			}
 		}
 	}

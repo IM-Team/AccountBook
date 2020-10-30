@@ -23,7 +23,7 @@
 
 <script>
 	
-	import CustomNavbar 		from '@/components/CustomNavbar'
+	import CustomNavbar from '@/components/CustomNavbar'
 	import Turnover 	from '@/pages/Turnover'
 	import Account 		from '@/pages/Account'
 	import Statistic 	from '@/pages/Statistic'

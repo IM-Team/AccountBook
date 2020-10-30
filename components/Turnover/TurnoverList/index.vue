@@ -1,9 +1,11 @@
 <template>
 	<view class="turnover_list-container">
-		<turnover-of-day
-			v-for="(item, index) in turnovers"
-			:day-data="item"
-			:key="index" />
+		<template v-for="(item, index) in turnovers">
+			<turnover-of-day
+				v-if="item.list.length"
+				:day-data="item"
+				:key="index" />
+		</template>
 	</view>
 </template>
 

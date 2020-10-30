@@ -43,7 +43,7 @@
 					</view>
 				</im-cell>
 			</view>
-			
+
 			<!-- commit button -->
 			<view class="commit-btn-wrap">
 				<block v-if="isModifyAccount">
@@ -61,7 +61,7 @@
 </template>
 
 <script>
-	
+
 	import ImCell from '@/components/common/ImCell'
 	import { accountMapMixin } from '@/utils/mixins'
 	import { ruleOfThirds } from '@/utils/utils'
