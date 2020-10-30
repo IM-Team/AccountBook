@@ -106,18 +106,25 @@
 				this.currentPickIcon = index
 			},
 			onConfirm() {
-				uni.setStorage({
-					key: 'tmpCateInfo',
-					data: {
-						type: this.type,
-						name: this.name,
-						color: this.pickColor,
-						icon: this.icons[this.currentPickIcon]
-					},
-					success: () => {
-						uni.navigateBack()
-					}
-				})
+				if(this.name = this.name.replace(/(^\s*)|(\s*$)/g, "")) {
+					uni.setStorage({
+						key: 'tmpCateInfo',
+						data: {
+							type: this.type,
+							name: this.name,
+							color: this.pickColor,
+							icon: this.icons[this.currentPickIcon]
+						},
+						success: () => {
+							uni.navigateBack()
+						}
+					})
+				} else {
+					uni.showToast({
+						icon: "none",
+						title: "请输入分类名"
+					})
+				}
 			}
 		}
 	}

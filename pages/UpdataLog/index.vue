@@ -1,14 +1,14 @@
 <template>
 	<view class="updata_log-container">
-		<view class="log-wrap" v-for="(item, index) in 3" :key="index">
+		<view class="log-wrap" v-for="(item, index) in updata_log" :key="index">
 			<view class="log-header">
 				<view class="log-icon"><view class="iconfont icon-date"></view></view>
-				<view class="log-date">2020.10.29</view>
+				<view class="log-date">{{ item.date }}</view>
 			</view>
 			<view class="log-content">
-				<view class="log-item" v-for="(item, index) in 3" :key="index">
-					<view class="log-item-label">优化</view>
-					<view class="log-item-value">提高程序的稳定性</view>
+				<view class="log-item" v-for="(twig, index) in item.logs" :key="index">
+					<view class="log-item-label">{{ twig.lable }}</view>
+					<view class="log-item-value">{{ twig.value }}</view>
 				</view>
 			</view>
 		</view>
@@ -19,7 +19,60 @@
 	export default {
 		data() {
 			return {
-				
+				updata_log: [
+					{
+						date: '2020.10.29',
+						logs: [
+							{
+								lable: '优化',
+								value: '提高程序的稳定性'
+							},
+							{
+								lable: '优化',
+								value: '程序的流畅度'
+							},
+							{
+								lable: '修复',
+								value: '登录失败'
+							}
+						]
+					},
+					{
+						date: '2020.10.29',
+						logs: [
+							{
+								lable: '优化',
+								value: '提高程序的稳定性'
+							},
+							{
+								lable: '优化',
+								value: '程序的流畅度'
+							},
+							{
+								lable: '修复',
+								value: '登录失败'
+							}
+						]
+					},
+					{
+						date: '2020.10.29',
+						logs: [
+							{
+								lable: '优化',
+								value: '提高程序的稳定性'
+							},
+							{
+								lable: '优化',
+								value: '程序的流畅度'
+							},
+							{
+								lable: '修复',
+								value: '登录失败'
+							}
+						]
+					},
+					
+				]
 			}
 		},
 		methods: {

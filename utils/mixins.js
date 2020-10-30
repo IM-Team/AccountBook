@@ -37,7 +37,7 @@ const accountMapMixin = {
 					name: "花呗",
 					icon: "icon-huabei",
 					account_type: 2,
-					color: "#5377FE"
+					color: "#1678ff"
 				},
 				7: {
 					name: "信用卡",
