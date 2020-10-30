@@ -101,20 +101,14 @@ function deepClone(target) {
 		return target
 	}
 
-	// 哈希表中存在，直接返回
-	// if (hash.has(target)) return hash.get(target)
-	
 	const cloneResult = Array.isArray(target) ? [] : {}
-	// hash.set(target, cloneResult)
-	
+
 	for (const key in target) {
-		// target[key] 属性是自身的，而不是原型链上的属性
 		if (Object.prototype.hasOwnProperty.call(target, key)) {
 			
 			const value = target[key]
 			
 			if (typeof value === 'object' && value !== null) {
-				// cloneResult[key] = deepClone(value, hash)
 				cloneResult[key] = deepClone(value)
 			} else {
 				cloneResult[key] = value

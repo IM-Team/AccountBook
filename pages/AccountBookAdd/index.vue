@@ -52,7 +52,7 @@
                 const accountBooks = this.$store.getters.getAccountBooks()
 
                 accountBooks.push({
-                    id: -1,
+                    id: (Math.random().toFixed(3) * 1000).toFixed(0),
                     name: this.input,
                     color: this.currentColor
                 })

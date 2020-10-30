@@ -2,12 +2,14 @@
 	<view class="navbar"
         :style="{ paddingTop: top + 'px' }"
         @click="gotoAccountBook">
-		<text>默认账本</text>
+		<text>{{ currentAccountBook.name }}</text>
         <text class="iconfont icon-right"></text>
 	</view>
 </template>
 
 <script>
+	
+	import res from './data.json'
 	
 	export default {
 		name: 'Navbar',
@@ -16,6 +18,15 @@
 				type: Number,
 				required: true
 			}
+		},
+		data() {
+			return {
+				currentAccountBook: {}
+			}
+		},
+		created() {
+			this.$store.mutations.setAccountBooks(res.data)
+			this.currentAccountBook = this.$store.mutations.setCurrentAccountBook(res.data[0])
 		},
 		methods: {
 			gotoAccountBook() {

@@ -9,7 +9,8 @@ const state = Vue.observable({
 		capitalAccount: [],
 		creditAccount: []
     },
-    accountBooks: []
+    accountBooks: [],
+	currentAccountBook: {}
 })
 
 // 所有修改的监听数据都要通过 mutations 修改
@@ -55,7 +56,15 @@ const mutations = {
   
     setAccountBooks(data) {
         return Vue.set(state, 'accountBooks', data)
-    }
+    },
+	setCurrentAccountBook(accountBook) {
+		
+		Vue.set(state.currentAccountBook, 'id', accountBook.id)
+		Vue.set(state.currentAccountBook, 'name', accountBook.name)
+		Vue.set(state.currentAccountBook, 'color', [...accountBook.color])
+
+		return state.currentAccountBook
+	}
 }
 
 // 所有获取监听数据都要通过 getters 获取
@@ -74,7 +83,10 @@ const getters = {
     },
     getAccountBooks() {
         return state.accountBooks
-    }
+    },
+	getCurrentAccountBook() {
+		return state.currentAccountBook
+	}
 }
 
 export default {

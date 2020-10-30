@@ -1,12 +1,12 @@
 <template>
 	<view class="account_book-container">
         <view class="account_book"
-            v-for="(item, index) in data" :key="item.id"
-            :class="{ active: index === currentIndex}"
+            v-for="item in accountList" :key="item.id"
+            :class="{ active: item.id === currentId}"
             :style="{
                 backgroundImage: `linear-gradient(to top, ${item.color[0]} 0%, ${item.color[1]} 100%)`
             }"
-            @click="onToggle(index)">
+            @click="onToggle(item)">
             <text class="name">{{ item.name }}</text>
         </view>
         <view class="account_book account_book-add" @click="onAdd">
@@ -16,22 +16,23 @@
 </template>
 
 <script>
-
-	import res from './data.json'
 	
 	export default {
+		name: 'AccountBook',
 		data() {
 			return {
-                data: [],
-                currentIndex: 0
+                accountList: [],
+                currentId: 0
 			}
         },
         created() {
-            this.data = this.$store.mutations.setAccountBooks(res.data)
+            this.accountList = this.$store.getters.getAccountBooks()
+			this.currentId = this.$store.getters.getCurrentAccountBook().id
         },
 		methods: {
-            onToggle(index) {
-                this.currentIndex = index
+            onToggle(accountBook) {
+                this.currentId = accountBook.id
+				this.$store.mutations.setCurrentAccountBook(accountBook)
             },
             onAdd() {
                 uni.navigateTo({ url: '/pages/AccountBookAdd/index' })

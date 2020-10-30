@@ -65,7 +65,7 @@
 	import ImCell from '@/components/common/ImCell'
 	import { accountMapMixin } from '@/utils/mixins'
 	import { ruleOfThirds } from '@/utils/utils'
-	import { data } from '@/pages/AccountBook/data.json'
+	import { data } from './data.json'
 
 	export default {
 		name: 'AccontEdit',
@@ -78,7 +78,9 @@
 				// 切换按钮为保存修改
 				this.isModifyAccount = true;
 				// 以ID为索引在inmo-vuex中找到对应的账户并复制给当前的this.account
-				this.$store.getters.getAccountData()[['capitalAccount', 'creditAccount'][option.account_type - 1]].findIndex(item => item.id == option.id ? this.account = item : '');
+				this.$store.getters.getAccountData()
+					[['capitalAccount', 'creditAccount'][option.account_type - 1]]
+					.findIndex(item => item.id == option.id ? this.account = item : '');
 			} else {
 				// 新建账户根据type映射mixin的相关信息
 				const { icon, name, color } = { ...this.mixin_accounts[option.type] }

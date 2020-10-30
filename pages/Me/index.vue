@@ -11,7 +11,7 @@
 		<block v-else>
 			<view class="user-info">
 				<view class="user-avatar-wrap">
-					<image class="user-avatar" src="https://api.r10086.com/动漫综合1.php" mode="widthFix"></image>
+					<!-- <image class="user-avatar" src="https://api.r10086.com/动漫综合1.php" mode="widthFix"></image> -->
 				</view>
 				<text class="login-tip">IM Team</text>
 			</view>

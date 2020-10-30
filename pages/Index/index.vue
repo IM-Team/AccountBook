@@ -1,6 +1,7 @@
 <template>
 	<view class="index-container">
 		<custom-navbar :top="navbarTop" />
+		
 		<view class="main" :style="{ paddingTop: navbarTop + 44 + 'px' }">
 			<!-- Tab pages -->
 			<turnover v-if="currentIndex === 0" />
