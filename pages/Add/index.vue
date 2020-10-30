@@ -147,7 +147,8 @@
 						list: [this.info]
 					})
 				} else if (isInLocal && targetIndex !== -1) {
-					turnovers[targetIndex].list.push(this.info)
+					const offsetIndex = modifyPos[0] > targetIndex ? targetIndex : targetIndex - 1
+					turnovers[offsetIndex].list.push(this.info)
 				} else {
 					// send request
 					console.log('Send request');
