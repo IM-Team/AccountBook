@@ -9,7 +9,10 @@
 	}, {
 		"path": "pages/Account/index"
 	}, {
-		"path": "pages/AddAccount/index"
+		"path": "pages/AddAccount/index",
+		"style": {
+			"navigationBarTitleText": "添加账户"
+		}
 	}, {
 		"path": "pages/Add/index"
 	}, {
@@ -17,22 +20,42 @@
 	}, {
 		"path": "pages/Me/index"
 	}, {
-		"path": "pages/AccountBook/index"
+		"path": "pages/AccountBook/index",
+		"style": {
+			"navigationBarTitleText": "账本"
+		}
 	}, {
-		"path": "pages/CategoryEdit/index"
+		"path": "pages/CategoryEdit/index",
+		"style": {
+			"navigationBarTitleText": "分类"
+		}
 	}, {
-		"path": "pages/AddCategory/index"
+		"path": "pages/AddCategory/index",
+		"style": {
+			"navigationBarTitleText": "添加分类"
+		}
 	}, {
-		"path": "pages/AccountEdit/index"
+		"path": "pages/AccountEdit/index",
+		"style": {
+			"navigationBarTitleText": "账户编辑"
+		}
 	}, {
-		"path": "pages/AccountBookAdd/index"
+		"path": "pages/AccountBookAdd/index",
+		"style": {
+			"navigationBarTitleText": "账本编辑"
+		}
 	}, {
-		"path": "pages/Feedback/index"
+		"path": "pages/Feedback/index",
+		"style": {
+			"navigationBarTitleText": "意见反馈"
+		}
 	}, {
 		"path": "pages/Setting/index"
-
 	}, {
-		"path": "pages/AboutUs/index"
+		"path": "pages/AboutUs/index",
+		"style": {
+			"navigationBarTitleText": "关于我们"
+		}
 	}, {
 		"path": "pages/UpdataLog/index"
 	}],

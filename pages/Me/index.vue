@@ -38,11 +38,15 @@
 			<view class="profile-item" @click="onGotoFeedback">
 				<im-cell icon="icon-yijianfankui" title="意见反馈" />
 			</view>
-			<view class="profile-item" @click="onGotoSetting">
+<!-- 			<view class="profile-item" @click="onGotoSetting">
 				<im-cell icon="icon-shezhi" title="设置">
 					<view slot="content" class="iconfont icon-gengduo"></view>
 				</im-cell>
+			</view> -->
+			<view class="profile-item" @click="onGotoAboutUs">
+				<im-cell icon="icon-me" title="关于我们" />
 			</view>
+			<view class="logout-btn">退出登录</view>
 		</view>
 	</view>
 </template>
@@ -76,6 +80,9 @@
 			},
 			onGotoSetting() {
 				uni.navigateTo({ url: '/pages/Setting/index' })
+			},
+			onGotoAboutUs() {
+				uni.navigateTo({ url: '/pages/AboutUs/index' });
 			},
 			handleLogin() {
 				// uni.login({
@@ -120,7 +127,8 @@
 		border-radius: 16px;
 		line-height: 120rpx;
 		transition: transform .3s;
-		background-color: #188AFF;
+		/* background-color: #188AFF; */
+		background-image: linear-gradient(to left, #4FC3F7, #188AFF);
 	}
 	.me-container .profile-group {
 		margin-top: 64rpx;
@@ -153,5 +161,13 @@
 	}
 	.user-info .login-tip {
 		color: #fff;
+	}
+	.logout-btn {
+		padding: 28rpx 0;
+		margin-top: 48rpx;
+		border-radius: calc(100vw - (32rpx * 2));
+		text-align: center;
+		color: #FF4949;
+		background-color: #fff;
 	}
 </style>
