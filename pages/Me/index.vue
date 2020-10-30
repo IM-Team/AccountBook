@@ -9,20 +9,10 @@
 		</block>
 		<!-- logining status -->
 		<block v-else>
-			<view 
-				class="user-info"
-				@touchstart="handleTouchStart"
-				@touchmove="handleTouchMove"
-				@touchend="handleTouchEnd"
-				:style="{transform: `rotateY(${-(startX - moveX)/10}deg) rotateX(${(startY - moveY)/8}deg)`}"
-			>
+			<view class="user-info">
 				<view class="user-avatar-wrap">
-<<<<<<< HEAD
-					<!-- <image class="user-avatar" src="../../static/image/icon_me.png" mode="widthFix"></image> -->
-=======
 					<image class="user-avatar" src="https://api.r10086.com/动漫综合1.php" mode="widthFix"></image>
->>>>>>> 120542dda921be1c9680be84e7c96de94ce949d0
-				</view> 
+				</view>
 				<text class="login-tip">IM Team</text>
 			</view>
 		</block>
@@ -82,32 +72,7 @@
 				uni.navigateTo({ url: '/pages/Setting/index' })
 			},
 			handleLogin() {
-				// uni.login({
-				//   provider: 'weixin',
-				//   success: res => {
-				// 		console.log(res);
-				// 		uni.getUserInfo({
-				// 		  provider: 'weixin',
-				// 		  success: function (infoRes) {
-				// 		    console.log(infoRes);
-				// 		  }
-				// 		});
-				// 	}
-				// });
-			},
-			handleTouchStart(event) {
-				this.startX = event.touches[0].clientX;
-				this.startY = event.touches[0].clientY;
-			},
-			handleTouchMove(event) {
-				this.moveX = event.touches[0].clientX;
-				this.moveY = event.touches[0].clientY;
-			},
-			handleTouchEnd() {
-				this.startX = 0;
-				this.startY = 0;
-				this.moveX = 0;
-				this.moveY = 0;
+				
 			}
 		}
 	}

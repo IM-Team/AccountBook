@@ -107,38 +107,6 @@
                     this.info.price += '0'
                 }
             },
-            updateInfo2() {
-
-                const turnoverData = this.$store.getters.getTurnoverData()
-				
-				const date = new Date(this.info.date)
-				// 在本地对象
-				if (this.info.date !== this.oldDate && 
-					turnoverData.year === date.getFullYear() &&
-					turnoverData.month === date.getMonth() + 1) {
-					
-					const findDay = date.getDate()
-					const findedIndex = turnoverData.turnovers.findIndex(item => item.day === findDay)
-
-					// 流水对象有对应的
-					if (findedIndex !== -1) {
-						const turnvoer = turnoverData.turnovers[findedIndex]
-						turnvoer.list.push(this.info)
-					} else {
-						console.log('push');
-						turnoverData.turnovers.push({
-							day: date.getDate(),
-							list: [this.info]
-						})
-					}
-				} else {
-					// update request
-				}
-				
-				console.log(turnoverData);
-				
-                turnoverData.turnovers.some(this.modifyTurnvoer)
-            },
 			updateInfo() {
 				
 				const turnoverData = this.$store.getters.getTurnoverData(),
@@ -165,7 +133,7 @@
 				// 4 找到目标日期
 				const targetIndex = turnovers.findIndex(item => item.day === targetDate.day)
 				
-				// 清除之前的
+				// 清除修改的对象
 				if (turnovers[modifyPos[0]].list.length === 1) {
 					this.$delete(turnovers, modifyPos[0])
 				} else {

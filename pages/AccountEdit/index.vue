@@ -157,40 +157,6 @@
 				});
 			},
 			commit(isAddAccount) {
-<<<<<<< HEAD
-				if(this.accountNameLength === 0) {
-					uni.showToast({
-						title: '账户名不可为空',
-						icon: 'none',
-						duration: 1200
-					});
-				} else {
-					switch(this.account.account_type) {
-						case 1:
-							if(isAddAccount) {
-								// 向inmo-vuex的资金账户栈中推入新建账户
-								this.$store.mutations.pushCapitalAccount(this.account);
-							} else {
-								// 根据账户ID在inmo-vuex中修改账户相关新
-								this.$store.mutations.setCapitalAccountAttribute(this.account);
-							}
-                            break;
-						case 2:
-							if(isAddAccount) {
-								// 向inmo-vuex的资金账户栈中推入新建账户
-								this.$store.mutations.pushCreditAccount(this.account);
-							} else {
-								// 根据账户ID在inmo-vuex中修改账户相关新
-								this.$store.mutations.setCreditAccountAttribute(this.account);
-							}
-							break;
-					}
-					uni.showToast({
-						title: '保存成功',
-						duration: 1200,
-						success: () => {
-							uni.navigateBack({ delta: 2 });
-=======
 				// balance重排数位格式
 				this.account.balance = ruleOfThirds(this.account.balance);
 				// 资金账户 or 信用账户 相关处理
@@ -202,7 +168,6 @@
 						} else {
 							// 根据账户ID在inmo-vuex中修改账户相关新
 							this.$store.mutations.setCapitalAccountAttribute(this.account);
->>>>>>> 120542dda921be1c9680be84e7c96de94ce949d0
 						}
 						break;
 					case 2:
