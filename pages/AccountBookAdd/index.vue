@@ -1,10 +1,10 @@
 <template>
     <view class="container">
         <view class="review" :style="bgColor">
-            <text class="review-name">{{ input }}</text>
+            <text class="review-name">{{ input || "账本名称" }}</text>
         </view>
         <view class="name-wrap">
-            <input class="name" v-model="input" type="text" placeholder="输入账本名称">
+            <input class="name" v-model="input" maxlength="6" type="text" placeholder="输入账本名称">
         </view>
         <view class="pick-color">
             <view
@@ -28,7 +28,7 @@
         name: 'AccountBookAdd',
         data() {
             return {
-                input: '默认账本',
+                input: '',
                 currentColor: ['#05a0ff', '#005bea'],
                 colors: [
                     ['#05a0ff', '#005bea'],
@@ -51,15 +51,21 @@
                 this.currentColor = color
             },
             onSubmit() {
-                // const accountBooks = this.$store.getters.getAccountBooks()
+				this.input = this.input.trim();
+				if(!this.input.length) {
+					uni.showToast({
+						icon: "none",
+						title: "输入账本名称"
+					})
+				} else {
+					this.$store.commit(ADD_ACCOUNT_BOOK, {
+						id: (Math.random().toFixed(3) * 1000).toFixed(0),
+						name: this.input,
+						color: this.currentColor
+					})
+					uni.navigateBack()
+				}
 
-                this.$store.commit(ADD_ACCOUNT_BOOK, {
-                    id: (Math.random().toFixed(3) * 1000).toFixed(0),
-                    name: this.input,
-                    color: this.currentColor
-                })
-
-                uni.navigateBack()
             }
         },
         computed: {
@@ -114,6 +120,7 @@
         padding: 0 20rpx;
         height: 100%;
         line-height: 80rpx;
+		text-align: center;
     }
 
     .pick-color {

@@ -4,7 +4,7 @@
 			<view
 				class="iconfont icon-canyin center icon_preview"
 				:style="{ backgroundColor: pickColor }"></view>
-			<input type="text" placeholder="请输入分类名" v-model="name">
+			<input type="text" placeholder="请输入1-4个字的分类名" maxlength="4" v-model="name">
 		</view>
 		<view class="color-pick">
 			<view class="title">选择图标颜色</view>
@@ -106,7 +106,14 @@
 				this.currentPickIcon = index
 			},
 			onConfirm() {
-				if(this.name = this.name.replace(/(^\s*)|(\s*$)/g, "")) {
+				// 去除字符串前后的留白
+				this.name = this.name.trim();
+				if(!this.name.length) {
+					uni.showToast({
+						icon: "none",
+						title: "请输入分类名"
+					})
+				} else {
 					uni.setStorage({
 						key: 'tmpCateInfo',
 						data: {
@@ -115,16 +122,9 @@
 							color: this.pickColor,
 							icon: this.icons[this.currentPickIcon]
 						},
-						success: () => {
-							uni.navigateBack()
-						}
+						success: () => { uni.navigateBack() }
 					})
-				} else {
-					uni.showToast({
-						icon: "none",
-						title: "请输入分类名"
-					})
-				}
+				} 
 			}
 		}
 	}
