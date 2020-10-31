@@ -1,14 +1,17 @@
 <template>
 	<view class="add_account_form-container">
 		<view class="form-header">
-			<view class="iconfont" :class="account.icon" :style="{ backgroundColor: account.color }"></view>
-			<view class="form-header-text">{{ account.name }}</view>
+			<view
+                class="iconfont"
+                :class="icon"
+                :style="{ backgroundColor: iconColor }"></view>
+			<view class="form-header-text">{{ iconName }}</view>
 		</view>
 		<view class="form-wrap">
 			<view class="form-item">
 				<view class="form-title">账户名称</view>
 				<im-cell>
-					<input 
+					<input
 						class="input-account" 
 						type="text" 
 						v-model="account.custom_name" 
@@ -48,12 +51,12 @@
 			<view class="commit-btn-wrap">
 				<block v-if="isModifyAccount">
 					<view class="modify-commit-wrap">
-						<view class="del-btn" @click="handleDelete">删除</view>
-						<view class="save-btn" @click="handleSave">保存</view>
+						<view class="del-btn" @click="onDelete">删除</view>
+						<view class="save-btn" @click="onModify">保存</view>
 					</view>
 				</block>
 				<block v-else>
-					<view class="form-commit" @click="handleCommit">新建账户</view>
+					<view class="form-commit" @click="onCreate">新建账户</view>
 				</block>
 			</view>
 		</view>
@@ -65,60 +68,77 @@
 	import ImCell from '@/components/common/ImCell'
 	import { accountMapMixin } from '@/utils/mixins'
 	import { ruleOfThirds } from '@/utils/utils'
-	import { data } from './data.json'
-
+    import { data } from './data.json'
+    import {
+        REMOVE_ACCOUNT,
+        ADD_ACCOUNT,
+        UPDATE_ACCOUNT
+    } from '@/store/mutation-types'
+    
 	export default {
 		name: 'AccontEdit',
 		mixins: [accountMapMixin],
-		onLoad(option) {
-			// 资金账户 or 信用账户
-			this.isCapitalAccount = option.account_type == 1 ? true : false;
-			// 修改账户 or 新建账户 相关处理
-			if(option.hasOwnProperty('id')) {
-				// 切换按钮为保存修改
-				this.isModifyAccount = true;
-				// 以ID为索引在inmo-vuex中找到对应的账户并复制给当前的this.account
-				this.$store.getters.getAccountData()
-					[['capitalAccount', 'creditAccount'][option.account_type - 1]]
-					.findIndex(item => item.id == option.id ? this.account = item : '');
-			} else {
-				// 新建账户根据type映射mixin的相关信息
-				const { icon, name, color } = { ...this.mixin_accounts[option.type] }
-				this.account.icon = icon;
-				this.account.name = name;
-				this.account.color = color;
-				this.account.type = option.type;
-				this.account.account_type = Number(option.account_type);
-				this.account.id = Math.ceil(Math.random()*1000);
-			}
-		},
 		data() {
 			return {
-				// 当前 修改or新建 的账户
-				account: {
-					id: -1,
-					type: 0,
-					name: '',
-					custom_name: '',
-					icon: '',
-					balance: '',
-					account_type: 1,
-				},
+				account: null,	// 当前账户
 				currentAccountBook: data[0].name,	// 当前关联的账本
 				isModifyAccount: false,	// 修改账户 or 新建账户
 				isCapitalAccount: true	// 资金账户 or 信用账户
 			}
 		},
-			components: {
-				ImCell
-			},
+		onLoad(option) {
+
+			// 资金账户 or 信用账户
+            this.isCapitalAccount = option.account_type == 1 ? true : false;
+            
+
+			// 修改账户 or 新建账户 相关处理
+			if(option.id) {
+				this.initModifyOfData(option);
+			} else {
+				this.initCreateOfData(option);
+			}
+		},
+		components: {
+			ImCell
+		},
 		computed: {
 			// 计算账户名称的字数
 			accountNameLength() {
-				return this.account.custom_name.split('').length;
-			}
+                return this.account ? this.account.custom_name.length : 0
+            },
+            icon() {
+                return this.account && this.mixin_accounts[this.account.type].icon
+            },
+            iconColor() {
+                return this.account && this.mixin_accounts[this.account.type].color
+            },
+            iconName() {
+                return this.account && this.mixin_accounts[this.account.type].name
+            }
 		},
 		methods: {
+			initModifyOfData(option) {
+				this.isModifyAccount = true;
+                this.account = this.$store.getters.findAccount(option.id, option.account_type)
+            },
+			initCreateOfData(option) {
+                this.account = {
+                    type: option.type,
+					balance: 0,
+					custom_name: '',
+					account_type: Number(option.account_type),
+					id : Math.ceil(Math.random()*1000)
+                }
+			},
+			// 点击提交按钮的处理函数
+			onCreate() {
+				this.CreateAndModify(true);
+			},
+			// 点击保存修改的处理函数
+			onModify() {
+				this.CreateAndModify(false);
+			},
 			// 关联账本处理函数
 			inAccountBook() {
 				let AccountBook = [];
@@ -134,54 +154,51 @@
 				    }
 				});
 			},
-			// 点击提交按钮的处理函数
-			handleCommit() {
-				this.commit(true);
-			},
-			// 点击保存修改的处理函数
-			handleSave() {
-				this.commit(false);
-			},
 			// 点击删除按钮的处理函数
-			handleDelete() {
+			onDelete() {
 				uni.showModal({
 				    title: '提示',
 				    content: '确认删除该账户',
 				    success: res => {
 				        if (res.confirm) {
-				            console.log('用户点击确定');
-							this.$store.mutations.popAccount(['capitalAccount', 'creditAccount'][this.account.account_type - 1], this.account);
-							uni.navigateBack({ delta: 1 });
+
+
+                            this.$store.commit(REMOVE_ACCOUNT, {
+                                type: this.account.account_type,
+                                id: this.account.id
+                            })
+
+							// this.$store.mutations.deleteAccount(this.account.account_type, this.account.id);
+
+                            uni.navigateBack({ delta: 1 });
 				        } else if (res.cancel) {
 				            console.log('用户点击取消');
 				        }
 				    }
 				});
 			},
-			commit(isAddAccount) {
+			CreateAndModify(isCreate) {
 				// balance重排数位格式
 				this.account.balance = ruleOfThirds(this.account.balance);
-				// 资金账户 or 信用账户 相关处理
-				switch(this.account.account_type) {
-					case 1: 
-						if(isAddAccount) {
-							// 向inmo-vuex的资金账户栈中推入新建账户
-							this.$store.mutations.pushCapitalAccount(this.account);
-						} else {
-							// 根据账户ID在inmo-vuex中修改账户相关新
-							this.$store.mutations.setCapitalAccountAttribute(this.account);
-						}
-						break;
-					case 2:
-						if(isAddAccount) {
-							// 向inmo-vuex的资金账户栈中推入新建账户
-							this.$store.mutations.pushCreditAccount(this.account);
-						} else {
-							// 根据账户ID在inmo-vuex中修改账户相关新
-							this.$store.mutations.setCreditAccountAttribute(this.account);
-						}
-						break;
+				// 创建or修改 账户
+				if(isCreate) {
+                    this.$store.commit(ADD_ACCOUNT, {
+                       account_type: this.account.account_type,
+                       data: this.account
+                    })
+				} else {
+
+					// this.$store.mutations.modifyAccount(this.account);
+                    
+                    this.$store.commit(UPDATE_ACCOUNT, {
+                       account_type: this.account.account_type,
+                       id: this.account.id,
+                       data: this.account
+                    })
+
+
 				}
+				
 				uni.showToast({
 					title: '保存成功',
 					duration: 1200,
@@ -196,6 +213,7 @@
 </script>
 
 <style scoped>
+
 	.add_account_form-container {
 		padding: 32rpx;
 		color: #333;

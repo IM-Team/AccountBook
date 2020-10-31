@@ -23,13 +23,13 @@
 				/>
 			</view>
 		</view>
-
 	</view>
 </template>
 
 <script>
 	import ImCell from '@/components/common/ImCell'
-	import { accountMapMixin } from '@/utils/mixins'
+    import { accountMapMixin } from '@/utils/mixins'
+    import { mapState } from 'vuex'
 
 	export default {
 		name: 'AddAccount',
@@ -39,17 +39,26 @@
 				capitalAccount: [], 	// 资金账户
 				creditAccount: []		//信用账户
 			}
-		},
-		onLoad() {
-			// Accounts分类为资金账户和信用账户
-			for(let i in this.mixin_accounts) {
-				if(this.mixin_accounts[i].account_type === 1) {
-					this.capitalAccount.push({type: i, ...this.mixin_accounts[i]})
+        },
+        created() {
+            for (const index in this.mixin_accounts) {
+                if(this.mixin_accounts[index].account_type === 1) {
+                    this.capitalAccount.push(this.mixin_accounts[index])
 				} else {
-					this.creditAccount.push({type: i, ...this.mixin_accounts[i]})
+                    this.creditAccount.push(this.mixin_accounts[index])
 				}
-			}
-		},
+            }
+        },
+		// onLoad() {
+		// 	// Accounts分类为资金账户和信用账户
+		// 	for(let i in this.mixin_accounts) {
+		// 		if(this.mixin_accounts[i].account_type === 1) {
+		// 			this.capitalAccount.push({type: i, ...this.mixin_accounts[i]})
+		// 		} else {
+		// 			this.creditAccount.push({type: i, ...this.mixin_accounts[i]})
+		// 		}
+		// 	}
+		// },
 		components: {
 			ImCell
 		},

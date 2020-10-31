@@ -1,7 +1,7 @@
 <template>
 	<view class="turnover_list_item-container">
 		<view class="header">
-			<view>{{ dayData.day }} 日</view>
+			<view><text class="day">{{ formatDay(dayData.day) }}</text> 日</view>
 			<view>
 				<text v-if="income">收入 {{ income }}</text>
 				<text class="expenses" v-if="expense">支出 {{ expense }}</text>
@@ -22,7 +22,11 @@
 
 <script>
 	
-	import ImCell from '@/components/common/ImCell'
+    import ImCell from '@/components/common/ImCell'
+    import {
+        BILL_DETAIL,
+        IS_SHOW_BILLDETAIL
+    } from '@/store/mutation-types'
 	
 	import { ruleOfThirds } from '@/utils/utils.js'
 	
@@ -51,23 +55,27 @@
 		methods: {
 			ruleOfThirds,
 			onTap(data) {
-				this.$root.showBillDetail(data)
+                this.$store.commit(BILL_DETAIL, data)
+                this.$store.commit(IS_SHOW_BILLDETAIL, true)
 			},
 			countPrice() {
-                let income = 0, expense = 0
+                let _income = 0, _expense = 0
 
 				this.dayData.list.forEach(item => {
-					// 统计收支情况 1: 收入 2: 支出
 					if (item.turnover_type === 1) {
-						income += item.price * 1
+						_income += item.price * 1
 					} else if (item.turnover_type === 2) {
-						expense += item.price * 1
+						_expense += item.price * 1
 					}
-				})
-				
-				this.income = ruleOfThirds(income)
-				this.expense = ruleOfThirds(expense)
-			}
+                })
+
+				this.income = ruleOfThirds(_income)
+                this.expense = ruleOfThirds(_expense)
+
+            },
+            formatDay(day) {
+                return day > 9 ? day : '0' + day
+            }
 		},
 		components: {
 			ImCell
@@ -82,14 +90,20 @@
 		display: flex;
 		justify-content: space-between;
 		font-size: 24rpx;
-		color: #757575;
+		color: #aaa;
 	}
 	
 	.expenses {
 		margin-left: 20rpx;
-	}
+    }
+    
 	.cell {
 		margin-bottom: 32rpx;
-	}
+    }
+    
+    .day {
+        font-size: 36rpx;
+        color: #2B303B;
+    }
 
 </style>

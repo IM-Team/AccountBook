@@ -44,10 +44,11 @@
 	
 	import ImCell from '@/components/common/ImCell'
 	import AccountGroup from '../../components/AccountGroup'
-
 	import { accounts } from './Account.json'
-	import { accountMapMixin } from '@/utils/mixins'
-
+    import { accountMapMixin } from '@/utils/mixins'
+    import {
+        ACCOUNTS
+    } from '@/store/mutation-types'
 	
 	export default {     
 		name: 'Account',
@@ -73,30 +74,29 @@
 			},
 			// 点击资金趋势按钮处理事件
 			onCapitalTrend() {
-				console.log("您太穷了...");
+				console.log("您太穷了...pi");
 			},
-			initAccountData() {				
-				this.$store.mutations.setCapitalAccount([]);
-                this.$store.mutations.setCreditAccount([]);
+			initAccountData() {
 
-				// 分类资金账户和信用账户分别push到inmo-vuex
-				for(let item of accounts.list) {
-					// 映射minxin里的数据
-					item.name = this.mixin_accounts[item.type].name;
-					item.icon = this.mixin_accounts[item.type].icon;
-					item.color = this.mixin_accounts[item.type].color;
-					item.account_type = this.mixin_accounts[item.type].account_type;
-					
-					if(item.account_type === 1) {
-						this.$store.mutations.pushCapitalAccount(item);
-					} else {
-						this.$store.mutations.pushCreditAccount(item);
-					}
+                const tmpAcount = {
+                    capitals: [],
+                    credits: []
                 }
 
-				// 关联inmo-vuex数据
-				this.capitalAccount = this.$store.getters.getAccountData().capitalAccount;
-				this.creditAccount = this.$store.getters.getAccountData().creditAccount;
+				for(const account of accounts.list) {
+
+                    const accountType = account.account_type
+                    
+                    if (accountType === 1) {
+                        tmpAcount.capitals.push(account)
+                    } else if (accountType === 2) {
+                        tmpAcount.credits.push(account)
+                    }
+                }
+
+                this.$store.commit(ACCOUNTS, tmpAcount)
+                this.capitalAccount = this.$store.state.accounts.capitals
+                this.creditAccount = this.$store.state.accounts.credits
 			}
 		}
 	}
@@ -143,9 +143,7 @@
 		margin-top: 32rpx;
 		background-color: #FF4949;
 	}
-
 	.account-group-wrap .account-group {
 		margin-top: 32rpx;
 	}
-
 </style>

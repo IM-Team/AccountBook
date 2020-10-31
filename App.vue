@@ -16,9 +16,10 @@
 <style>
 
 	@import url("./common/iconfont/iconfont.css");
-	
+
 	page {
-		background-color: #f2f2f7;
+        background-color: #f2f2f7;
+        color: #2B303B;
 	}
 	
 	.center {

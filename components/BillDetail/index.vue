@@ -1,13 +1,17 @@
 <template>
-	<view v-if="isShow" class="bill_detail-container" @touchmove.stop.prevent>
-		<view class="mask" :class="{ 'leave': isLeave }" v-show="isAnimate" @click="hide"></view>
+	<view v-if="isShowBillDetail" class="bill_detail-container" @touchmove.stop.prevent>
+		<view
+            class="mask"
+            v-show="isAnimate"
+            :class="{ 'leave': isLeave }"
+            @click="hide"></view>
 		<view class="content" :class="{ 'leave': isLeave }" v-show="isAnimate">
 			<view class="header">
 				<view class="name">
 					<text class="iconfont icon-canyin"></text>
 					<text>{{ info.category.name }}</text>
 				</view>
-				<view class="price">{{ info.price }}</view>
+				<view class="price" :style="{ color: priceColor }">{{ info.price }}</view>
 			</view>
 			<view class="info">
 				<view class="info-item">
@@ -28,56 +32,52 @@
 				</view>
 			</view>
 			<view class="options">
-				<view class="iconfont icon-delete"></view>
-				<view class="iconfont icon-edit" @click="gotoEdit"></view>
+				<view class="iconfont icon-delete" @click="onDelete"></view>
+				<view class="iconfont icon-edit" @click="onGotoEdit"></view>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
+
+    import { mapState } from 'vuex'
+    import { IS_SHOW_BILLDETAIL } from '@/store/mutation-types'
 	
 	export default {
 		name: 'BillDetail',
-		props: {
-			isShow: {
-				type: Boolean,
-				required: true
-			},
-			hideHandle: {
-				type: Function,
-				required: true
-			},
-			info: {
-				type: Object,
-				default() {
-					return {}
-				}
-			}
-		},
 		data() {
 			return {
 				isAnimate: false,	// 控制开始动画
 				isLeave: false,		// 控制结束动画
 				time: '0',
-				date: '---'
+                date: '---',
+                priceColor: '#0EA391',
+                info: {}
 			}
-		},
+        },
 		watch: {
-			isShow(newValue) {
-				if (newValue) this.$nextTick(() => this.isAnimate = true)
-			},
-			info(newValue) {
-				if (newValue) {
-					const date = new Date(newValue.date)
-					const minutes = date.getMinutes()
-					
-					this.date = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
-					this.time = `${date.getHours()}:${minutes < 10 ? '0' + minutes : minutes}`
-				}
+			isShowBillDetail(newValue) {
+                if (newValue) {
+                    this.info = this.$store.state.billDetail
+                    this.formatDateAndTime()
+                    this.priceColor = newValue.turnover_type === 1 ? '#0EA391' : '#FF4949'
+
+                    this.$nextTick(() => this.isAnimate = true)
+                }
 			}
-		},
+        },
+        computed: {
+            ...mapState(['isShowBillDetail'])
+        },
 		methods: {
+            formatDateAndTime() {
+                const date = new Date(this.info.date)
+                const minutes = date.getMinutes()
+                
+                this.date = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+                this.time = `${date.getHours()}:${minutes < 10 ? '0' + minutes : minutes}`
+            },
 			hide() {
                 this.isLeave = true
                 setTimeout(this.handleHide, 300)
@@ -85,16 +85,21 @@
             handleHide() {
                 this.isLeave = false
                 this.isAnimate = false
-                this.hideHandle.call(this.$parent)  
+                this.$store.commit(IS_SHOW_BILLDETAIL, false)
             },
-			gotoEdit() {
+			onGotoEdit() {
 
-                this.$store.mutations.setBillDetail(this.info)
+                this.$emit('edit')
+
+                // this.$store.mutations.setIsFromBillDetail(true)
+                // this.$store.mutations.setBillDetail(this.info)
 
                 this.handleHide()
-                this.$store.mutations.setIsFromBillDetail(true)
-				uni.navigateTo({ url: '/pages/Add/index' })
-			}
+				// uni.navigateTo({ url: '/pages/Add/index' })
+            },
+            onDelete() {
+                this.$emit('delete')
+            }
 		}
 	}
 	
@@ -172,7 +177,8 @@
 		justify-content: center;
 		align-items: center;
 		height: 200rpx;
-		font-size: 60rpx;
+		font-size: 68rpx;
+        font-weight: 100;
 	}
 	
 	.info {

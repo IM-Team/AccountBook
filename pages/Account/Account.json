@@ -1,48 +1,54 @@
 {
 	"accounts": {
 		"list": [{
-				"id": 0,
-				"type": 4,
-				"custom_name": "",
-				"balance": "12.00"
-			},
-			{
 				"id": 1,
-				"type": 1,
-				"custom_name": "",
-				"balance": "100.00"
+				"type": 4,
+                "custom_name": "现金",
+                "account_type": 1,
+                "balance": "12.00"
 			},
 			{
 				"id": 2,
-				"type": 2,
-				"custom_name": "",
-				"balance": "1.00"
+				"type": 1,
+                "custom_name": "支付宝",
+                "account_type": 1,
+				"balance": "100.00"
 			},
 			{
 				"id": 3,
-				"type": 3,
-				"custom_name": "",
-				"balance": "3000.00"
+				"type": 2,
+                "custom_name": "微信",
+                "account_type": 1,
+				"balance": "1.00"
 			},
 			{
 				"id": 4,
-				"type": 7,
-				"custom_name": "",
-				"balance": "166.00"
+				"type": 3,
+                "custom_name": "银行卡",
+                "account_type": 1,
+				"balance": "3000.00"
 			},
 			{
 				"id": 5,
-				"type": 6,
-				"custom_name": "",
-				"balance": "12.00"
+				"type": 7,
+                "custom_name": "信用卡",
+                "account_type": 2,
+				"balance": "166.00"
 			},
 			{
 				"id": 6,
+				"type": 6,
+                "custom_name": "花呗",
+                "account_type": 2,
+				"balance": "12.00"
+			},
+			{
+				"id": 7,
 				"type": 5,
-				"custom_name": "",
+                "custom_name": "白条",
+                "account_type": 2,
 				"balance": "10.00"
 			}
 		]
-
 	}
 }

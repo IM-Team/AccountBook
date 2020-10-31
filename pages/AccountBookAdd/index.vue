@@ -22,6 +22,8 @@
 
 <script>
 
+    import { ADD_ACCOUNT_BOOK } from '@/store/mutation-types'
+
     export default {
         name: 'AccountBookAdd',
         data() {
@@ -49,9 +51,9 @@
                 this.currentColor = color
             },
             onSubmit() {
-                const accountBooks = this.$store.getters.getAccountBooks()
+                // const accountBooks = this.$store.getters.getAccountBooks()
 
-                accountBooks.push({
+                this.$store.commit(ADD_ACCOUNT_BOOK, {
                     id: (Math.random().toFixed(3) * 1000).toFixed(0),
                     name: this.input,
                     color: this.currentColor
@@ -66,10 +68,6 @@
             }
         }
     }
-
-
-
-    // vite
 
 </script>
 

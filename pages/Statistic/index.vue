@@ -18,7 +18,8 @@
 	
 	import uCharts from '@/common/charts/u-charts.min.js'
 	import StatisticHeader from '@/components/Statistic/StastisticHeader'
-	import StatisticList from '@/components/Statistic/StatisticList'
+    import StatisticList from '@/components/Statistic/StatisticList'
+    import { mapState } from 'vuex'
 
 	let pieCanvas = null
 
@@ -44,7 +45,10 @@
         },
 		mounted() {
 			this.createPie(this.currentData)
-		},
+        },
+        computed: {
+            ...mapState(['turnoverData'])
+        },
 		watch: {
 			currentIndex(newData) {
 				const tmpVal = this.currentIndex ? this.data.expense : this.data.income
@@ -63,16 +67,14 @@
 			},
             initChartData() {
 
-                const turnoverData = this.$store.getters.getTurnoverData(),
-                    flatArr = [];
-
+                const flatArr = [];
                 const pieData = {
                     income: [],
                     expense: []
                 }
 
                 // 扁平化
-                turnoverData.turnovers.forEach(dayTurnover => flatArr.push(...dayTurnover.list))
+                this.turnoverData.turnovers.forEach(dayTurnover => flatArr.push(...dayTurnover.list))
 
                 // 分类
                 flatArr.forEach(dayTurnover => {
@@ -118,7 +120,9 @@
 							labelWidth: 14
 						}
 					}
-				})
+                })
+                
+                console.log(this.turnoverData)
 			},
 			touchPie(e){
 				pieCanvas.showToolTip(e, {

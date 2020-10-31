@@ -1,7 +1,7 @@
 <template>
 	<view class="add-container">
 		<view class="content">
-			<tally-type :type="info.turnover_type" @toggle="onToggle" />
+			<tally-type :type="billDetail.turnover_type" @toggle="onToggle" />
 			<edit-area :input="digitList" @change-date="onChangeDate"  />
 			<type-swiper class="type-swiper" />
 		</view>
@@ -13,7 +13,7 @@
 				<input
                     class="input"
                     type="text"
-                    :value="info.note"
+                    :value="billDetail.note"
                     placeholder="请输入备注" />
 			</view>
 			<keyboard
@@ -31,6 +31,17 @@
 	import EditArea 	from '@/components/Add/EditArea'
 	import TypeSwiper 	from '@/components/Add/TypeSwiper'
     import Keyboard 	from '@/components/Add/Keyboard'
+    import { mapState } from 'vuex'
+
+    import {
+        BILL_DETAIL,
+        IS_FROM_BILLDETAIL,
+        UPDATE_TURNOVER_ITEM,
+        REMOVE_TURNOVER_ITEM,
+        REMOVE_TURNOVER,
+        PUSH_TURNOVER_ITEM,
+        UNSHIFT_TURNOVER
+    } from '@/store/mutation-types'
 
 	export default {
 		data() {
@@ -42,31 +53,32 @@
 			}
 		},
 		created() {
-			this.init()
+            this.init()
 		},
 		components: {
             TallyType,
 			EditArea,
 			TypeSwiper,
 			Keyboard
-		},
+        },
+        computed: {
+            ...mapState(['billDetail'])
+        },
 		methods: {
 			init() {
 
-                this.isFromBillDetail = this.$store.getters.getIsFromBillDetail()
+                this.isFromBillDetail = this.$store.state.isFromBillDetail
 
                 if (this.isFromBillDetail) {
+                    this.$store.commit(IS_FROM_BILLDETAIL, false)
+                    
+                    const _billDetail = this.$store.state.billDetail
+                    this.digitList = _billDetail.price.split('')
 
-                    this.$store.mutations.setIsFromBillDetail(false)
-
-                    const bt = this.$store.getters.getBillDetail()
-                    this.digitList = bt.price.split('')
-                    this.info = bt
-					
 					// 记录旧的时间
-					this.oldDate = bt.date
+					this.oldDate = _billDetail.date
                 } else {
-                    this.info = this.$store.mutations.setBillDetail({
+                    this.$store.commit(BILL_DETAIL, {
                         id: -1,
                         turnover_type: 1,
                         price: "0.00",
@@ -75,57 +87,62 @@
                         account: '现金',
                         category: {
                             id: 1,
-                            name: '餐饮',
-                            icon: 'icon-canyin',
-                            color: '#188AFF'
+                            name: '薪资',
+                            icon: 'icon-qian',
+                            color: '#188AFF',
                         }
                     })
                 }
             }, // end init
             
             onToggle(type) {
-                this.info.turnover_type = type
+                this.billDetail.turnover_type = type
             },
 			onChange(v) {
 				this.digitList = v
             },
             onConfirm() {
 				this.fixDicimalPoint()
-                this.isFromBillDetail ? this.updateInfo() : this.addTurnover()
+                this.isFromBillDetail ? this.updateInfo() : this.addTurnoverItem()
 
                 uni.navigateBack()
             },
             onChangeDate(timestamp) {
-                this.info.date = timestamp
+                this.billDetail.date = timestamp
             },
             fixDicimalPoint() {
-                this.info.price = this.digitList.join('')
-                const pointIndex = this.info.price.indexOf('.')
+                this.billDetail.price = this.digitList.join('')
+                const pointIndex = this.billDetail.price.indexOf('.')
 
 				if (pointIndex === -1) {
-					this.info.price += '.00'
-				} else if (pointIndex !== this.info.price.length - 3) {
-                    this.info.price += '0'
+					this.billDetail.price += '.00'
+				} else if (pointIndex !== this.billDetail.price.length - 3) {
+                    this.billDetail.price += '0'
                 }
             },
 			updateInfo() {
 				
-				const turnoverData = this.$store.getters.getTurnoverData(),
+				const turnoverData = this.$store.state.turnoverData,
 					  turnovers = turnoverData.turnovers,
-					  tId = this.info.id
+					  tId = this.billDetail.id
 				
-				const isUpdateDate = this.info.date !== this.oldDate
+				const isUpdateDate = this.billDetail.date !== this.oldDate
 				
 				// 不需更新日期
 				const modifyPos = this.findTurnvoerOfLocal(turnovers, 'id', tId)
 				if (!isUpdateDate) {
-					this.$set(turnovers[modifyPos[0]].list, modifyPos[1], this.info)
+                    this.$store.commit(UPDATE_TURNOVER_ITEM, {
+                        turnoverIndex: modifyPos[0],
+                        itemIndex: modifyPos[1],
+                        data: this.billDetail
+                    })
+
 					return
 				}
 				
-				// ========== Need Update Date ===========
+				// ========== Need Update Date ==========
 				
-				const targetDate = this.formatDateToObj(this.info.date)
+				const targetDate = this.formatDateToObj(this.billDetail.date)
 
 				// 3 目标日期是否在本地
 				const isInLocal = targetDate.year === turnoverData.year &&
@@ -136,25 +153,32 @@
 				
 				// 清除修改的对象
 				if (turnovers[modifyPos[0]].list.length === 1) {
-					this.$delete(turnovers, modifyPos[0])
+                    this.$store.commit(REMOVE_TURNOVER, modifyPos[0])
 				} else {
-					this.$delete(turnovers[modifyPos[0]].list, modifyPos[1])
+                    this.$store.commit(REMOVE_TURNOVER_ITEM, {
+                        turnoverIndex: modifyPos[0],
+                        itemIndex: modifyPos[1]
+                    })
 				}
 				
 				// 在本地但没有对应的日期对象
 				if (isInLocal && targetIndex === -1) {
-					turnovers.unshift({
-						day: targetDate.day,
-						list: [this.info]
-					})
+                    this.$store.commit(UNSHIFT_TURNOVER, {
+                        day: targetDate.day,
+						list: [this.billDetail]
+                    })
 				} else if (isInLocal && targetIndex !== -1) {
-					const offsetIndex = modifyPos[0] > targetIndex ? targetIndex : targetIndex - 1
-					turnovers[offsetIndex].list.push(this.info)
+                    const offsetIndex = modifyPos[0] > targetIndex ? targetIndex : targetIndex - 1;
+                    
+                    this.$store.commit(PUSH_TURNOVER_ITEM, {
+                        turnoverIndex: offsetIndex,
+                        data: this.billDetail
+                    })
 				} else {
-					// send request
 					console.log('Send request');
-				}
-			},
+                }
+                
+			}, // end updateInfo
 			
 			/**
 			 * @param {Object} turnovers	总流水对象
@@ -188,28 +212,12 @@
 					day: date.getDate()
 				}
 			},
-			modifyTurnvoer(turnover) {
-				// 查找修改的元素
-				const id = this.info.id
-				const index = turnover.list.findIndex(item => item.id === id)
-				if (index !== -1) {
-					if (this.info.date !== this.oldDate) {
-						this.$delete(turnover.list, index)
-					} else {
-						this.$set(turnover.list, index, this.info)
-					}
-			
-					return true
-				}
-
-				return false
-			},
-            addTurnover() {
-                const date = new Date(this.info.date)
+            addTurnoverItem() {
+                const date = new Date(this.billDetail.date)
                 const day = date.getDate()
 
                 // 找到对应的只账本、判断本地数据是否是当前的
-                const turnoverData = this.$store.getters.getTurnoverData()
+                const turnoverData = this.$store.state.turnoverData
                 
                 if (turnoverData.year === date.getFullYear() &&
                     turnoverData.month === (date.getMonth() + 1)) {
@@ -217,9 +225,15 @@
                     const index = turnoverData.turnovers.findIndex(item => item.day === day)
 
                     if (index === -1) {
-                        turnoverData.turnovers.push({ day, list: [this.info] })
+                        this.$store.commit(UNSHIFT_TURNOVER, {
+                            day,
+                            list: [this.billDetail]
+                        })
                     } else {
-                        turnoverData.turnovers[index].list.push(this.info)
+                        this.$store.commit(PUSH_TURNOVER_ITEM, {
+                            turnoverIndex: index,
+                            data: this.billDetail
+                        })
                     }
                 } else {
                     // 发送网络请求

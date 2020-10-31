@@ -81,7 +81,9 @@ function addSymbolOfByte(target, symbol, byteNumber = 3, isReverse = true) {
  * @return {String}			处理完的三分字符串
  */
 function ruleOfThirds(number) {
-	
+    
+    if (!number) return
+
     number = number.toString()
     const numberSplitArr = isFloat(number) ? number.split('.') : [number, '00']
 

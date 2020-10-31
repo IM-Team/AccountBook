@@ -2,8 +2,8 @@
 	<view class="add-header">
 		<view class="computed"
 			:class="{
-				is_icome: info.turnover_type === 1,
-				is_spend: info.turnover_type === 2
+				is_icome: billDetail.turnover_type === 1,
+				is_spend: billDetail.turnover_type === 2
 			}">{{ input.join('') }}</view>
 		<view class="form-wrap">
 			<viewd class="form-right">
@@ -21,7 +21,7 @@
 				</view>
 				<view class="account-type block_gray">
 					<text class="iconfont icon-zhanghu">账户</text>
-					<text>{{ info.account }}</text>
+					<text>{{ billDetail.account }}</text>
 				</view>
 			</viewd>
 		</view>
@@ -29,6 +29,8 @@
 </template>
 
 <script>
+
+    import { mapState } from 'vuex'
 	
 	export default {
 		name: 'EditArea',
@@ -49,14 +51,16 @@
 		},
 		created() {
             this.init()
-		},
+        },
+        computed: {
+            ...mapState(['billDetail'])
+        },
 		methods: {
             init() {
-                this.info = this.$store.getters.getBillDetail()
-				this.date = this.dateFormat(this.info.date)
+				this.date = this.dateFormat(this.billDetail.date)
 				
 				// 非从 billDetail 进来
-				if (this.info.id === -1) {
+				if (this.billDetail.id === -1) {
 					this.endDate = this.date
 				} else {
 					this.endDate = this.dateFormat()
@@ -69,7 +73,6 @@
                 this.$emit('changeDate', date.getTime())
 			},
 			dateFormat(timestamp) {
-				
 				timestamp = timestamp || Date.now()
 				
 				const date = new Date(timestamp)

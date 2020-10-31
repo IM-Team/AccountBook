@@ -46,7 +46,7 @@
 		},
 		created() {
             if (this.isFromBillDetail) {
-                const { price } = this.$store.getters.getBillDetail()
+                const price = this.$store.state.billDetail.price
                 this.inputStack = price.split('')
             }
 		},

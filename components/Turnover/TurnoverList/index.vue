@@ -20,11 +20,12 @@
 				type: Array,
 				required: true
 			}
-		},
+        },
 		components: {
 			TurnoverOfDay
-		}
-	}
+        }
+    }
+    
 </script>
 
 <style scoped>

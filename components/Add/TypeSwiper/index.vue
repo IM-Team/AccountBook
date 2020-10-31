@@ -11,8 +11,8 @@
 						<view class="iconfont"
 							:class="[item.icon]"
 							:style="{
-								backgroundColor: item.id === info.category.id ? item.color : '#ddd',
-								color: item.id === info.category.id ? '#fff' : '#111'
+								backgroundColor: item.id === billDetail.category.id ? item.color : '#ddd',
+								color: item.id === billDetail.category.id ? '#fff' : '#111'
 							}"></view>
 						<view class="name">{{ item.name }}</view>
 					</view>
@@ -24,7 +24,8 @@
 
 <script>
 	
-	import { pagination } from '@/utils/utils'
+    import { pagination } from '@/utils/utils'
+    import { mapState } from 'vuex'
 	
 	export default {
 		name: 'TypeSwiper',
@@ -99,20 +100,18 @@
                 info: {}
             }
         },
-        created() {
-            this.info = this.$store.getters.getBillDetail()
-        },
 		computed: {
+            ...mapState(['billDetail']),
 			isShowDot() {
 				return this.typePages.length > 1
 			},
 			typePages() {
-				return pagination(this.types[this.info.turnover_type], 8)
+				return pagination(this.types[this.billDetail.turnover_type], 8)
 			}
 		},
 		methods: {
 			onCheckItem(pageIndex, itemIndex) {
-                this.info.category = this.typePages[pageIndex][itemIndex]
+                this.billDetail.category = this.typePages[pageIndex][itemIndex]
 			}
 		}
 	}

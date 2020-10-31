@@ -1,8 +1,8 @@
 <template>
 	<view class="account_book-container">
         <view class="account_book"
-            v-for="item in accountList" :key="item.id"
-            :class="{ active: item.id === currentId}"
+            v-for="item in accountBooks" :key="item.id"
+            :class="{ active: item.id === currentId }"
             :style="{
                 backgroundImage: `linear-gradient(to top, ${item.color[0]} 0%, ${item.color[1]} 100%)`
             }"
@@ -16,23 +16,29 @@
 </template>
 
 <script>
+
+    import { mapState } from 'vuex'
+    import {
+        CURRENT_ACCOUNT_BOOK
+    } from '@/store/mutation-types'
 	
 	export default {
 		name: 'AccountBook',
 		data() {
 			return {
-                accountList: [],
                 currentId: 0
 			}
         },
         created() {
-            this.accountList = this.$store.getters.getAccountBooks()
-			this.currentId = this.$store.getters.getCurrentAccountBook().id
+			this.currentId = this.$store.state.currentAccountBook.id
+        },
+        computed: {
+            ...mapState(['accountBooks', 'currentAccountBook'])
         },
 		methods: {
             onToggle(accountBook) {
                 this.currentId = accountBook.id
-				this.$store.mutations.setCurrentAccountBook(accountBook)
+                this.$store.commit(CURRENT_ACCOUNT_BOOK, accountBook)
             },
             onAdd() {
                 uni.navigateTo({ url: '/pages/AccountBookAdd/index' })

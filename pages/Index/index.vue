@@ -10,11 +10,6 @@
 			<me v-else-if="currentIndex === 4" />
 		</view>
 		
-		<bill-detail
-			:is-show="isShowBillDetail"
-			:hide-handle="hideBillDetail"
-			:info="billDetailData" />
-		
 		<!-- Tabbar -->
 		<custom-tabbar
 			:tab-index="currentIndex"
@@ -30,14 +25,12 @@
 	import Statistic 	from '@/pages/Statistic'
 	import Me 			from '@/pages/Me'
 	import CustomTabbar from '@/components/CustomTabbar'
-	import BillDetail	from '@/components/BillDetail'
 
 	export default {
 		name: 'Index',
 		data() {
 			return {
 				currentIndex: 0,
-				isShowBillDetail: false,
 				navbarTop: 0,
 				billDetailData: {}
 			}
@@ -48,22 +41,12 @@
 			Account,
 			Statistic,
 			Me,
-			BillDetail,
 			CustomTabbar
         },
 		created() {
 			this.navbarTop = (uni.getMenuButtonBoundingClientRect()).top
 		},
 		methods: {
-			hideBillDetail() {
-				this.billDetailData = null
-				this.isShowBillDetail = false
-			},
-			showBillDetail(data) {
-				if (data) this.billDetailData = data
-				
-				this.isShowBillDetail = true
-			},
 			onTabTap(index) {
 				if (2 === index)
 					uni.navigateTo({ url: '/pages/Add/index'})

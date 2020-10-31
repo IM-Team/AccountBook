@@ -4,10 +4,10 @@
 		<view class="group-wrap">
 			<view class="account" v-for="(item, index) in accounts" :key="index">
 				<im-cell
-					:icon="item.icon"
-					:title="item.custom_name || item.name"
+					:icon="mixin_accounts[item.type].icon"
+					:color="mixin_accounts[item.type].color"
+					:title="item.custom_name"
 					:content="item.balance"
-					:color="item.color"
 					@click.native="handleAccount(item)"
 				/>
 			</view>
@@ -16,9 +16,13 @@
 </template>
 
 <script>
-	import ImCell from "../common/ImCell"
+
+    import ImCell from "../common/ImCell"
+    import { accountMapMixin } from '@/utils/mixins'
+
 	export default {
-		name: "AccountGroup",
+        name: "AccountGroup",
+		mixins: [accountMapMixin],
 		props: {
 			title: {
 				type: String,
@@ -31,17 +35,15 @@
 		},
 		components: {
 			ImCell
-		},
+        },
+        created() {
+
+        },
 		methods: {
 			handleAccount(item) {
-				switch(item.account_type) {
-					case 1:
-						uni.navigateTo({ url: `/pages/AccountEdit/index?id=${ item.id }&account_type=${ item.account_type }` });
-						break;
-					case 2:
-						uni.navigateTo({ url: `/pages/AccountEdit/index?id=${ item.id }&account_type=${ item.account_type }` });
-						break;
-				}
+                uni.navigateTo({
+                    url: `/pages/AccountEdit/index?id=${ item.id }&account_type=${ item.account_type }`
+                });
 			}
 		}
 	}

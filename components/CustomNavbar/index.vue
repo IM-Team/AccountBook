@@ -8,8 +8,14 @@
 </template>
 
 <script>
-	
-	import res from './data.json'
+    
+    import {
+        ACCOUNT_BOOKS,
+        CURRENT_ACCOUNT_BOOK
+    } from '@/store/mutation-types.js'
+    import { mapState } from 'vuex'
+
+    import res from './data.json'
 	
 	export default {
 		name: 'Navbar',
@@ -19,15 +25,13 @@
 				required: true
 			}
 		},
-		data() {
-			return {
-				currentAccountBook: {}
-			}
-		},
 		created() {
-			this.$store.mutations.setAccountBooks(res.data)
-			this.currentAccountBook = this.$store.mutations.setCurrentAccountBook(res.data[0])
-		},
+            this.$store.commit(ACCOUNT_BOOKS, res.data)
+            this.$store.commit(CURRENT_ACCOUNT_BOOK, this.$store.state.accountBooks[0])
+        },
+        computed: {
+            ...mapState(['currentAccountBook'])
+        },
 		methods: {
 			gotoAccountBook() {
 				uni.navigateTo({
