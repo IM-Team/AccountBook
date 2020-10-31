@@ -62,21 +62,21 @@ const mutations = {
         state.accounts = { ...data }
     },
     [REMOVE_ACCOUNT](state, { account_type, id }) {
-        const type = account_type === 1 ? 'capitals' : 'credits'
-        const index = accounts[type].findIndex(item => item.id === id)
+        const type = account_type == 1 ? 'capitals' : 'credits'
+        const index = state.accounts[type].findIndex(item => item.id == id)
 
-        Vue.delete(accounts[type], index)
+        Vue.delete(state.accounts[type], index)
     },
     [ADD_ACCOUNT](state, { account_type, data }) {
-        const type = account_type === 1 ? 'capitals' : 'credits'
+        const type = account_type == 1 ? 'capitals' : 'credits'
         
         state.accounts[type].push(data)
     },
     [UPDATE_ACCOUNT](state, { account_type, id, data }) {
-        const type = account_type === 1 ? 'capitals' : 'credits'
-        const index = accounts[type].findIndex(item => item.id === id)
+        const type = account_type == 1 ? 'capitals' : 'credits'
+        const index = state.accounts[type].findIndex(item => item.id == id)
 
-        Vue.set(accounts[type], index, data)
+        Vue.set(state.accounts[type], index, data)
     }
 }
 

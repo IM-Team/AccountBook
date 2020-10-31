@@ -164,7 +164,7 @@
 
 
                             this.$store.commit(REMOVE_ACCOUNT, {
-                                type: this.account.account_type,
+                                account_type: this.account.account_type,
                                 id: this.account.id
                             })
 
@@ -187,16 +187,11 @@
                        data: this.account
                     })
 				} else {
-
-					// this.$store.mutations.modifyAccount(this.account);
-                    
                     this.$store.commit(UPDATE_ACCOUNT, {
                        account_type: this.account.account_type,
                        id: this.account.id,
                        data: this.account
                     })
-
-
 				}
 				
 				uni.showToast({
