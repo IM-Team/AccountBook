@@ -84,19 +84,19 @@
                 }
 
 				for(const account of accounts.list) {
-
-                    const accountType = account.account_type
-                    
+					
+                    const accountType = account.account_type;
+					
                     if (accountType === 1) {
-                        tmpAcount.capitals.push(account)
+                        tmpAcount.capitals.push(account);
                     } else if (accountType === 2) {
-                        tmpAcount.credits.push(account)
+                        tmpAcount.credits.push(account);
                     }
                 }
 
-                this.$store.commit(ACCOUNTS, tmpAcount)
-                this.capitalAccount = this.$store.state.accounts.capitals
-                this.creditAccount = this.$store.state.accounts.credits
+                this.$store.commit(ACCOUNTS, tmpAcount);
+                this.capitalAccount = this.$store.state.accounts.capitals;
+                this.creditAccount = this.$store.state.accounts.credits;
 			}
 		}
 	}

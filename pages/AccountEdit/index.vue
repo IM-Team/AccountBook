@@ -87,11 +87,9 @@
 			}
 		},
 		onLoad(option) {
-
 			// 资金账户 or 信用账户
             this.isCapitalAccount = option.account_type == 1 ? true : false;
             
-
 			// 修改账户 or 新建账户 相关处理
 			if(option.id) {
 				this.initModifyOfData(option);
@@ -120,7 +118,7 @@
 		methods: {
 			initModifyOfData(option) {
 				this.isModifyAccount = true;
-                this.account = this.$store.getters.findAccount(option.id, option.account_type)
+                this.account = this.$store.getters.findAccount(Number(option.id), option.account_type)
             },
 			initCreateOfData(option) {
                 this.account = {
@@ -161,14 +159,10 @@
 				    content: '确认删除该账户',
 				    success: res => {
 				        if (res.confirm) {
-
-
                             this.$store.commit(REMOVE_ACCOUNT, {
                                 account_type: this.account.account_type,
                                 id: this.account.id
                             })
-
-							// this.$store.mutations.deleteAccount(this.account.account_type, this.account.id);
 
                             uni.navigateBack({ delta: 1 });
 				        } else if (res.cancel) {

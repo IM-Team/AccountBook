@@ -49,16 +49,6 @@
 				}
             }
         },
-		// onLoad() {
-		// 	// Accounts分类为资金账户和信用账户
-		// 	for(let i in this.mixin_accounts) {
-		// 		if(this.mixin_accounts[i].account_type === 1) {
-		// 			this.capitalAccount.push({type: i, ...this.mixin_accounts[i]})
-		// 		} else {
-		// 			this.creditAccount.push({type: i, ...this.mixin_accounts[i]})
-		// 		}
-		// 	}
-		// },
 		components: {
 			ImCell
 		},

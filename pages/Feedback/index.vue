@@ -28,13 +28,12 @@
 		},
 		computed: {
 			calcTotal() {
-				// 去除首个空格
-				this.content = this.content.replace(/^\s*/,"");
-				return this.content.split('').length;
+				return this.content.length;
 			}
 		},
 		methods: {
 			onSend() {
+				this.content = this.content.trim();
 				if(this.calcTotal < 10) {
 					uni.showToast({
 						title: "不能少于10个字符",

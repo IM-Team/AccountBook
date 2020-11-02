@@ -50,14 +50,10 @@
 			"navigationBarTitleText": "意见反馈"
 		}
 	}, {
-		"path": "pages/Setting/index"
-	}, {
 		"path": "pages/AboutUs/index",
 		"style": {
 			"navigationBarTitleText": "关于我们"
 		}
-	}, {
-		"path": "pages/UpdataLog/index"
 	}],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
