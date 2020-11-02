@@ -47,8 +47,9 @@
 			creditBalance(balance) {
 				return Number(balance) ? '-' + balance : balance;
 			},
-			formattingBalance(Number) {
-				return ruleOfThirds(Number);
+			formattingBalance(num) {
+				console.log(ruleOfThirds(num));
+				return ruleOfThirds(num);
 			},
 			handleAccount(item) {
                 uni.navigateTo({

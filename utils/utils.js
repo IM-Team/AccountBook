@@ -85,7 +85,10 @@ function ruleOfThirds(number) {
     if (!number) return
 
     number = number.toString()
+	
     const numberSplitArr = isFloat(number) ? number.split('.') : [number, '00']
+	
+	if (numberSplitArr[1].length < 2) numberSplitArr[1] += '0'
 
     // 防止 '-,11.00' 情况
     if (numberSplitArr[0].charAt(0) === '-') {

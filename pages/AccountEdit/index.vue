@@ -67,7 +67,7 @@
 
 	import ImCell from '@/components/common/ImCell'
 	import { accountMapMixin } from '@/utils/mixins'
-	// import { ruleOfThirds } from '@/utils/utils'
+	import { deepClone } from '@/utils/utils'
     import { data } from './data.json'
     import {
         REMOVE_ACCOUNT,
@@ -118,7 +118,9 @@
 		methods: {
 			initModifyOfData(option) {
 				this.isModifyAccount = true;
-                this.account = this.$store.getters.findAccount(Number(option.id), option.account_type)
+                // this.account = this.$store.getters.findAccount(Number(option.id), option.account_type)
+				const currentAccount = this.$store.getters.findAccount(Number(option.id), option.account_type);
+				this.account = deepClone(currentAccount);
             },
 			initCreateOfData(option) {
                 this.account = {
@@ -179,7 +181,8 @@
 					})
 					return;
 				}
-				
+				// 如果blance为空个则补0
+				this.account.balance = Number(this.account.balance) || '0';
 				// 创建or修改 账户
 				if(isCreate) {
                     this.$store.commit(ADD_ACCOUNT, {
