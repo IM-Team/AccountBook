@@ -46,7 +46,7 @@ const accountMapMixin = {
 					color: "#1678ff"
 				},
 				7: {
-                    type: 2,
+                    type: 7,
 					name: "信用卡",
 					icon: "icon-xinyongka",
 					account_type: 2,

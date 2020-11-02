@@ -5,14 +5,14 @@
 			<im-cell>
 				<view class="money" slot="title">
 					<text class="worth-title">净资产</text>
-					<view class="worth-value">19,000,084.00</view>
+					<view class="worth-value">{{ formattingBalance(accountTotal) || "0.00" }}</view>
 					<view>
 						<text class="total-title">资金总额</text>
-						<text class="total-value">1,600.00</text>
+						<text class="total-value">{{ formattingBalance(capitalTotal) || "0.00"  }}</text>
 					</view>
 					<view>
 						<text class="total-title">负债总额</text>
-						<text class="total-value">1,600.00</text>
+						<text class="total-value">{{ formattingBalance(creditTotal) || "0.00"  }}</text>
 					</view>
 				</view>
 				<view class="header-btn-wrap" slot="content">
@@ -28,12 +28,14 @@
 				<account-group
 					title="资金账户"
 					:accounts="capitalAccount"
+					account_type=1
 				/>
 			</view>
 			<view class="account-group">
 				<account-group
 					title="信用账户"
 					:accounts="creditAccount"
+					account_type=2
 				/>
 			</view>
 		</view> 
@@ -44,11 +46,12 @@
 	
 	import ImCell from '@/components/common/ImCell'
 	import AccountGroup from '../../components/AccountGroup'
-	import { accounts } from './Account.json'
+	
     import { accountMapMixin } from '@/utils/mixins'
-    import {
-        ACCOUNTS
-    } from '@/store/mutation-types'
+	import { ruleOfThirds } from '@/utils/utils'
+    import { ACCOUNTS } from '@/store/mutation-types'
+	
+	import { accounts } from './Account.json'
 	
 	export default {     
 		name: 'Account',
@@ -63,11 +66,30 @@
 				creditAccount: []	// 信用账户
 			}
         },
+		computed: {
+			capitalTotal() {
+				return this.calcTotal(this.capitalAccount);
+			},
+			creditTotal() {
+				return this.calcTotal(this.creditAccount);
+			},
+			accountTotal() {
+				return this.capitalTotal - this.creditTotal;
+			}
+		},
 		components: {
 			ImCell,
 			AccountGroup
 		},
 		methods: {
+			calcTotal(accounts) {
+				let total = 0;
+				accounts.forEach(item => total += Number(item.balance))
+				return total;
+			},
+			formattingBalance(number) {
+				return ruleOfThirds(number);
+			},
 			// 点击添加账户按钮处理事件
 			onAddAccount() {
 				uni.navigateTo({ url: '/pages/AddAccount/index' });
@@ -84,19 +106,19 @@
                 }
 
 				for(const account of accounts.list) {
-
-                    const accountType = account.account_type
-                    
+					
+                    const accountType = account.account_type;
+					
                     if (accountType === 1) {
-                        tmpAcount.capitals.push(account)
+                        tmpAcount.capitals.push(account);
                     } else if (accountType === 2) {
-                        tmpAcount.credits.push(account)
+                        tmpAcount.credits.push(account);
                     }
                 }
 
-                this.$store.commit(ACCOUNTS, tmpAcount)
-                this.capitalAccount = this.$store.state.accounts.capitals
-                this.creditAccount = this.$store.state.accounts.credits
+                this.$store.commit(ACCOUNTS, tmpAcount);
+                this.capitalAccount = this.$store.state.accounts.capitals;
+                this.creditAccount = this.$store.state.accounts.credits;
 			}
 		}
 	}

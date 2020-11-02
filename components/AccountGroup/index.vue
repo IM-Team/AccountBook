@@ -7,9 +7,10 @@
 					:icon="mixin_accounts[item.type].icon"
 					:color="mixin_accounts[item.type].color"
 					:title="item.custom_name"
-					:content="item.balance"
 					@click.native="handleAccount(item)"
-				/>
+				>
+					<view slot="content">{{ formattingBalance(account_type == 1 ? item.balance : creditBalance(item.balance)) }}</view>
+				</im-cell>
 			</view>
 		</view>
 	</view>
@@ -18,7 +19,9 @@
 <script>
 
     import ImCell from "../common/ImCell"
+	
     import { accountMapMixin } from '@/utils/mixins'
+	import { ruleOfThirds } from '@/utils/utils'
 
 	export default {
         name: "AccountGroup",
@@ -31,15 +34,23 @@
 			accounts: {
 				type: Array,
 				required: true
+			},
+			account_type: {
+				type: Number,
+				required: true
 			}
 		},
 		components: {
 			ImCell
         },
-        created() {
-
-        },
 		methods: {
+			creditBalance(balance) {
+				return Number(balance) ? '-' + balance : balance;
+			},
+			formattingBalance(num) {
+				console.log(ruleOfThirds(num));
+				return ruleOfThirds(num);
+			},
 			handleAccount(item) {
                 uni.navigateTo({
                     url: `/pages/AccountEdit/index?id=${ item.id }&account_type=${ item.account_type }`
