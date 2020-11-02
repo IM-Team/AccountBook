@@ -25,15 +25,16 @@
 			
 			<view class="form-item">
 				<view class="form-title">账户信息</view>
-				<im-cell :title=" isCapitalAccount ? '账户余额' : '负债额度' ">
+				<im-cell :title=" account.account_type == 1 ? '账户余额' : '负债额度' ">
 					<input 
-						v-model="account.balance"
+						@blur="inputBalance($event)"
+						:value="account.balance == '0' ? '' : account.balance"
 						class="input-balance" 
 						type="digit"
-						slot="content" 
+						slot="content"
 						placeholder="0" 
 						maxlength="10"
-					/>
+					>
 				</im-cell>
 			</view>
 			
@@ -82,14 +83,10 @@
 			return {
 				account: null,	// 当前账户
 				currentAccountBook: data[0].name,	// 当前关联的账本
-				isModifyAccount: false,	// 修改账户 or 新建账户
-				isCapitalAccount: true	// 资金账户 or 信用账户
+				isModifyAccount: false	// 修改账户 or 新建账户
 			}
 		},
 		onLoad(option) {
-			// 资金账户 or 信用账户
-            this.isCapitalAccount = option.account_type == 1 ? true : false;
-            
 			// 修改账户 or 新建账户 相关处理
 			if(option.id) {
 				this.initModifyOfData(option);
@@ -118,18 +115,21 @@
 		methods: {
 			initModifyOfData(option) {
 				this.isModifyAccount = true;
-                // this.account = this.$store.getters.findAccount(Number(option.id), option.account_type)
 				const currentAccount = this.$store.getters.findAccount(Number(option.id), option.account_type);
 				this.account = deepClone(currentAccount);
             },
 			initCreateOfData(option) {
                 this.account = {
                     type: option.type,
-					balance: 0,
+					balance: '0',
 					custom_name: '',
 					account_type: Number(option.account_type),
 					id : Math.ceil(Math.random()*1000)
                 }
+			},
+			// 绑定balance数据
+			inputBalance(event) {
+				this.account.balance = event.detail.value;
 			},
 			// 点击提交按钮的处理函数
 			onCreate() {
@@ -173,6 +173,7 @@
 				    }
 				});
 			},
+			// 创建or修改 处理函数
 			CreateAndModify(isCreate) {
 				if(!this.accountNameLength) {
 					uni.showToast({
