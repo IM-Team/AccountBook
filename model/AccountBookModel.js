@@ -9,6 +9,13 @@ class AccountBook extends HTTP {
         })
     }
 
+    getCategory(id) {
+        return this.request({
+            url: '/category?bookId=' + id,
+            method: 'GET'
+        })
+    }
+
 }
 
 export default AccountBook

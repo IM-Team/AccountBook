@@ -18,13 +18,11 @@
 				<view 
 					class="item"
 					v-for="(item, index) in it"
-					:key="index"
-				>
+					:key="index">
 					<im-cell
 						:icon="item.icon"
 						:title="item.name"
-						:color="item.color"
-					/>
+						:color="item.color" />
 				</view>
 			</view>
 		</view>
@@ -33,35 +31,42 @@
 
 <script>
 	
-	import ImCell from '@/components/common/ImCell'
-	
-	import res from './data.json'
+    import ImCell from '@/components/common/ImCell'
+    import { mapState } from 'vuex'
+
+    import {
+        ADD_CATEGORY
+    } from '@/store/mutation-types'
 	
 	export default {
 		name: 'CategoryEdit',
 		data() {
 			return {
-				data: res.data,
+				data: {},
 				currentIndex: 1
 			}
 		},
 		components: {
 			ImCell
-		},
+        },
 		onShow() {
 			const res = uni.getStorage({
 				key: 'tmpCateInfo',
 				success: (res) => {
-					const key = this.currentIndex === 1 ? 'income' : 'expense'
-					this.data[key].push(res.data)
-					
+
+                    this.$store.commit(ADD_CATEGORY, {
+                        type: this.currentIndex,
+                        data: res.data
+                    })
+
 					uni.removeStorage({ key: 'tmpCateInfo' })
 				}
 			})
 		},
 		computed: {
+            ...mapState(['category']),
 			it() {
-				return this.data[this.currentIndex === 1 ? 'income' : 'expense']
+				return this.category[this.currentIndex]
 			}
 		},
 		methods: {

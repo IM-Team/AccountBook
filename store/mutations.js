@@ -11,12 +11,16 @@ import {
     REMOVE_TURNOVER_ITEM,
     REMOVE_TURNOVER,
     PUSH_TURNOVER_ITEM,
+    INSERT_TURNOVER,
     UNSHIFT_TURNOVER,
 
     ACCOUNTS,
     REMOVE_ACCOUNT,
     ADD_ACCOUNT,
-    UPDATE_ACCOUNT
+    UPDATE_ACCOUNT,
+
+    CATEGORY,
+    ADD_CATEGORY
 } from './mutation-types'
 
 const mutations = {
@@ -56,6 +60,9 @@ const mutations = {
     [UNSHIFT_TURNOVER](state, data) {
         state.turnoverData.turnovers.unshift(data)
     },
+    [INSERT_TURNOVER](state, { turnoverIndex, data }) {
+        state.turnoverData.turnovers.splice(turnoverIndex, 0, data)
+    },
 
 
     [ACCOUNTS](state, data) {
@@ -77,6 +84,13 @@ const mutations = {
         const index = state.accounts[type].findIndex(item => item.id == id)
 
         Vue.set(state.accounts[type], index, data)
+    },
+
+    [CATEGORY](state, data) {
+        state.category = {...data}
+    },
+    [ADD_CATEGORY](state, { type, data }) {
+        state.category[type].push(data)
     }
 }
 

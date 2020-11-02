@@ -55,12 +55,10 @@
         },
 		created() {
 
-            const turnoverModel = new TurnoverModel()
+            const year = 2020, month = 11
 
-            turnoverModel.getTurnoverList({
-				year: 2020,
-				month: 11
-			}).then(res => {
+            const turnoverModel = new TurnoverModel()
+            turnoverModel.getTurnoverList({ year, month }).then(res => {
 
 				const turnoverList = res.data.billsOfDayList.map(turnovers => {
 					const day = turnovers.time.split('-')[2] * 1
@@ -71,8 +69,8 @@
 				})
 
 				this.$store.commit(TURNOVER_DATA, {
-					year: 2020,
-					month: 10,
+					year,
+					month,
 					turnovers: turnoverList
                 })
 

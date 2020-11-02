@@ -10,8 +10,12 @@ export const REMOVE_TURNOVER_ITEM = 'remove_turnoverItem'
 export const REMOVE_TURNOVER = 'remove_turnover'
 export const UNSHIFT_TURNOVER = 'unshift_turnover'
 export const PUSH_TURNOVER_ITEM = 'push_turnoverItem'
+export const INSERT_TURNOVER = 'insert_turnover'
 
 export const ACCOUNTS = 'accounts'
 export const REMOVE_ACCOUNT = 'remove_account'
 export const ADD_ACCOUNT = 'add_account'
 export const UPDATE_ACCOUNT = 'update_account'
+
+export const CATEGORY = 'category'
+export const ADD_CATEGORY = 'add_category'

@@ -15,7 +15,7 @@
 			fields="month"
 			:value="date"
 			:start="startDate"
-			:end="date"
+			:end="endDate"
 			@change="onDateChange">
 			<view class="calendar">{{ date }}</view>
 		</picker>
@@ -35,7 +35,8 @@
 		data() {
 			return {
 				date: '2000-01-01',
-				startDate: '2000-01-01',
+                startDate: '2000-01-01',
+                endDate: '2000-01-01'
 			}
 		},
 		created() {
@@ -45,7 +46,8 @@
 			initDate() {
 			    const date = new Date()
 			    const currentDate = `${date.getFullYear()}-${date.getMonth() + 1}`
-			    this.date = currentDate
+                this.date = currentDate
+                this.endDate = currentDate
 			},
 			onDateChange(e) {
 				this.date = e.target.value

@@ -1,7 +1,24 @@
 <script>
-	
+    
+    import AccountBookModel from '@/model/AccountBookModel'
+
 	export default {
-		name: 'App'
+        name: 'App',
+        created() {
+            const accountBookModel = new AccountBookModel()
+
+            accountBookModel.getCategory(1).then(res => {
+
+                const tmpCate = {
+                    1: [],
+                    2: []
+                }
+
+                res.data.forEach(item => tmpCate[item.type].push(item) )
+
+                this.$store.dispatch('initCategory', tmpCate)
+            })
+        }
 	}
 	
 </script>

@@ -18,7 +18,8 @@ const state = {
     accounts: {
 		capitals: [],
 		credits: []
-    }
+    },
+    category: {}
 }
 
 const store = new Vuex.Store({

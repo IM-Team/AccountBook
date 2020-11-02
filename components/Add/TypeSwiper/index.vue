@@ -29,84 +29,18 @@
 	
 	export default {
 		name: 'TypeSwiper',
-		props: {
-			types: {
-				type: Object,
-				default() {
-					return {
-                        1: [{
-                            id: 1,
-                            name: '薪资',
-                            icon: 'icon-qian',
-                            color: '#188AFF',
-                        }, {
-                            id: 2,
-                            name: '奖金',
-                            icon: 'icon-qian',
-                            color: '#F2385A',
-                        },  {
-                            id: 3,
-                            name: '礼金',
-                            icon: 'icon-qian',
-                            color: '#2185C5',
-                        }, {
-                            id: 4,
-                            name: '兼职',
-                            icon: 'icon-canyin',
-                            color: '#42BA78',
-                        }, {
-                            id: 5,
-                            name: '红包',
-                            icon: 'icon-qian',
-                            color: '#F58653',
-                        }],
-                        2: [{
-                            id: 6,
-                            name: '餐饮',
-                            icon: 'icon-qian',
-                            color: '#188AFF',
-                        }, {
-                            id: 7,
-                            name: '娱乐',
-                            icon: 'icon-qian',
-                            color: '#F2385A',
-                        }, {
-                            id: 8,
-                            name: '购物',
-                            icon: 'icon-qian',
-                            color: '#2185C5',
-                        }, {
-                            id: 9,
-                            name: '交通',
-                            icon: 'icon-canyin',
-                            color: '#42BA78',
-                        },  {
-                            id: 10,
-                            name: '医疗',
-                            icon: 'icon-qian',
-                            color: '#F58653',
-                        }, {
-                            id: 11,
-                            name: '教育',
-                            icon: 'icon-qian',
-                            color: '#F58653',
-                        }]
-                    }
-				}
-            }
-        },
         data() {
             return {
                 info: {}
             }
         },
 		computed: {
-            ...mapState(['billDetail']),
+            ...mapState(['billDetail', 'category']),
 			isShowDot() {
-				return this.typePages.length > 1
+				return this.category.length > 1
 			},
 			typePages() {
-				return pagination(this.types[this.billDetail.type], 8)
+				return pagination(this.category[this.billDetail.type], 8)
             },
             billId() {
                 return this.billDetail.billCategory.id

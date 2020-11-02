@@ -41,7 +41,8 @@
         REMOVE_TURNOVER_ITEM,
         REMOVE_TURNOVER,
         PUSH_TURNOVER_ITEM,
-        UNSHIFT_TURNOVER
+        UNSHIFT_TURNOVER,
+        INSERT_TURNOVER
     } from '@/store/mutation-types'
 
 	export default {
@@ -91,7 +92,7 @@
                         },
                         billCategory: {
                             id: 1,
-                            name: '薪资',
+                            name: '工资',
                             icon: 'icon-qian',
                             color: '#188AFF',
                         }
@@ -144,17 +145,14 @@
 					return
 				}
 				
-				// ========== Need Update Date ==========
-				
+                // ========== Need Update Date ==========
+                
 				const targetDate = this.formatDateToObj(this.billDetail.timestamp)
 
 				// 3 目标日期是否在本地
 				const isInLocal = targetDate.year === turnoverData.year &&
-								  targetDate.month === turnoverData.month;
-				
-				// 4 找到目标日期
-				const targetIndex = turnovers.findIndex(item => item.day === targetDate.day)
-				
+                                  targetDate.month === turnoverData.month;
+
 				// 清除修改的对象
 				if (turnovers[modifyPos[0]].list.length === 1) {
                     this.$store.commit(REMOVE_TURNOVER, modifyPos[0])
@@ -163,19 +161,26 @@
                         turnoverIndex: modifyPos[0],
                         itemIndex: modifyPos[1]
                     })
-				}
-				
+                }
+
+                // 4 找到目标日期位置
+                const targetIndex = turnovers.findIndex(item => item.day === targetDate.day)
+
 				// 在本地但没有对应的日期对象
 				if (isInLocal && targetIndex === -1) {
-                    this.$store.commit(UNSHIFT_TURNOVER, {
-                        day: targetDate.day,
-						list: [this.billDetail]
+
+                    const insertIndex = turnovers.findIndex(item => item.day < targetDate.day)
+
+                    this.$store.commit(INSERT_TURNOVER, {
+                        turnoverIndex: insertIndex,
+                        data: {
+                            day: targetDate.day,
+                            list: [this.billDetail]
+                        }
                     })
 				} else if (isInLocal && targetIndex !== -1) {
-                    const offsetIndex = modifyPos[0] > targetIndex ? targetIndex : targetIndex - 1;
-                    
                     this.$store.commit(PUSH_TURNOVER_ITEM, {
-                        turnoverIndex: offsetIndex,
+                        turnoverIndex: targetIndex,
                         data: this.billDetail
                     })
 				} else {
@@ -229,6 +234,9 @@
                     // 查找 day
                     const index = turnoverData.turnovers.findIndex(item => item.day == day)
 
+                    const turnoverModel = new TurnoverModel()
+                    turnoverModel.postBill(this.billDetail)
+
                     if (index === -1) {
                         this.$store.commit(UNSHIFT_TURNOVER, {
                             day,
@@ -241,18 +249,12 @@
                         })
                     }
                 } else {
-                    
-                    console.log(this.billDetail)
-
-                    // send request
-                    this.postBill()
-
-                    // 发送网络请求
+                    const turnoverModel = new TurnoverModel()
+                    turnoverModel.postBill(this.billDetail)
                 }
             }, // end addTurnover
             postBill() {
-                const turnoverModel = new TurnoverModel()
-                turnoverModel.postBill(this.billDetail)
+                
             }
 		}
 	}
