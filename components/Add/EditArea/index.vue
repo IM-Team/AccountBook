@@ -2,8 +2,8 @@
 	<view class="add-header">
 		<view class="computed"
 			:class="{
-				is_icome: billDetail.turnover_type === 1,
-				is_spend: billDetail.turnover_type === 2
+				is_icome: billDetail.type === 1,
+				is_spend: billDetail.type === 2
 			}">{{ input.join('') }}</view>
 		<view class="form-wrap">
 			<viewd class="form-right">
@@ -21,7 +21,7 @@
 				</view>
 				<view class="account-type block_gray">
 					<text class="iconfont icon-zhanghu">账户</text>
-					<text>{{ billDetail.account }}</text>
+					<text>{{ billDetail.account.name }}</text>
 				</view>
 			</viewd>
 		</view>
@@ -57,7 +57,7 @@
         },
 		methods: {
             init() {
-				this.date = this.dateFormat(this.billDetail.date)
+				this.date = this.dateFormat(this.billDetail.timestamp)
 				
 				// 非从 billDetail 进来
 				if (this.billDetail.id === -1) {

@@ -79,9 +79,9 @@
                 // 分类
                 flatArr.forEach(dayTurnover => {
                     this.addTo({
-                        arr: dayTurnover.turnover_type === 1 ? pieData.income : pieData.expense,
-                        name: dayTurnover.category.name, 
-                        price: dayTurnover.price
+                        arr: dayTurnover.type === 1 ? pieData.income : pieData.expense,
+                        name: dayTurnover.billCategory.name, 
+                        price: dayTurnover.amount
                     })
                 })
 
@@ -121,8 +121,6 @@
 						}
 					}
                 })
-                
-                console.log(this.turnoverData)
 			},
 			touchPie(e){
 				pieCanvas.showToolTip(e, {

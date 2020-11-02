@@ -11,8 +11,8 @@
 						<view class="iconfont"
 							:class="[item.icon]"
 							:style="{
-								backgroundColor: item.id === billDetail.category.id ? item.color : '#ddd',
-								color: item.id === billDetail.category.id ? '#fff' : '#111'
+								backgroundColor: calcBg(item.id, item.color),
+								color: calcColor(item.id)
 							}"></view>
 						<view class="name">{{ item.name }}</view>
 					</view>
@@ -106,13 +106,22 @@
 				return this.typePages.length > 1
 			},
 			typePages() {
-				return pagination(this.types[this.billDetail.turnover_type], 8)
-			}
+				return pagination(this.types[this.billDetail.type], 8)
+            },
+            billId() {
+                return this.billDetail.billCategory.id
+            }
 		},
 		methods: {
 			onCheckItem(pageIndex, itemIndex) {
-                this.billDetail.category = this.typePages[pageIndex][itemIndex]
-			}
+                this.billDetail.billCategory = this.typePages[pageIndex][itemIndex]
+            },
+            calcBg(id, color) {
+                return id === this.billId ? color : '#ddd'
+            },
+            calcColor(id) {
+                return id === this.billId ? '#fff' : '#111'
+            }
 		}
 	}
 	

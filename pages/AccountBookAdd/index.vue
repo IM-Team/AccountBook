@@ -4,7 +4,11 @@
             <text class="review-name">{{ input || "账本名称" }}</text>
         </view>
         <view class="name-wrap">
-            <input class="name" v-model="input" maxlength="6" type="text" placeholder="输入账本名称">
+            <input class="name"
+				v-model.trim="input"
+				maxlength="6"
+				type="text"
+				laceholder="输入账本名称">
         </view>
         <view class="pick-color">
             <view
@@ -42,7 +46,7 @@
                     ['#1d976c', '#93f9b9'],
                     ['#c471f5', '#fa71cd'],
                     ['#868f96', '#596164'],
-                    ['#29323c', '#485563'],
+                    ['#29323c', '#485563']
                 ]
             }
         },
@@ -51,21 +55,22 @@
                 this.currentColor = color
             },
             onSubmit() {
+				
 				this.input = this.input.trim();
-				if(!this.input.length) {
-					uni.showToast({
-						icon: "none",
-						title: "输入账本名称"
-					})
-				} else {
+				
+				if(this.input.length > 0) {
 					this.$store.commit(ADD_ACCOUNT_BOOK, {
 						id: (Math.random().toFixed(3) * 1000).toFixed(0),
 						name: this.input,
 						color: this.currentColor
 					})
 					uni.navigateBack()
+				} else {
+					uni.showToast({
+						icon: "none",
+						title: "输入账本名称"
+					})
 				}
-
             }
         },
         computed: {

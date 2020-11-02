@@ -5,24 +5,25 @@
             :expense="expense"
             :surplus="surplus" />
 
-		<turnover-list
-            :turnovers="turnoverData.turnovers" />
+		<turnover-list :turnovers="turnoverData.turnovers" />
 
         <bill-detail @edit="onEdit" />
 	</view>
 </template>
 
 <script>
-	
+    
 	import TurnoverHeader   from '@/components/Turnover/TurnoverHeader'
 	import TurnoverList     from '@/components/Turnover/TurnoverList'
     import BillDetail	    from '@/components/BillDetail'
     import { ruleOfThirds, deepClone } from '@/utils/utils.js'
+    import { mapState } from 'vuex'
+    import TurnoverModel from '@/model/TurnoverModel'
+
     import {
         TURNOVER_DATA,
         IS_FROM_BILLDETAIL
     } from '@/store/mutation-types'
-    import { mapState } from 'vuex'
 	
     import res from './data.json'
 
@@ -53,7 +54,30 @@
             }
         },
 		created() {
-            this.$store.commit(TURNOVER_DATA, res.data)
+
+            const turnoverModel = new TurnoverModel()
+
+            turnoverModel.getTurnoverList({
+				year: 2020,
+				month: 11
+			}).then(res => {
+
+				const turnoverList = res.data.billsOfDayList.map(turnovers => {
+					const day = turnovers.time.split('-')[2] * 1
+					return {
+						day: day,
+						list: turnovers.billList
+					}
+				})
+
+				this.$store.commit(TURNOVER_DATA, {
+					year: 2020,
+					month: 10,
+					turnovers: turnoverList
+                })
+
+                this.calcIncomeAndExpense()
+			})
         },
         computed: {
             ...mapState(['turnoverData'])
@@ -64,10 +88,10 @@
 				
 				this.turnoverData.turnovers.forEach(dayTurn => {
 					dayTurn.list.forEach(item => {
-						if (item.turnover_type === 1)
-							_income += (item.price * 1)
-						else if (item.turnover_type === 2)
-							_expense += (item.price * 1)
+						if (item.type === 1)
+							_income += (item.amount * 1)
+						else if (item.type === 2)
+							_expense += (item.amount * 1)
 					})
 				})
 				

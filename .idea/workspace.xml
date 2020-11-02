@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="c824ddd4-e61e-4494-a329-fe2208965805" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/Turnover/TurnoverOfDay/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/Turnover/TurnoverOfDay/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/AccountBookAdd/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/AccountBookAdd/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/AccountEdit/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/AccountEdit/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/Statistic/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/Statistic/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/Turnover/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/Turnover/index.vue" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1jiKpkuiWrxuiLsnkMvAQ5C55ZW" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="preferences.general" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c824ddd4-e61e-4494-a329-fe2208965805" name="Default Changelist" comment="" />
+      <created>1604281658046</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1604281658046</updated>
+      <workItem from="1604281659686" duration="3568000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="270" y="62" key="SettingsEditor" timestamp="1604283290787">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state x="270" y="62" key="SettingsEditor/0.0.1536.834@0.0.1536.834" timestamp="1604283290787" />
+  </component>
+</project>

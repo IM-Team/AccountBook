@@ -161,14 +161,10 @@
 				    content: '确认删除该账户',
 				    success: res => {
 				        if (res.confirm) {
-
-
                             this.$store.commit(REMOVE_ACCOUNT, {
                                 account_type: this.account.account_type,
                                 id: this.account.id
                             })
-
-							// this.$store.mutations.deleteAccount(this.account.account_type, this.account.id);
 
                             uni.navigateBack({ delta: 1 });
 				        } else if (res.cancel) {

@@ -1,7 +1,7 @@
 <template>
 	<view class="add-container">
 		<view class="content">
-			<tally-type :type="billDetail.turnover_type" @toggle="onToggle" />
+			<tally-type :type="billDetail.type" @toggle="onToggle" />
 			<edit-area :input="digitList" @change-date="onChangeDate"  />
 			<type-swiper class="type-swiper" />
 		</view>
@@ -13,7 +13,7 @@
 				<input
                     class="input"
                     type="text"
-                    :value="billDetail.note"
+                    :value="billDetail.comment"
                     placeholder="请输入备注" />
 			</view>
 			<keyboard
@@ -32,6 +32,7 @@
 	import TypeSwiper 	from '@/components/Add/TypeSwiper'
     import Keyboard 	from '@/components/Add/Keyboard'
     import { mapState } from 'vuex'
+    import TurnoverModel from '@/model/TurnoverModel'
 
     import {
         BILL_DETAIL,
@@ -73,19 +74,22 @@
                     this.$store.commit(IS_FROM_BILLDETAIL, false)
                     
                     const _billDetail = this.$store.state.billDetail
-                    this.digitList = _billDetail.price.split('')
+                    this.digitList = _billDetail.amount.toString().split('')
 
-					// 记录旧的时间
-					this.oldDate = _billDetail.date
+                    // 记录旧的时间
+					this.oldDate = _billDetail.timestamp
                 } else {
                     this.$store.commit(BILL_DETAIL, {
                         id: -1,
-                        turnover_type: 1,
-                        price: "0.00",
-                        note: '还没有写!',
-                        date: Date.now(),
-                        account: '现金',
-                        category: {
+                        type: 1,
+                        amount: "0.00",
+                        comment: '还没有写!',
+                        timestamp: Date.now(),
+                        account: {
+                            id: 1,
+                            name: '现金'
+                        },
+                        billCategory: {
                             id: 1,
                             name: '薪资',
                             icon: 'icon-qian',
@@ -96,7 +100,7 @@
             }, // end init
             
             onToggle(type) {
-                this.billDetail.turnover_type = type
+                this.billDetail.type = type
             },
 			onChange(v) {
 				this.digitList = v
@@ -108,16 +112,16 @@
                 uni.navigateBack()
             },
             onChangeDate(timestamp) {
-                this.billDetail.date = timestamp
+                this.billDetail.timestamp = timestamp
             },
             fixDicimalPoint() {
-                this.billDetail.price = this.digitList.join('')
-                const pointIndex = this.billDetail.price.indexOf('.')
+                this.billDetail.amount = this.digitList.join('')
+                const pointIndex = this.billDetail.amount.indexOf('.')
 
 				if (pointIndex === -1) {
-					this.billDetail.price += '.00'
-				} else if (pointIndex !== this.billDetail.price.length - 3) {
-                    this.billDetail.price += '0'
+					this.billDetail.amount += '.00'
+				} else if (pointIndex !== this.billDetail.amount.length - 3) {
+                    this.billDetail.amount += '0'
                 }
             },
 			updateInfo() {
@@ -126,7 +130,7 @@
 					  turnovers = turnoverData.turnovers,
 					  tId = this.billDetail.id
 				
-				const isUpdateDate = this.billDetail.date !== this.oldDate
+				const isUpdateDate = this.billDetail.timestamp !== this.oldDate
 				
 				// 不需更新日期
 				const modifyPos = this.findTurnvoerOfLocal(turnovers, 'id', tId)
@@ -142,7 +146,7 @@
 				
 				// ========== Need Update Date ==========
 				
-				const targetDate = this.formatDateToObj(this.billDetail.date)
+				const targetDate = this.formatDateToObj(this.billDetail.timestamp)
 
 				// 3 目标日期是否在本地
 				const isInLocal = targetDate.year === turnoverData.year &&
@@ -213,16 +217,17 @@
 				}
 			},
             addTurnoverItem() {
-                const date = new Date(this.billDetail.date)
+                const date = new Date(this.billDetail.timestamp)
                 const day = date.getDate()
 
                 // 找到对应的只账本、判断本地数据是否是当前的
                 const turnoverData = this.$store.state.turnoverData
-                
+
                 if (turnoverData.year === date.getFullYear() &&
                     turnoverData.month === (date.getMonth() + 1)) {
+
                     // 查找 day
-                    const index = turnoverData.turnovers.findIndex(item => item.day === day)
+                    const index = turnoverData.turnovers.findIndex(item => item.day == day)
 
                     if (index === -1) {
                         this.$store.commit(UNSHIFT_TURNOVER, {
@@ -236,9 +241,19 @@
                         })
                     }
                 } else {
+                    
+                    console.log(this.billDetail)
+
+                    // send request
+                    this.postBill()
+
                     // 发送网络请求
                 }
-            } // end addTurnover
+            }, // end addTurnover
+            postBill() {
+                const turnoverModel = new TurnoverModel()
+                turnoverModel.postBill(this.billDetail)
+            }
 		}
 	}
 </script>

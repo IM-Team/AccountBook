@@ -87,6 +87,11 @@ function ruleOfThirds(number) {
     number = number.toString()
     const numberSplitArr = isFloat(number) ? number.split('.') : [number, '00']
 
+    // 补足两位 0
+    if (numberSplitArr[1].length < 2) {
+        numberSplitArr[1] += '0'
+    }
+
     // 防止 '-,11.00' 情况
     if (numberSplitArr[0].charAt(0) === '-') {
         numberSplitArr[0] = addSymbolOfByte(numberSplitArr[0].slice(1), ',')
@@ -97,6 +102,11 @@ function ruleOfThirds(number) {
     return numberSplitArr.join('.')
 }
 
+/**
+ * 深拷贝
+ * @param {any} target 需要深拷贝的对象
+ * @returns {Object}
+ */
 function deepClone(target) {
 
 	if (typeof target !== 'object' || target === null) {

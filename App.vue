@@ -1,14 +1,7 @@
 <script>
 	
 	export default {
-		name: 'App',
-		globalData: {
-			turnoverData: {},
-			accountData: {
-				capitalAccount: [],
-				creditAccount: []
-			}
-		}
+		name: 'App'
 	}
 	
 </script>

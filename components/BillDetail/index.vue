@@ -9,9 +9,9 @@
 			<view class="header">
 				<view class="name">
 					<text class="iconfont icon-canyin"></text>
-					<text>{{ info.category.name }}</text>
+					<text>{{ info.billCategory.name }}</text>
 				</view>
-				<view class="price" :style="{ color: priceColor }">{{ info.price }}</view>
+				<view class="price" :style="{ color: priceColor }">{{ info.amount }}</view>
 			</view>
 			<view class="info">
 				<view class="info-item">
@@ -24,11 +24,11 @@
 				</view>
 				<view class="info-item">
 					<text>资金账户</text>
-					<text>{{ info.account }}</text>
+					<text>{{ info.account.name }}</text>
 				</view>
 				<view class="info-item">
 					<text>备注信息</text>
-					<text>{{ info.note }}</text>
+					<text>{{ info.comment }}</text>
 				</view>
 			</view>
 			<view class="options">
@@ -61,7 +61,7 @@
                 if (newValue) {
                     this.info = this.$store.state.billDetail
                     this.formatDateAndTime()
-                    this.priceColor = newValue.turnover_type === 1 ? '#0EA391' : '#FF4949'
+                    this.priceColor = newValue.type === 1 ? '#0EA391' : '#FF4949'
 
                     this.$nextTick(() => this.isAnimate = true)
                 }
@@ -72,7 +72,7 @@
         },
 		methods: {
             formatDateAndTime() {
-                const date = new Date(this.info.date)
+                const date = new Date(this.info.timestamp)
                 const minutes = date.getMinutes()
                 
                 this.date = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
@@ -88,14 +88,8 @@
                 this.$store.commit(IS_SHOW_BILLDETAIL, false)
             },
 			onGotoEdit() {
-
                 this.$emit('edit')
-
-                // this.$store.mutations.setIsFromBillDetail(true)
-                // this.$store.mutations.setBillDetail(this.info)
-
                 this.handleHide()
-				// uni.navigateTo({ url: '/pages/Add/index' })
             },
             onDelete() {
                 this.$emit('delete')

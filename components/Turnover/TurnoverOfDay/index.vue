@@ -3,8 +3,8 @@
 		<view class="header">
 			<view><text class="day">{{ formatDay(dayData.day) }}</text> 日</view>
 			<view>
-				<text v-if="income">收入 {{ income }}</text>
-				<text class="expenses" v-if="expense">支出 {{ expense }}</text>
+				<text v-if="amount.income">收入 {{ amount.income }}</text>
+				<text class="expenses" v-if="amount.expense">支出 {{ amount.expense }}</text>
 			</view>
 		</view>
 		<view class="cell"
@@ -12,10 +12,10 @@
 			:key="item.id"
 			@click="onTap(item)">
 			<im-cell
-				:title="item.category.name"
-				:icon="item.category.icon"
-                :color="item.category.color"
-				:content="ruleOfThirds(item.price)" />
+				:title="item.billCategory.name"
+				:icon="item.billCategory.icon"
+                :color="item.billCategory.color"
+				:content="ruleOfThirds(item.amount)" />
 		</view>
 	</view>
 </template>
@@ -40,8 +40,10 @@
 		},
 		data() {
 			return {
-				income: 0,
-				expense: 0
+                amount: {
+                    income: '',
+				    expense: ''
+                }
 			}
 		},
 		watch: {
@@ -59,19 +61,18 @@
                 this.$store.commit(IS_SHOW_BILLDETAIL, true)
 			},
 			countPrice() {
-                let _income = 0, _expense = 0
 
+                let _income = 0, _expense = 0
 				this.dayData.list.forEach(item => {
-					if (item.turnover_type === 1) {
-						_income += item.price * 1
-					} else if (item.turnover_type === 2) {
-						_expense += item.price * 1
+					if (item.type === 1) {
+						_income += item.amount * 1
+					} else if (item.type === 2) {
+						_expense += item.amount * 1
 					}
                 })
 
-				this.income = ruleOfThirds(_income)
-                this.expense = ruleOfThirds(_expense)
-
+				this.amount.income = ruleOfThirds(_income)
+                this.amount.expense = ruleOfThirds(_expense)
             },
             formatDay(day) {
                 return day > 9 ? day : '0' + day
