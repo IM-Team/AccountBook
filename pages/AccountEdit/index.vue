@@ -67,7 +67,7 @@
 
 	import ImCell from '@/components/common/ImCell'
 	import { accountMapMixin } from '@/utils/mixins'
-	import { ruleOfThirds } from '@/utils/utils'
+	// import { ruleOfThirds } from '@/utils/utils'
     import { data } from './data.json'
     import {
         REMOVE_ACCOUNT,
@@ -172,8 +172,14 @@
 				});
 			},
 			CreateAndModify(isCreate) {
-				// balance重排数位格式
-				this.account.balance = ruleOfThirds(this.account.balance);
+				if(!this.accountNameLength) {
+					uni.showToast({
+						icon: "none",
+						title: "请输入账户名"
+					})
+					return;
+				}
+				
 				// 创建or修改 账户
 				if(isCreate) {
                     this.$store.commit(ADD_ACCOUNT, {
