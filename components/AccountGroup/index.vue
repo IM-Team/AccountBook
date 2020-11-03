@@ -4,9 +4,9 @@
 		<view class="group-wrap">
 			<view class="account" v-for="(item, index) in accounts" :key="index">
 				<im-cell
-					:icon="mixin_accounts[item.type].icon"
-					:color="mixin_accounts[item.type].color"
-					:title="item.custom_name"
+					:icon="mixin_accounts[item.icon].icon"
+					:color="mixin_accounts[item.icon].color"
+					:title="item.name"
 					@click.native="handleAccount(item)"
 				>
 					<view slot="content">{{ formattingBalance(account_type == 1 ? item.balance : creditBalance(item.balance)) }}</view>
@@ -52,7 +52,7 @@
 			},
 			handleAccount(item) {
                 uni.navigateTo({
-                    url: `/pages/AccountEdit/index?id=${ item.id }&account_type=${ item.account_type }`
+                    url: `/pages/AccountEdit/index?id=${ item.id }&account_type=${ item.categoryId }`
                 });
 			}
 		}
