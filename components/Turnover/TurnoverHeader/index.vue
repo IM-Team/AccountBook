@@ -6,8 +6,7 @@
             fields="month"
             start="2000-01"
             :value="dateValue"
-            :end="dateValue"
-            >
+            :end="endDate" >
             <view>
                 <text class="month">10</text>
                 <text>月结余</text>
@@ -30,10 +29,13 @@
 
 <script>
 	
-	import { ruleOfThirds } from '@/utils/utils.js'
+    import { ruleOfThirds } from '@/utils/utils.js'
+    import TurnoverModel from '@/model/TurnoverModel'
+    import { turnoverMixin } from '@/utils/mixins'
 	
 	export default {
-		name: 'TurnoverHeader',
+        name: 'TurnoverHeader',
+        mixins: [turnoverMixin],
 		props: {
 			income: {
 				type: String,
@@ -50,16 +52,23 @@
         },
         data() {
             return {
-                dateValue: ''
+                dateValue: '',
+                endDate: ''
             }
         },
         created() {
             const date = new Date()
             this.dateValue = `${date.getFullYear()}-${date.getMonth() + 1}`
+            this.endDate = this.dateValue
         },
         methods: {
             ruleOfThirds,
             onPickerChange(v) {
+
+                const [ year, month ] = v.target.value.split('-')
+                
+                this.switchTurnoverDate(year, month)
+
                 this.dateValue = v.target.value
             }
         }

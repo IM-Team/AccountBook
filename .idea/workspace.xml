@@ -1,18 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="c824ddd4-e61e-4494-a329-fe2208965805" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/AccountBook.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/AccountBook.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/Turnover/TurnoverOfDay/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/Turnover/TurnoverOfDay/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/AccountGroup/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/AccountGroup/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/BillDetail/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/BillDetail/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/CustomNavbar/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/CustomNavbar/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/u-charts/component.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/u-charts/u-charts.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/u-charts/u-charts.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataMap.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/AccountBookModel.js" beforeDir="false" afterPath="$PROJECT_DIR$/model/AccountBookModel.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model/TurnoverModel.js" beforeDir="false" afterPath="$PROJECT_DIR$/model/TurnoverModel.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages.json" beforeDir="false" afterPath="$PROJECT_DIR$/pages.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/AccountBook/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/AccountBook/index.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/AccountBookAdd/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/AccountBookAdd/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/AccountEdit/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/AccountEdit/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/Statistic/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/Statistic/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/Add/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/Add/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/AddCategory/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/AddCategory/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/CategoryEdit/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/Me/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/Me/index.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/Turnover/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/Turnover/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/store/actions.js" beforeDir="false" afterPath="$PROJECT_DIR$/store/actions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/store/getters.js" beforeDir="false" afterPath="$PROJECT_DIR$/store/getters.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/store/mutations.js" beforeDir="false" afterPath="$PROJECT_DIR$/store/mutations.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/http-p.js" beforeDir="false" afterPath="$PROJECT_DIR$/utils/http-p.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="EditorConfigPreviewManager">
+    <editorConfig file="$PROJECT_DIR$/.editorconfig" previewFile="$PROJECT_DIR$/pages/Add/index.vue" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -23,10 +63,12 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="preferences.general" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\WebStorm 2020.2.3\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -38,16 +80,41 @@
       <option name="presentableId" value="Default" />
       <updated>1604281658046</updated>
       <workItem from="1604281659686" duration="3568000" />
+      <workItem from="1604364114600" duration="240000" />
+      <workItem from="1604364374593" duration="2885000" />
+      <workItem from="1604367301395" duration="426000" />
+      <workItem from="1604367739254" duration="113000" />
+      <workItem from="1604376979754" duration="38000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
   <component name="WindowStateProjectService">
-    <state x="270" y="62" key="SettingsEditor" timestamp="1604283290787">
+    <state x="479" y="237" key="#Notifications" timestamp="1604367323850">
       <screen x="0" y="0" width="1536" height="834" />
     </state>
-    <state x="270" y="62" key="SettingsEditor/0.0.1536.834@0.0.1536.834" timestamp="1604283290787" />
+    <state x="479" y="237" key="#Notifications/0.0.1536.834@0.0.1536.834" timestamp="1604367323850" />
+    <state x="170" y="123" width="1116" height="710" key="SettingsEditor" timestamp="1604366727262">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state x="170" y="123" width="1116" height="710" key="SettingsEditor/0.0.1536.834@0.0.1536.834" timestamp="1604366727262" />
+    <state x="431" y="155" width="672" height="678" key="search.everywhere.popup" timestamp="1604367017072">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state x="431" y="155" width="672" height="678" key="search.everywhere.popup/0.0.1536.834@0.0.1536.834" timestamp="1604367017072" />
   </component>
 </project>

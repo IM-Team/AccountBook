@@ -25,7 +25,7 @@
 			"navigationBarTitleText": "账本"
 		}
 	}, {
-		"path": "pages/CategoryEdit/index",
+		"path": "pages/CategoryList/index",
 		"style": {
 			"navigationBarTitleText": "分类"
 		}

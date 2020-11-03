@@ -1,3 +1,7 @@
+import TurnoverModel from '@/model/TurnoverModel'
+import {
+    TURNOVER_DATA
+} from '@/store/mutation-types'
 
 const accountMapMixin = {
 	data() {
@@ -57,8 +61,41 @@ const accountMapMixin = {
 	}
 }
 
+const turnoverMixin = {
+    methods: {
+        switchTurnoverDate(year, month, accountBookId = 1) {
 
+            const turnoverModel = new TurnoverModel()
+            turnoverModel.getTurnoverList({ year, month, accountBookId }).then(res => {
+
+                const turnoverList = res.billsOfDayList.map(turnovers => {
+                    const day = turnovers.time.split('-')[2] * 1
+                    return {
+                        day: day,
+                        list: turnovers.billList
+                    }
+                })
+        
+                this.$store.commit(TURNOVER_DATA, {
+                    year,
+                    month,
+                    turnovers: turnoverList
+                })
+            }).catch((err) => {
+
+                console.log(err)
+
+                uni.showToast({
+                    title: '服务器开了个小差',
+                    icon: 'none',
+                    duration: 2000
+                })
+            })
+        }
+    }
+}
 
 export {
-	accountMapMixin
+    accountMapMixin,
+    turnoverMixin
 }

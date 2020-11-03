@@ -15,14 +15,13 @@ class HTTP {
             data: data,
             header: header,
 			success: (res) => {
-
 				const code = res.statusCode.toString()
-				if (code.startsWith(2)) {
-					resolve(res)
-				} else {
-					reject('请求失败')
-				}
 
+				if (code.startsWith(2)) {
+					resolve(res.data)
+				} else {
+					reject(res.data)
+				}
 			},
 			fail: (err) => {
 				reject(err)
@@ -36,7 +35,7 @@ class HTTP {
 			title: message || '请求失败',
 			icon: 'none',
 			mask: true,
-			duration: 1000
+			duration: 2000
 		})
 	}
 }

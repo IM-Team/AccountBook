@@ -1,10 +1,18 @@
 import {
-    CATEGORY
+    CATEGORY,
+    ACCOUNT_BOOKS,
+    CURRENT_ACCOUNT_BOOK
 } from './mutation-types'
 
 const actions = {
-    initCategory({ commit }, data) {
+    category({ commit }, data) {
         commit(CATEGORY, data)
+    },
+    accountBooks({ commit }, data) {
+        commit(ACCOUNT_BOOKS, data)
+    },
+    currentAccountBook({ commit }, data) {
+        commit(CURRENT_ACCOUNT_BOOK, data)
     }
 }
 

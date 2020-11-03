@@ -41,6 +41,8 @@
 </template>
 
 <script>
+
+    import AccountBookModel from '@/model/AccountBookModel'
 	
 	export default {
 		name: 'AddCategory',
@@ -114,18 +116,36 @@
 						title: "请输入分类名"
 					})
 				} else {
-					uni.setStorage({
-						key: 'tmpCateInfo',
-						data: {
-							type: this.type,
-							name: this.name,
-							color: this.pickColor,
-							icon: this.icons[this.currentPickIcon]
-						},
-						success: () => { uni.navigateBack() }
-					})
+
+                    const accountBookId = this.$store.state.currentAccountBook.id
+                    const targetCategory = {
+                        id: -1,
+                        bookId: accountBookId,
+                        type: this.type,
+                        name: this.name,
+                        color: this.pickColor,
+                        icon: this.icons[this.currentPickIcon]
+                    }
+
+                    ;(new AccountBookModel()).postCategory(targetCategory).then(id => {
+                        targetCategory.id = id
+					    this.saveCategory(targetCategory)
+                    }).catch(() => {
+                        uni.showToast({
+                            title: '请检查网络连接',
+                            icon: 'none',
+                            duration: 2000
+                        })
+                    })
 				} 
-			}
+            },
+            saveCategory(category) {
+                uni.setStorage({
+                    key: 'tmpCateInfo',
+                    data: category,
+                    success: () => { uni.navigateBack() }
+                })
+            }
 		}
 	}
 	

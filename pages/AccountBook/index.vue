@@ -18,8 +18,10 @@
 <script>
 
     import { mapState } from 'vuex'
+    import AccountBookModel from '@/model/AccountBookModel'
     import {
-        CURRENT_ACCOUNT_BOOK
+        CURRENT_ACCOUNT_BOOK,
+        ACCOUNT_BOOKS
     } from '@/store/mutation-types'
 	
 	export default {
@@ -31,6 +33,11 @@
         },
         created() {
 			this.currentId = this.$store.state.currentAccountBook.id
+        },
+        watch: {
+            accountBooks(newV) {
+                console.log(newV)
+            }
         },
         computed: {
             ...mapState(['accountBooks', 'currentAccountBook'])

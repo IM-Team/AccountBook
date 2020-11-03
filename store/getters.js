@@ -6,6 +6,26 @@ const findAccount = (state) => {
     }
 }
 
+const findBillOfId = (state) => {
+    return (id) => {
+
+        const pos = []
+
+        state.turnoverData.turnovers.some((turnover, turnoverIndex) => {
+            const index =  turnover.list.findIndex(item => item.id === id)
+
+            if (index !== -1) {
+                pos.push(turnoverIndex, index)
+            }
+        
+            return false
+        })
+
+        return pos
+    }
+}
+
 export default {
-    findAccount
+    findAccount,
+    findBillOfId
 }

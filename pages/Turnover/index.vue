@@ -7,7 +7,7 @@
 
 		<turnover-list :turnovers="turnoverData.turnovers" />
 
-        <bill-detail @edit="onEdit" />
+        <bill-detail @edit="onEdit" @delete="onDelete" />
 	</view>
 </template>
 
@@ -19,16 +19,20 @@
     import { ruleOfThirds, deepClone } from '@/utils/utils.js'
     import { mapState } from 'vuex'
     import TurnoverModel from '@/model/TurnoverModel'
+    import { turnoverMixin } from '@/utils/mixins'
 
     import {
         TURNOVER_DATA,
-        IS_FROM_BILLDETAIL
+        IS_FROM_BILLDETAIL,
+        IS_SHOW_BILLDETAIL,
+        REMOVE_TURNOVER_ITEM
     } from '@/store/mutation-types'
 	
-    import res from './data.json'
+    const turnoverModel = new TurnoverModel()
 
 	export default {
-		name: 'Turnover',
+        name: 'Turnover',
+        mixins: [turnoverMixin],
 		data() {
 			return {
 				data: {},
@@ -54,28 +58,17 @@
             }
         },
 		created() {
-
-            const year = 2020, month = 11
-
-            const turnoverModel = new TurnoverModel()
-            turnoverModel.getTurnoverList({ year, month }).then(res => {
-
-				const turnoverList = res.data.billsOfDayList.map(turnovers => {
-					const day = turnovers.time.split('-')[2] * 1
-					return {
-						day: day,
-						list: turnovers.billList
-					}
-				})
-
-				this.$store.commit(TURNOVER_DATA, {
-					year,
-					month,
-					turnovers: turnoverList
-                })
-
+            
+            /**
+             * 防止切换 tab 造成频繁请求
+             */
+            if (Object.keys(this.$store.state.turnoverData).length > 0) {
                 this.calcIncomeAndExpense()
-			})
+                return
+            }
+
+            const date = new Date()
+            this.switchTurnoverDate(date.getFullYear(), date.getMonth() + 1)
         },
         computed: {
             ...mapState(['turnoverData'])
@@ -101,6 +94,17 @@
                 this.$store.commit(IS_FROM_BILLDETAIL, true)
                 
 				uni.navigateTo({ url: '/pages/Add/index' })
+            },
+            onDelete(id) {
+                turnoverModel.deleteBill(id).then(res => {
+                    this.removeBill(id)
+                })
+            },
+            removeBill(id) {
+                this.$store.commit(IS_SHOW_BILLDETAIL, false)
+
+                const pos = this.$store.getters.findBillOfId(id)
+                this.$store.commit(REMOVE_TURNOVER_ITEM, {turnoverIndex: pos[0], itemIndex: pos[1]})
             }
 		}
 	}

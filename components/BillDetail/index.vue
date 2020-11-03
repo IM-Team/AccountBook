@@ -61,7 +61,7 @@
                 if (newValue) {
                     this.info = this.$store.state.billDetail
                     this.formatDateAndTime()
-                    this.priceColor = newValue.type === 1 ? '#0EA391' : '#FF4949'
+                    this.priceColor = this.info.type === 1 ? '#0EA391' : '#FF4949'
 
                     this.$nextTick(() => this.isAnimate = true)
                 }
@@ -91,8 +91,8 @@
                 this.$emit('edit')
                 this.handleHide()
             },
-            onDelete() {
-                this.$emit('delete')
+            onDelete(id) {
+                this.$emit('delete', this.info.id)
             }
 		}
 	}

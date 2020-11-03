@@ -67,7 +67,7 @@
 				uni.navigateTo({ url: '/pages/AccountBook/index' });
 			},
 			onGotoCate() {
-				uni.navigateTo({ url: '/pages/CategoryEdit/index' })
+				uni.navigateTo({ url: '/pages/CategoryList/index' })
 			},
 			onGotoFeedback() {
 				uni.navigateTo({ url: '/pages/Feedback/index' })

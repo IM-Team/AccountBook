@@ -27,6 +27,8 @@
 <script>
 
     import { ADD_ACCOUNT_BOOK } from '@/store/mutation-types'
+    import AccountBookModel from '@/model/AccountBookModel'
+    import { showToast } from '@/utils/utils'
 
     export default {
         name: 'AccountBookAdd',
@@ -50,6 +52,11 @@
                 ]
             }
         },
+        computed: {
+            bgColor() {
+                return `background-image: linear-gradient(to top, ${this.currentColor[0]} 0%, ${this.currentColor[1]} 100%)`                    
+            }
+        },
         methods: {
             onToggleColor(color) {
                 this.currentColor = color
@@ -59,23 +66,29 @@
 				this.input = this.input.trim();
 				
 				if(this.input.length > 0) {
-					this.$store.commit(ADD_ACCOUNT_BOOK, {
-						id: (Math.random().toFixed(3) * 1000).toFixed(0),
-						name: this.input,
-						color: this.currentColor
-					})
-					uni.navigateBack()
-				} else {
+
+                    const accountBook = {
+                        id: -1,
+                        name: this.input,
+                        color: this.currentColor.join(',')
+                    }
+
+                    ;(new AccountBookModel()).postAccountBook(accountBook).then(id => {
+                        accountBook[id] = id
+                        this.saveAccountBook(accountBook)
+                    }).catch(showToast)
+
+                } else {
 					uni.showToast({
 						icon: "none",
 						title: "输入账本名称"
 					})
 				}
-            }
-        },
-        computed: {
-            bgColor() {
-                return `background-image: linear-gradient(to top, ${this.currentColor[0]} 0%, ${this.currentColor[1]} 100%)`                    
+            },
+            saveAccountBook(accountBook) {
+                accountBook.color = accountBook.color.split(',')
+                this.$store.commit(ADD_ACCOUNT_BOOK, accountBook)
+                uni.navigateBack()
             }
         }
     }

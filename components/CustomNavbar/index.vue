@@ -24,10 +24,6 @@
 				type: Number,
 				required: true
 			}
-		},
-		created() {
-            this.$store.commit(ACCOUNT_BOOKS, res.data)
-            this.$store.commit(CURRENT_ACCOUNT_BOOK, this.$store.state.accountBooks[0])
         },
         computed: {
             ...mapState(['currentAccountBook'])

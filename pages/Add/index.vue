@@ -84,7 +84,7 @@
                         id: -1,
                         type: 1,
                         amount: "0.00",
-                        comment: '还没有写!',
+                        comment: '(空)',
                         timestamp: Date.now(),
                         account: {
                             id: 1,
@@ -107,15 +107,26 @@
 				this.digitList = v
             },
             onConfirm() {
-				this.fixDicimalPoint()
-                this.isFromBillDetail ? this.updateInfo() : this.addTurnoverItem()
+				this.fixDecimalPoint()
 
-                uni.navigateBack()
+                const turnoverModel = new TurnoverModel()
+                
+				turnoverModel.postBill(this.billDetail).then((id) => {
+                    this.billDetail.id = id
+                    this.isFromBillDetail ? this.updateInfo() : this.addTurnoverItem()
+                    uni.navigateBack()
+				}).catch(() => {
+					uni.showToast({
+						title: '请检查网络连接',
+						icon: 'none',
+						duration: 2000
+					})
+                })
             },
             onChangeDate(timestamp) {
                 this.billDetail.timestamp = timestamp
             },
-            fixDicimalPoint() {
+            fixDecimalPoint() {
                 this.billDetail.amount = this.digitList.join('')
                 const pointIndex = this.billDetail.amount.indexOf('.')
 
@@ -134,8 +145,9 @@
 				const isUpdateDate = this.billDetail.timestamp !== this.oldDate
 				
 				// 不需更新日期
-				const modifyPos = this.findTurnvoerOfLocal(turnovers, 'id', tId)
+				const modifyPos = this.findTurnoverOfLocal(turnovers, 'id', tId)
 				if (!isUpdateDate) {
+
                     this.$store.commit(UPDATE_TURNOVER_ITEM, {
                         turnoverIndex: modifyPos[0],
                         itemIndex: modifyPos[1],
@@ -183,10 +195,7 @@
                         turnoverIndex: targetIndex,
                         data: this.billDetail
                     })
-				} else {
-					console.log('Send request');
-                }
-                
+				}
 			}, // end updateInfo
 			
 			/**
@@ -195,7 +204,7 @@
 			 * @param {String} value		预期的 value : item[key] === value
 			 * @return {Array} turnoverPos	返回这个流水在 turnover 对象中的位置：[level1, level2]
 			 */
-			findTurnvoerOfLocal(turnovers, key, value) {
+			findTurnoverOfLocal(turnovers, key, value) {
 				
 				const turnoverPos = []
 				turnovers.some((turnover, _tIndex) => {
@@ -222,6 +231,7 @@
 				}
 			},
             addTurnoverItem() {
+
                 const date = new Date(this.billDetail.timestamp)
                 const day = date.getDate()
 
@@ -234,9 +244,6 @@
                     // 查找 day
                     const index = turnoverData.turnovers.findIndex(item => item.day == day)
 
-                    const turnoverModel = new TurnoverModel()
-                    turnoverModel.postBill(this.billDetail)
-
                     if (index === -1) {
                         this.$store.commit(UNSHIFT_TURNOVER, {
                             day,
@@ -248,14 +255,8 @@
                             data: this.billDetail
                         })
                     }
-                } else {
-                    const turnoverModel = new TurnoverModel()
-                    turnoverModel.postBill(this.billDetail)
                 }
             }, // end addTurnover
-            postBill() {
-                
-            }
 		}
 	}
 </script>

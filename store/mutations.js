@@ -49,7 +49,11 @@ const mutations = {
         Vue.set(state.turnoverData.turnovers[turnoverIndex].list, itemIndex, data)
     },
     [REMOVE_TURNOVER_ITEM](state, { turnoverIndex, itemIndex }) {
-        Vue.delete(state.turnoverData.turnovers[turnoverIndex].list, itemIndex)
+        if (state.turnoverData.turnovers[turnoverIndex].list.length === 1) {
+            Vue.delete(state.turnoverData.turnovers, turnoverIndex)
+        } else {
+            Vue.delete(state.turnoverData.turnovers[turnoverIndex].list, itemIndex)
+        }
     },
     [REMOVE_TURNOVER](state, index) {
         Vue.delete(state.turnoverData.turnovers, index)

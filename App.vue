@@ -7,16 +7,18 @@
         created() {
             const accountBookModel = new AccountBookModel()
 
-            accountBookModel.getCategory(1).then(res => {
+            Promise.all([
+                accountBookModel.getCategory(1),
+                accountBookModel.getAccountBooks()
+            ]).then(res => {
 
-                const tmpCate = {
-                    1: [],
-                    2: []
-                }
+                const tmpCate = { 1: [], 2: [] }
+                res[0].forEach(item => tmpCate[item.type].push(item))
+                res[1].forEach(item => item.color = item.color.split(','))
 
-                res.data.forEach(item => tmpCate[item.type].push(item) )
-
-                this.$store.dispatch('initCategory', tmpCate)
+                this.$store.dispatch('category', tmpCate)
+                this.$store.dispatch('accountBooks', res[1])
+                this.$store.dispatch('currentAccountBook', this.$store.state.accountBooks[0])
             })
         }
 	}

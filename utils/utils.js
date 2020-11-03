@@ -139,5 +139,5 @@ export {
 	ruleOfThirds,
 	isFloat,
 	stringReverse,
-	deepClone
+    deepClone
 }
