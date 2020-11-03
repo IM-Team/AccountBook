@@ -18,7 +18,7 @@ class HTTP {
 
 				const code = res.statusCode.toString()
 				if (code.startsWith(2)) {
-					resolve(res)
+					resolve(res.data)
 				} else {
 					reject('请求失败')
 				}

@@ -43,15 +43,16 @@
 </template>
 
 <script>
-	
+	// components
 	import ImCell from '@/components/common/ImCell'
 	import AccountGroup from '../../components/AccountGroup'
-	
+	// methods
     import { accountMapMixin } from '@/utils/mixins'
 	import { ruleOfThirds } from '@/utils/utils'
     import { ACCOUNTS } from '@/store/mutation-types'
-	
+	// datas
 	import { accounts } from './Account.json'
+	import AccountModel from '../../model/AccountModel.js'
 	
 	export default {     
 		name: 'Account',
@@ -85,7 +86,7 @@
 			calcTotal(accounts) {
 				let total = 0;
 				accounts.forEach(item => total += Number(item.balance))
-				return total;
+				return total.toFixed(2);
 			},
 			formattingBalance(number) {
 				return ruleOfThirds(number);
@@ -99,22 +100,22 @@
 				console.log("您太穷了...pi");
 			},
 			initAccountData() {
-
+				const accountModel = new AccountModel();
                 const tmpAcount = {
                     capitals: [],
                     credits: []
                 }
-
-				for(const account of accounts.list) {
-					
-                    const accountType = account.account_type;
-					
-                    if (accountType === 1) {
-                        tmpAcount.capitals.push(account);
-                    } else if (accountType === 2) {
-                        tmpAcount.credits.push(account);
-                    }
-                }
+				
+				accountModel.getAccountList(1).then(res => {
+					for(const account of res.accountList) {
+						if (account.categoryId === 1) {
+							tmpAcount.capitals.push(account);
+						} else if (account.categoryId === 2) {
+							tmpAcount.credits.push(account);
+						}
+					}
+					console.log("request...");
+				});
 
                 this.$store.commit(ACCOUNTS, tmpAcount);
                 this.capitalAccount = this.$store.state.accounts.capitals;
@@ -133,10 +134,13 @@
 		font-size: 32rpx;
 	}
 	.money .worth-value {
+		width: 400rpx;
 		margin: 10rpx 0 16rpx;
 		font-size: 48rpx;
-		color: #188AFF;
 		font-weight: 100;
+		color: #188AFF;
+		overflow-x: scroll;
+		
 	}
 	
 	.money .total-title {

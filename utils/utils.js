@@ -82,9 +82,9 @@ function addSymbolOfByte(target, symbol, byteNumber = 3, isReverse = true) {
  */
 function ruleOfThirds(number) {
     
-    if (!number) return
-
     number = number.toString()
+
+    if (!number) return
 	
     const numberSplitArr = isFloat(number) ? number.split('.') : [number, '00']
 	

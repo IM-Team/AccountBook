@@ -14,7 +14,7 @@
 					<input
 						class="input-account" 
 						type="text" 
-						v-model="account.custom_name" 
+						v-model="account.name" 
 						slot="title" 
 						maxlength="10"
 						placeholder="请输入账户名称" 
@@ -25,7 +25,7 @@
 			
 			<view class="form-item">
 				<view class="form-title">账户信息</view>
-				<im-cell :title=" account.account_type == 1 ? '账户余额' : '负债额度' ">
+				<im-cell :title=" account.categoryId == 1 ? '账户余额' : '负债额度' ">
 					<input 
 						@blur="inputBalance($event)"
 						:value="account.balance == '0' ? '' : account.balance"
@@ -42,7 +42,7 @@
 				<view class="form-title">账户设置</view>
 				<im-cell @click.native="inAccountBook" title="关联账本">
 					<view slot="content" class="account_book">
-						<text>{{ currentAccountBook }}</text>
+						<text>{{ accountName }}</text>
 						<view class="iconfont icon-gengduo"></view>
 					</view>
 				</im-cell>
@@ -67,14 +67,21 @@
 <script>
 
 	import ImCell from '@/components/common/ImCell'
-	import { accountMapMixin } from '@/utils/mixins'
+	
 	import { deepClone } from '@/utils/utils'
-    import { data } from './data.json'
     import {
         REMOVE_ACCOUNT,
         ADD_ACCOUNT,
         UPDATE_ACCOUNT
     } from '@/store/mutation-types'
+	
+	import { accountMapMixin } from '@/utils/mixins'
+	import AccountModel from '../../model/AccountModel.js'
+	import AccountBookModel from '../../model/AccountBookModel.js'
+    import { data } from './data.json'
+	
+	
+	const accountModel = new AccountModel();
     
 	export default {
 		name: 'AccontEdit',
@@ -82,9 +89,13 @@
 		data() {
 			return {
 				account: null,	// 当前账户
-				currentAccountBook: data[0].name,	// 当前关联的账本
+				accountBooks: [],	// 账本列表
 				isModifyAccount: false	// 修改账户 or 新建账户
 			}
+		},
+		created() {
+			const accountBookModel = new AccountBookModel();
+			accountBookModel.getAccountBooks().then(res => this.accountBooks = res );
 		},
 		onLoad(option) {
 			// 修改账户 or 新建账户 相关处理
@@ -100,16 +111,20 @@
 		computed: {
 			// 计算账户名称的字数
 			accountNameLength() {
-                return this.account ? this.account.custom_name.length : 0
+                return this.account ? this.account.name.length : 0
             },
+			accountName() {
+				if(this.accountBooks.length === 0) return;
+				return this.accountBooks.find(item => item.id == this.account.bookId).name;
+			},
             icon() {
-                return this.account && this.mixin_accounts[this.account.type].icon
+                return this.account && this.mixin_accounts[this.account.icon].icon
             },
             iconColor() {
-                return this.account && this.mixin_accounts[this.account.type].color
+                return this.account && this.mixin_accounts[this.account.icon].color
             },
             iconName() {
-                return this.account && this.mixin_accounts[this.account.type].name
+                return this.account && this.mixin_accounts[this.account.icon].name
             }
 		},
 		methods: {
@@ -120,11 +135,11 @@
             },
 			initCreateOfData(option) {
                 this.account = {
-                    type: option.type,
+                    icon: option.type,
 					balance: '0',
-					custom_name: '',
-					account_type: Number(option.account_type),
-					id : Math.ceil(Math.random()*1000)
+					name: '',
+					bookId: 1,
+					categoryId: Number(option.account_type),
                 }
 			},
 			// 绑定balance数据
@@ -142,15 +157,14 @@
 			// 关联账本处理函数
 			inAccountBook() {
 				let AccountBook = [];
-				for(let item of data) AccountBook.push(item.name);
+				
+				for(let item of this.accountBooks) AccountBook.push(item.name);
+				
 				uni.showActionSheet({
 				    itemList: AccountBook,
 				    success: res => {
 						this.currentAccountBook = AccountBook[res.tapIndex];
-				        console.log('选中了第' + res.tapIndex + '个按钮');
-				    },
-				    fail: res => {
-				        console.log(res.errMsg);
+						this.account.bookId = this.accountBooks[res.tapIndex].id;
 				    }
 				});
 			},
@@ -161,20 +175,23 @@
 				    content: '确认删除该账户',
 				    success: res => {
 				        if (res.confirm) {
-                            this.$store.commit(REMOVE_ACCOUNT, {
-                                account_type: this.account.account_type,
-                                id: this.account.id
-                            })
+							accountModel.removeAccount(this.account.id).then(() => {
+								
+								this.$store.commit(REMOVE_ACCOUNT, {
+									account_type: this.account.categoryId,
+									id: this.account.id
+								})
 
-                            uni.navigateBack({ delta: 1 });
-				        } else if (res.cancel) {
-				            console.log('用户点击取消');
+								uni.navigateBack({ delta: 1 });
+							});
+							
 				        }
 				    }
 				});
 			},
 			// 创建or修改 处理函数
 			CreateAndModify(isCreate) {
+
 				if(!this.accountNameLength) {
 					uni.showToast({
 						icon: "none",
@@ -182,20 +199,28 @@
 					})
 					return;
 				}
+				
 				// 如果blance为空个则补0
 				this.account.balance = Number(this.account.balance) || '0';
+				
 				// 创建or修改 账户
 				if(isCreate) {
-                    this.$store.commit(ADD_ACCOUNT, {
-                       account_type: this.account.account_type,
-                       data: this.account
-                    })
-				} else {
-                    this.$store.commit(UPDATE_ACCOUNT, {
-                       account_type: this.account.account_type,
-                       id: this.account.id,
-                       data: this.account
-                    })
+					accountModel.createAccount(this.account).then(() => {
+						this.$store.commit(ADD_ACCOUNT, {
+						   account_type: this.account.categoryId,
+						   data: this.account
+						})
+					});
+					
+				} else {					
+					accountModel.modifyAccount(this.account).then(() => {
+						this.$store.commit(UPDATE_ACCOUNT, {
+						   account_type: this.account.categoryId,
+						   id: this.account.id,
+						   data: this.account
+						})
+					});
+					
 				}
 				
 				uni.showToast({
