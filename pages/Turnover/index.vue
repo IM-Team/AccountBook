@@ -71,7 +71,7 @@
             this.switchTurnoverDate(date.getFullYear(), date.getMonth() + 1)
         },
         computed: {
-            ...mapState(['turnoverData'])
+            ...mapState(['turnoverData', 'currentAccountBook'])
         },
 		methods: {
 			calcIncomeAndExpense() {

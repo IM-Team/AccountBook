@@ -63,7 +63,11 @@ const accountMapMixin = {
 
 const turnoverMixin = {
     methods: {
-        switchTurnoverDate(year, month, accountBookId = 1) {
+        switchTurnoverDate(year, month, accountBookId) {
+
+            if (!accountBookId) {
+                accountBookId = this.$store.state.currentAccountBook.id
+            }
 
             const turnoverModel = new TurnoverModel()
             turnoverModel.getTurnoverList({ year, month, accountBookId }).then(res => {

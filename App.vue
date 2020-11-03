@@ -3,32 +3,49 @@
     import AccountBookModel from '@/model/AccountBookModel'
     import AccountModel from '@/model/AccountModel'
 
+    import { mapState } from 'vuex'
+
+    const accountBookModel = new AccountBookModel()
+    const accountModel = new AccountModel()
+
 	export default {
         name: 'App',
-        created() {
-
-            const id = uni.getStorageSync('bookId')
-
-            const accountBookModel = new AccountBookModel()
-            const accountModel = new AccountModel()
-            Promise.all([
-                accountBookModel.getCategory(1),
-                accountBookModel.getAccountBooks(),
-                accountModel.getAccountList(1)
-            ]).then(res => {
-                this.initAccountBook(res)
-                this.initAccount(res[2])
-			})
+        data() {
+            return {
+                lock: false
+            }
+        },
+        async created() {
+            this.init()
+        },
+        computed: {
+            ...mapState(['currentAccountBook'])
         },
 		methods: {
-			initAccountBook(res) {
+            init() {
+                const abId = this.$store.state.currentAccountBook.id || 1
+
+                Promise.all([
+                    accountBookModel.getCategory(abId),
+                    accountBookModel.getAccountBooks(),
+                    accountModel.getAccountList(abId)
+                ]).then(res => {
+                    this.initCategory(res[0])
+                    this.initAccountBook(res[1])
+                    this.initAccount(res[2])
+                    this.$store.dispatch('currentAccountBook', this.$store.state.accountBooks[0])
+                })
+            },
+            initCategory(res) {
 				const tmpCate = { 1: [], 2: [] }
-				res[0].forEach(item => tmpCate[item.type].push(item))
-				res[1].forEach(item => item.color = item.color.split(','))
-				
+                res.forEach(item => tmpCate[item.type].push(item))
+                
 				this.$store.dispatch('category', tmpCate)
-				this.$store.dispatch('accountBooks', res[1])
-				this.$store.dispatch('currentAccountBook', this.$store.state.accountBooks[0])
+            },
+			initAccountBook(res) {
+				res.forEach(item => item.color = item.color.split(','))
+				
+				this.$store.dispatch('accountBooks', res)
             },
             initAccount(res) {
                 const tmpAcount = {

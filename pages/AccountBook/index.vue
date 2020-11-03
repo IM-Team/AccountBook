@@ -19,13 +19,19 @@
 
     import { mapState } from 'vuex'
     import AccountBookModel from '@/model/AccountBookModel'
+    import AccountModel from '@/model/AccountModel'
     import {
         CURRENT_ACCOUNT_BOOK,
         ACCOUNT_BOOKS
     } from '@/store/mutation-types'
+    import { turnoverMixin } from '@/utils/mixins'
+
+    const accountBookModel = new AccountBookModel()
+    const accountModel = new AccountModel()
 	
 	export default {
-		name: 'AccountBook',
+        name: 'AccountBook',
+        mixins: [turnoverMixin],
 		data() {
 			return {
                 currentId: 0
@@ -34,11 +40,6 @@
         created() {
 			this.currentId = this.$store.state.currentAccountBook.id
         },
-        watch: {
-            accountBooks(newV) {
-                console.log(newV)
-            }
-        },
         computed: {
             ...mapState(['accountBooks', 'currentAccountBook'])
         },
@@ -46,9 +47,51 @@
             onToggle(accountBook) {
                 this.currentId = accountBook.id
                 this.$store.commit(CURRENT_ACCOUNT_BOOK, accountBook)
+                this.refreshData(accountBook.id)
             },
             onAdd() {
                 uni.navigateTo({ url: '/pages/AccountBookAdd/index' })
+            },
+            refreshData(id) {
+                Promise.all([
+                    accountBookModel.getCategory(id),
+                    accountBookModel.getAccountBooks(),
+                    accountModel.getAccountList(id)
+                ]).then(res => {
+                    this.initCategory(res[0])
+                    this.initAccountBook(res[1])
+                    this.initAccount(res[2])
+                })
+
+                const date = new Date()
+                this.switchTurnoverDate(date.getFullYear(), date.getMonth() + 1, id)
+            },
+            initCategory(res) {
+				const tmpCate = { 1: [], 2: [] }
+                res.forEach(item => tmpCate[item.type].push(item))
+                
+				this.$store.dispatch('category', tmpCate)
+            },
+			initAccountBook(res) {
+				res.forEach(item => item.color = item.color.split(','))
+				
+				this.$store.dispatch('accountBooks', res)
+            },
+            initAccount(res) {
+                const tmpAcount = {
+                    capitals: [],
+                    credits: []
+                }
+
+                for(const account of res.accountList) {
+                    if (account.categoryId === 1) {
+                        tmpAcount.capitals.push(account);
+                    } else if (account.categoryId === 2) {
+                        tmpAcount.credits.push(account);
+                    }
+                }
+
+                this.$store.dispatch('account', tmpAcount)
             }
 		}
 	}

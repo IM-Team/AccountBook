@@ -2,7 +2,8 @@ import {
     CATEGORY,
     ACCOUNT_BOOKS,
     CURRENT_ACCOUNT_BOOK,
-    ACCOUNTS
+    ACCOUNTS,
+    TURNOVER_DATA
 } from './mutation-types'
 
 const actions = {
@@ -17,6 +18,9 @@ const actions = {
     },
     account({ commit }, data) {
         commit(ACCOUNTS, data)
+    },
+    turnoverData({ commit }, data) {
+        commit(TURNOVER_DATA, data)
     }
 }
 

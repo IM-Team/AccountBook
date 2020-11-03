@@ -27,14 +27,14 @@
 			<view class="account-group">
 				<account-group
 					title="资金账户"
-					:accounts="capitalAccount"
+					:accounts="accounts.capitals"
 					account_type=1
 				/>
 			</view>
 			<view class="account-group">
 				<account-group
 					title="信用账户"
-					:accounts="creditAccount"
+					:accounts="accounts.credits"
 					account_type=2
 				/>
 			</view>
@@ -52,15 +52,13 @@
     import { ACCOUNTS } from '@/store/mutation-types'
 	// datas
 	import { accounts } from './Account.json'
-	import AccountModel from '../../model/AccountModel.js'
+    import AccountModel from '../../model/AccountModel.js'
+    
+    import { mapState } from 'vuex'
 	
 	export default {     
 		name: 'Account',
 		mixins: [accountMapMixin],
-		created() {
-			// 初始化数据inmo-vuex
-			this.initAccountData();
-		},
 		data() {
 			return {
 				capitalAccount: [],	// 资金账户
@@ -68,6 +66,7 @@
 			}
         },
 		computed: {
+            ...mapState(['accounts']),
 			capitalTotal() {
 				return this.calcTotal(this.capitalAccount);
 			},
@@ -103,10 +102,6 @@
 					showCancel: false,
 					confirmText: "对不起"
 				});
-			},
-			initAccountData() {
-                this.capitalAccount = this.$store.state.accounts.capitals;
-                this.creditAccount = this.$store.state.accounts.credits;
 			}
 		}
 	}

@@ -9,14 +9,12 @@
 
 <script>
     
+    import { mapState } from 'vuex'
     import {
         ACCOUNT_BOOKS,
         CURRENT_ACCOUNT_BOOK
     } from '@/store/mutation-types.js'
-    import { mapState } from 'vuex'
 
-    import res from './data.json'
-	
 	export default {
 		name: 'Navbar',
 		props: {
