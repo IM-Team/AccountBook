@@ -97,7 +97,12 @@
 			},
 			// 点击资金趋势按钮处理事件
 			onCapitalTrend() {
-				console.log("您太穷了...pi");
+				uni.showModal({
+					title: "提示",
+					content: "过于贫穷，没资格查看",
+					showCancel: false,
+					confirmText: "对不起"
+				});
 			},
 			initAccountData() {
 				const accountModel = new AccountModel();
@@ -106,6 +111,7 @@
                     credits: []
                 }
 				
+				uni.showLoading({ title: "Loding", mask: true });
 				accountModel.getAccountList(1).then(res => {
 					for(const account of res.accountList) {
 						if (account.categoryId === 1) {
@@ -114,7 +120,7 @@
 							tmpAcount.credits.push(account);
 						}
 					}
-					console.log("request...");
+					uni.hideLoading();
 				});
 
                 this.$store.commit(ACCOUNTS, tmpAcount);

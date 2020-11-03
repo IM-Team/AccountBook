@@ -176,13 +176,16 @@
 				    success: res => {
 				        if (res.confirm) {
 							accountModel.removeAccount(this.account.id).then(() => {
-								
 								this.$store.commit(REMOVE_ACCOUNT, {
 									account_type: this.account.categoryId,
 									id: this.account.id
 								})
-
 								uni.navigateBack({ delta: 1 });
+							}, () => {
+								uni.showToast({
+									icon: "none",
+									title: "请检查您的网络"
+								})
 							});
 							
 				        }
@@ -209,6 +212,12 @@
 						this.$store.commit(ADD_ACCOUNT, {
 						   account_type: this.account.categoryId,
 						   data: this.account
+						});
+						uni.navigateBack({ delta: 2 });
+					}, () => {
+						uni.showToast({
+							icon: "none",
+							title: "请检查您的网络"
 						})
 					});
 					
@@ -218,18 +227,16 @@
 						   account_type: this.account.categoryId,
 						   id: this.account.id,
 						   data: this.account
+						});
+						uni.navigateBack({ delta: 1 });
+					}, () => {
+						uni.showToast({
+							icon: "none",
+							title: "请检查您的网络"
 						})
 					});
 					
 				}
-				
-				uni.showToast({
-					title: '保存成功',
-					duration: 1200,
-					success: () => {
-						uni.navigateBack({ delta: 2 });
-					}
-				});
 			}
 		}
 	}
