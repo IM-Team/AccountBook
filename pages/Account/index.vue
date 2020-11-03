@@ -105,25 +105,6 @@
 				});
 			},
 			initAccountData() {
-				const accountModel = new AccountModel();
-                const tmpAcount = {
-                    capitals: [],
-                    credits: []
-                }
-				
-				uni.showLoading({ title: "Loding", mask: true });
-				accountModel.getAccountList(1).then(res => {
-					for(const account of res.accountList) {
-						if (account.categoryId === 1) {
-							tmpAcount.capitals.push(account);
-						} else if (account.categoryId === 2) {
-							tmpAcount.credits.push(account);
-						}
-					}
-					uni.hideLoading();
-				});
-
-                this.$store.commit(ACCOUNTS, tmpAcount);
                 this.capitalAccount = this.$store.state.accounts.capitals;
                 this.creditAccount = this.$store.state.accounts.credits;
 			}
