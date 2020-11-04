@@ -1,9 +1,9 @@
 <template>
 	<view class="feedback-container">
 		<view class="title-wrap">
-			<view class="title" :class="{active: currentTitle === 0}" @click="currentTitle = 0">问题反馈</view>
+			<view class="title" :class="{active: currentTitle === 1}" @click="currentTitle = 1">问题反馈</view>
 			<view class="title-space"></view>
-			<view class="title" :class="{active: currentTitle === 1}" @click="currentTitle = 1">产品建议</view>
+			<view class="title" :class="{active: currentTitle === 2}" @click="currentTitle = 2">产品建议</view>
 		</view>
 		<view class="content-wrap">
 			<textarea 
@@ -19,10 +19,12 @@
 </template>
 
 <script>
+	import FeedbackModel from '../../model/FeedbackModel.js'
+	
 	export default {
 		data() {
 			return {
-				currentTitle: 0,
+				currentTitle: 1,
 				content: ''
 			}
 		},
@@ -40,8 +42,17 @@
 						icon: "none"
 					})
 				} else {
-					console.log(`title:${['问题反馈', '产品建议'][this.currentTitle]} content:${this.content}`);
-					uni.navigateBack({ delta: 1	});
+					const feedbackModel = new FeedbackModel();
+					feedbackModel.sendFeedback(this.currentTitle, this.content).then(() => {
+						uni.showToast({
+							title: "发送成功",
+							success: () => {
+								setTimeout(() => {
+									uni.navigateBack({ delta: 1	});
+								}, 800);
+							}
+						})
+					});
 				}
 			}
 		}

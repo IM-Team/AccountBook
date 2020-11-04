@@ -137,8 +137,9 @@
                 this.account = {
                     icon: option.type,
 					balance: '0',
+					id: -1,
 					name: '',
-					bookId: 1,
+					bookId: this.$store.state.currentAccountBook.id,
 					categoryId: Number(option.account_type),
                 }
 			},
@@ -180,7 +181,7 @@
 									account_type: this.account.categoryId,
 									id: this.account.id
 								})
-								uni.navigateBack({ delta: 1 });
+								uni.navigateBack({  delta: 1 });
 							}, () => {
 								uni.showToast({
 									icon: "none",
@@ -205,14 +206,18 @@
 				
 				// 如果blance为空个则补0
 				this.account.balance = Number(this.account.balance) || '0';
+				// this.account.balance = Number(this.account.balance).toFixed(2);
 				
 				// 创建or修改 账户
 				if(isCreate) {
-					accountModel.createAccount(this.account).then(() => {
-						this.$store.commit(ADD_ACCOUNT, {
-						   account_type: this.account.categoryId,
-						   data: this.account
-						});
+					accountModel.createAccount(this.account).then((res) => {
+						this.account.id = res;
+						if(this.account.bookId == this.$store.state.currentAccountBook.id) {
+							this.$store.commit(ADD_ACCOUNT, {
+							   account_type: this.account.categoryId,
+							   data: this.account
+							});
+						}
 						uni.navigateBack({ delta: 2 });
 					}, () => {
 						uni.showToast({
@@ -223,11 +228,18 @@
 					
 				} else {					
 					accountModel.modifyAccount(this.account).then(() => {
-						this.$store.commit(UPDATE_ACCOUNT, {
-						   account_type: this.account.categoryId,
-						   id: this.account.id,
-						   data: this.account
-						});
+						if(this.account.bookId == this.$store.state.currentAccountBook.id) {
+							this.$store.commit(UPDATE_ACCOUNT, {
+							   account_type: this.account.categoryId,
+							   id: this.account.id,
+							   data: this.account
+							});
+						} else {
+							this.$store.commit(REMOVE_ACCOUNT, {
+								account_type: this.account.categoryId,
+								id: this.account.id
+							});
+						}
 						uni.navigateBack({ delta: 1 });
 					}, () => {
 						uni.showToast({
