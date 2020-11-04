@@ -181,7 +181,7 @@
 									account_type: this.account.categoryId,
 									id: this.account.id
 								})
-								uni.navigateBack({ delta: 1 });
+								uni.navigateBack({  delta: 1 });
 							}, () => {
 								uni.showToast({
 									icon: "none",
