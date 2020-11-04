@@ -1,5 +1,5 @@
-const BASE_URL = 'http://192.168.3.176:8080'
-const TEST_URL = 'http://192.168.3.176:8080'
+const BASE_URL = 'http://wallet.utools.club:80'
+const TEST_URL = 'http://wallet.utools.club:80'
 
 const config = {
 	baseURL: BASE_URL
