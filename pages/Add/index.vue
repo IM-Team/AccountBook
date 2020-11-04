@@ -80,24 +80,25 @@
                     // 记录旧的时间
 					this.oldDate = _billDetail.timestamp
                 } else {
+
+                    const billCategory = { ...this.$store.state.category[1][0] }
+                    const cabId = this.$store.getters.currentAccountBookId
+
                     this.$store.commit(BILL_DETAIL, {
                         id: -1,
                         type: 1,
                         amount: "0.00",
                         comment: '(空)',
                         timestamp: Date.now(),
+                        bookId: cabId,
                         account: {
                             id: 1,
                             name: '现金'
                         },
-                        billCategory: {
-                            id: 1,
-                            name: '工资',
-                            icon: 'icon-qian',
-                            color: '#188AFF',
-                        }
+                        billCategory: billCategory
                     })
                 }
+
             }, // end init
             
             onToggle(type) {
@@ -110,7 +111,8 @@
 				this.fixDecimalPoint()
 
                 const turnoverModel = new TurnoverModel()
-                
+                this.billDetail.bookId = 
+
 				turnoverModel.postBill(this.billDetail).then((id) => {
                     this.billDetail.id = id
                     this.isFromBillDetail ? this.updateInfo() : this.addTurnoverItem()

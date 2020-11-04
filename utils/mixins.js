@@ -63,38 +63,33 @@ const accountMapMixin = {
 
 const turnoverMixin = {
     methods: {
-        switchTurnoverDate(year, month, accountBookId) {
+        async switchTurnoverDate(year, month, accountBookId, isCommit = true) {
 
+            // 防止没有传递账本 id
             if (!accountBookId) {
-                accountBookId = this.$store.state.currentAccountBook.id
+                accountBookId = this.$store.getters.currentAccountBookId
             }
 
             const turnoverModel = new TurnoverModel()
-            turnoverModel.getTurnoverList({ year, month, accountBookId }).then(res => {
+            const res = await turnoverModel.getTurnoverList({ year, month, accountBookId })
 
-                const turnoverList = res.billsOfDayList.map(turnovers => {
-                    const day = turnovers.time.split('-')[2] * 1
-                    return {
-                        day: day,
-                        list: turnovers.billList
-                    }
-                })
-        
+            const turnoverList = res.billsOfDayList.map(turnovers => {
+                const day = turnovers.time.split('-')[2] * 1
+                return {
+                    day: day,
+                    list: turnovers.billList
+                }
+            })
+
+            if (!isCommit) {
+                return turnoverList
+            } else {
                 this.$store.commit(TURNOVER_DATA, {
                     year,
                     month,
                     turnovers: turnoverList
                 })
-            }).catch((err) => {
-
-                console.log(err)
-
-                uni.showToast({
-                    title: '服务器开了个小差',
-                    icon: 'none',
-                    duration: 2000
-                })
-            })
+            }
         }
     }
 }

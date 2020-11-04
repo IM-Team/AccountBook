@@ -25,7 +25,12 @@ const findBillOfId = (state) => {
     }
 }
 
+const currentAccountBookId = (state) => {
+    return state.currentAccountBook.id
+} 
+
 export default {
     findAccount,
-    findBillOfId
+    findBillOfId,
+    currentAccountBookId
 }

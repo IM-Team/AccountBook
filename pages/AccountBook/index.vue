@@ -48,6 +48,8 @@
                 this.currentId = accountBook.id
                 this.$store.commit(CURRENT_ACCOUNT_BOOK, accountBook)
                 this.refreshData(accountBook.id)
+
+                uni.navigateBack()
             },
             onAdd() {
                 uni.navigateTo({ url: '/pages/AccountBookAdd/index' })

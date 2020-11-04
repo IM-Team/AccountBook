@@ -44,14 +44,18 @@
 		},
 		methods: {
 			initDate() {
-			    const date = new Date()
-			    const currentDate = `${date.getFullYear()}-${date.getMonth() + 1}`
-                this.date = currentDate
-                this.endDate = currentDate
+			    // const date = new Date()
+                // const currentDate = `${date.getFullYear()}-${date.getMonth() + 1}`
+                
+                const { year, month } = this.$store.state.turnoverData
+
+                this.date = `${year}-${month}`
+                this.endDate = `${year}-${month}`
 			},
 			onDateChange(e) {
-				this.date = e.target.value
-			},
+                this.date = e.target.value
+                this.$emit('changeDate', this.date)
+			}
 		}
 	}
 	

@@ -20,10 +20,15 @@
 	import StatisticHeader from '@/components/Statistic/StastisticHeader'
     import StatisticList from '@/components/Statistic/StatisticList'
     import { mapState } from 'vuex'
+    import TurnoverModel from '@/model/TurnoverModel'
+    import config from '../../utils/config'
+    import { turnoverMixin } from '@/utils/mixins'
 
 	let pieCanvas = null
 
 	export default {
+        name: 'Statistic',
+        mixins: [turnoverMixin],
 		data() {
 			return {
                 data: {},
@@ -40,32 +45,38 @@
 			StatisticList
 		},
 		created() {
-            this.initChartData()
-			this.currentData = this.deReactive(this.data.income)
+            this.initChartData(this.turnoverData.turnovers)
+			this.currentData = this.data.income
         },
 		mounted() {
-			this.createPie(this.currentData)
+			this.createPie(this.deReactive(this.currentData))
         },
         computed: {
-            ...mapState(['turnoverData'])
+            ...mapState(['turnoverData']),
         },
 		watch: {
 			currentIndex(newData) {
-				const tmpVal = this.currentIndex ? this.data.expense : this.data.income
-				const tmpData = this.deReactive(tmpVal)
-
-				this.currentData = tmpData
-				pieCanvas.updateData({ series: tmpData })
+                this.updatePie(newData)
 			}
 		},
 		methods: {
-			onChangeDate(date) {
+			async onChangeDate(date) {
 				this.date = date
+
+                const cabId = this.$store.getters.currentAccountBookId
+                const [year, month] = date.split('-')
+
+                const res = await this.switchTurnoverDate(year, month, cabId, false)
+
+                this.initChartData(res)
+                this.updatePie(this.currentIndex)
+
+                
 			},
 			onChangeIndex(index) {
 				this.currentIndex = index
 			},
-            initChartData() {
+            initChartData(turnovers = []) {
 
                 const flatArr = [];
                 const pieData = {
@@ -74,7 +85,7 @@
                 }
 
                 // 扁平化
-                this.turnoverData.turnovers.forEach(dayTurnover => flatArr.push(...dayTurnover.list))
+                turnovers.forEach(dayTurnover => flatArr.push(...dayTurnover.list))
 
                 // 分类
                 flatArr.forEach(dayTurnover => {
@@ -110,7 +121,7 @@
 					},
 					background: '#FFFFFF',
 					pixelRatio: this.pixelRatio,
-					series: this.currentData,
+					series: series,
 					animation: true,
 					width: this.cWidth,
 					height: this.cHeight,
@@ -139,7 +150,16 @@
 				}
 				
 				return result
-			}
+            },
+            updatePie(index) {
+                const tmpVal = index ? this.data.expense : this.data.income
+                this.currentData = this.deReactive(tmpVal)
+
+                const isShowPie = this.currentData.length !== 0
+                const tmp = isShowPie ? this.currentData : []
+
+                pieCanvas.updateData({ series: tmp })
+            }
 		}
 	}
 	
