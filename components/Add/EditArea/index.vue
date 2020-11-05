@@ -21,7 +21,9 @@
 				</view>
 				<view class="account-type block_gray">
 					<text class="iconfont icon-zhanghu">账户</text>
-					<text>{{ billDetail.account.name }}</text>
+					<picker mode="selector" :range="accounts" range-key="name" @change="onSelectAccount">
+						<view>{{ billDetail.account.name }}</view>
+					</picker>
 				</view>
 			</viewd>
 		</view>
@@ -46,11 +48,14 @@
 				date: '2000-01-01',
                 startDate: '2000-01-01',
 				endDate: '2000-01-01',
-                info: {}
+                info: {},
+				accounts: [],
+				currentAccount: {}
 			}
 		},
 		created() {
-            this.init()
+            this.init();
+			this.initAccounts();
         },
         computed: {
             ...mapState(['billDetail'])
@@ -77,7 +82,16 @@
 				
 				const date = new Date(timestamp)
 				return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
-			}
+			},
+			onSelectAccount(e) {
+				this.billDetail.account = this.accounts[e.target.value];
+			},
+			initAccounts() {
+				for(let key in this.$store.state.accounts) {
+					for(let item of this.$store.state.accounts[key]) this.accounts.push({id:item.id, name:item.name});
+				}
+				this.billDetail.account = this.accounts[0];
+			} 
 		}
 	}
 	
@@ -109,6 +123,9 @@
 	.form-right .date {
 		display: flex;
 		margin-right: 32rpx;
+	}
+	.account-type {
+		display: flex;
 	}
 	.block_gray {
 		border-radius: 44rpx;
