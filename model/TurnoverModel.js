@@ -10,9 +10,9 @@ class TurnoverModel extends HTTP {
         })
     }
 
-    postBill(data) {
+    postBill(data, id) {
         return this.request({
-            url: '/bill',
+            url: '/bill?bookId=' + id,
             method: 'POST',
             data: data,
             header: {

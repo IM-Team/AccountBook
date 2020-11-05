@@ -20,7 +20,9 @@ import {
     UPDATE_ACCOUNT,
 
     CATEGORY,
-    ADD_CATEGORY
+    ADD_CATEGORY,
+    USER_ID,
+    TOKEN
 } from './mutation-types'
 
 const mutations = {
@@ -95,6 +97,12 @@ const mutations = {
     },
     [ADD_CATEGORY](state, { type, data }) {
         state.category[type].push(data)
+    },
+    [USER_ID](state, id) {
+        state.userId = id
+    },
+    [TOKEN](state, token) {
+        state.token = token
     }
 }
 

@@ -49,6 +49,7 @@
 		left: 0;
         display: flex;
         align-items: center;
+        z-index: 99999;
 	}
 	
 	.icon-right {

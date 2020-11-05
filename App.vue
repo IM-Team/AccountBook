@@ -2,8 +2,11 @@
     
     import AccountBookModel from '@/model/AccountBookModel'
     import AccountModel from '@/model/AccountModel'
+    import {
+        TOKEN
+    } from '@/store/mutation-types'
+    import {mapState } from 'vuex'
 
-    import { mapState } from 'vuex'
 
     const accountBookModel = new AccountBookModel()
     const accountModel = new AccountModel()
@@ -15,7 +18,11 @@
                 lock: false
             }
         },
-        async created() {
+        created() {
+
+            const token = uni.getStorageSync('token')
+            this.$store.commit(TOKEN, token)
+
             this.init()
         },
         computed: {
@@ -23,17 +30,20 @@
         },
 		methods: {
             init() {
-                const abId = this.$store.state.currentAccountBook.id || 1
 
-                Promise.all([
-                    accountBookModel.getCategory(abId),
-                    accountBookModel.getAccountBooks(),
-                    accountModel.getAccountList(abId)
-                ]).then(res => {
-                    this.initCategory(res[0])
-                    this.initAccountBook(res[1])
-                    this.initAccount(res[2])
+                accountBookModel.getAccountBooks().then(res => {
+                    this.initAccountBook(res)
                     this.$store.dispatch('currentAccountBook', this.$store.state.accountBooks[0])
+
+                    const abId = res[0].id
+
+                    return Promise.all([
+                        accountBookModel.getCategory(abId),
+                        accountModel.getAccountList(abId)
+                    ])
+                }).then((res) => {
+                    this.initCategory(res[0])
+                    this.initAccount(res[1])
                 })
             },
             initCategory(res) {

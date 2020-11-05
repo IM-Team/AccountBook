@@ -129,7 +129,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: 200rpx;
+		width: 180rpx;
 		border-radius: 10px;
 		background-color: #fff;
 	}

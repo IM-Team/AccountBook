@@ -58,7 +58,7 @@
             }
         },
 		created() {
-            
+
             /**
              * 防止切换 tab 造成频繁请求
              */
@@ -67,8 +67,13 @@
                 return
             }
 
-            const date = new Date()
-            this.switchTurnoverDate(date.getFullYear(), date.getMonth() + 1)
+            const unWatch = this.$watch('currentAccountBook', (v) => {
+                unWatch()
+
+                const date = new Date()
+                this.switchTurnoverDate(date.getFullYear(), date.getMonth() + 1)
+            })
+            
         },
         computed: {
             ...mapState(['turnoverData', 'currentAccountBook'])

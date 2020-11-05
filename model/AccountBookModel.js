@@ -37,7 +37,7 @@ class AccountBook extends HTTP {
             }
         })
     }
-
+    
 }
 
 export default AccountBook

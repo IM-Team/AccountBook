@@ -36,7 +36,7 @@
 				cWidth: 335,
 				cHeight: 300,
 				pixelRatio: 1,
-				currentData: []
+                currentData: []
 			}
 		},
 		components: {
@@ -53,6 +53,9 @@
         },
         computed: {
             ...mapState(['turnoverData']),
+            isShowPie() {
+                return this.currentData.length > 0
+            }
         },
 		watch: {
 			currentIndex(newData) {
@@ -71,7 +74,6 @@
                 this.initChartData(res)
                 this.updatePie(this.currentIndex)
 
-                
 			},
 			onChangeIndex(index) {
 				this.currentIndex = index
@@ -155,8 +157,8 @@
                 const tmpVal = index ? this.data.expense : this.data.income
                 this.currentData = this.deReactive(tmpVal)
 
-                const isShowPie = this.currentData.length !== 0
-                const tmp = isShowPie ? this.currentData : []
+                // const isShowPie = this.currentData.length !== 0
+                const tmp = this.isShowPie ? this.currentData : []
 
                 pieCanvas.updateData({ series: tmp })
             }

@@ -19,3 +19,5 @@ export const UPDATE_ACCOUNT = 'update_account'
 
 export const CATEGORY = 'category'
 export const ADD_CATEGORY = 'add_category'
+export const USER_ID = 'userId'
+export const TOKEN = 'token'

@@ -44,13 +44,8 @@
 		},
 		methods: {
 			initDate() {
-			    // const date = new Date()
-                // const currentDate = `${date.getFullYear()}-${date.getMonth() + 1}`
-                
                 const { year, month } = this.$store.state.turnoverData
-
-                this.date = `${year}-${month}`
-                this.endDate = `${year}-${month}`
+                this.date = this.endDate = `${year || '2000' }-${month || '01'}`
 			},
 			onDateChange(e) {
                 this.date = e.target.value

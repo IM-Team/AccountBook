@@ -111,9 +111,9 @@
 				this.fixDecimalPoint()
 
                 const turnoverModel = new TurnoverModel()
-                this.billDetail.bookId = 
+                const cabId = this.$store.getters.currentAccountBookId
 
-				turnoverModel.postBill(this.billDetail).then((id) => {
+				turnoverModel.postBill(this.billDetail, cabId).then((id) => {
                     this.billDetail.id = id
                     this.isFromBillDetail ? this.updateInfo() : this.addTurnoverItem()
                     uni.navigateBack()

@@ -1,10 +1,19 @@
 import config from './config.js'
+import store from '../store'
 
 class HTTP {
 	
 	request({ url, method = "GET", data = {}, header = {} }) {
+
+        if (!url.startsWith('/user/')) {
+            header = {
+                ...header,
+                'Authorization': store.state.token
+            }
+        }
+
 		return new Promise((resolve, reject) => {
-			this._request(url, resolve, reject, method, data, header = {})
+			this._request(url, resolve, reject, method, data, header)
 		})
     }
 	
@@ -34,7 +43,6 @@ class HTTP {
 		uni.showToast({
 			title: message || '请求失败',
 			icon: 'none',
-			mask: true,
 			duration: 2000
 		})
 	}

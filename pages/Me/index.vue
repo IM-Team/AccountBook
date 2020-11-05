@@ -1,23 +1,14 @@
 <template>
 	<view class="me-container">
-		<!-- unlogin status -->
-		<block v-if='false'>
-			<view class="user-info" @click="handleLogin()">
-				<view class="iconfont icon-my"></view>
-				<view class="login-tip">请登录</view>
-			</view>
-		</block>
-		<!-- logining status -->
-		<block v-else>
-			<view class="user-info">
-				<view class="user-avatar-wrap">
-					<!-- <image class="user-avatar" src="https://api.r10086.com/动漫综合1.php" mode="widthFix"></image> -->
-				</view>
-				<text class="login-tip">IM Team</text>
-			</view>
-		</block>
-		<!-- *end* login -->
-		
+
+        <view class="header">
+            <button class="login-btn" open-type="getUserInfo" @getuserinfo="onLogin">
+                <image v-if="isLogin" class="avatar" :src="avatar" />
+                <view v-else class="iconfont icon-my"></view>
+            </button>
+            <view class="name">{{ nickName }}</view>
+        </view>
+
 		<view class="profile-group">
 			<view class="profile-item" @click="onGotoAccountBook">
 				<im-cell icon="icon-date" title="账本">
@@ -32,11 +23,6 @@
 			<view class="profile-item" @click="onGotoFeedback">
 				<im-cell icon="icon-yijianfankui" title="意见反馈" />
 			</view>
-<!-- 			<view class="profile-item" @click="onGotoSetting">
-				<im-cell icon="icon-shezhi" title="设置">
-					<view slot="content" class="iconfont icon-gengduo"></view>
-				</im-cell>
-			</view> -->
 			<view class="profile-item" @click="onGotoAboutUs">
 				<im-cell icon="icon-me" title="关于我们" />
 			</view>
@@ -47,18 +33,25 @@
 
 <script>
 	
-	import ImCell from '@/components/common/ImCell'
+    import ImCell from '@/components/common/ImCell'
+    import LoginModel from '@/model/LoginModel'
+    import {
+        USER_ID,
+        TOKEN
+    } from '@/store/mutation-types'
 	
 	export default {
-		name: 'Me',
-		data() {
-			return {
-				startX: 0,
-				startY: 0,
-				moveX: 0,
-				moveY: 0
-			}
-		},
+        name: 'Me',
+        data() {
+            return {
+                avatar: '',
+                nickName: '请登录',
+                isLogin: false
+            }
+        },
+        created() {
+            uni.getSetting({ success: this.authorizedSuccess  })
+        },
 		components: {
 			ImCell
 		},
@@ -77,28 +70,106 @@
 			},
 			onGotoAboutUs() {
 				uni.navigateTo({ url: '/pages/AboutUs/index' });
-			},
-			handleLogin() {
-				
-			}
+            },
+            authorizedSuccess(res) {
+                if (res.authSetting['scope.userInfo']) {
+                    this.isLogin = true
+
+                    const info = uni.getStorageSync('userInfo')
+
+                    if (info) {
+                        this.setInfo(info)
+                    } else {
+                        uni.getUserInfo({ success: (res) => this.setInfo(res.userInfo) })
+                    }
+                }
+            },
+            onLogin(event) {
+
+                const info = event.detail.userInfo
+
+                if (info) {
+
+                    this.isLogin = true
+                    this.setInfo(info)
+
+                    uni.setStorage({
+                        key: 'userInfo',
+                        data: {
+                            avatarUrl: info.avatarUrl,
+                            nickName: info.nickName
+                        }
+                    })
+                }
+
+                uni.login({ success: this.loginSuccessful })
+            },
+            setInfo(info) {
+                this.avatar = info.avatarUrl
+                this.nickName = info.nickName
+            },
+            loginSuccessful(res) {
+                const loginModel = new LoginModel()
+
+                loginModel.login(res.code).then(loginRes => {
+                    
+                    this.$store.commit(TOKEN, loginRes.data.token)
+                    this.$store.commit(USER_ID, loginRes.data.usrId)
+
+                    uni.setStorage({
+                        key: 'token',
+                        data: loginRes.data.token
+                    })
+                })
+            }
 		}
 	}
 </script>
 
 <style scoped>
+
 	.me-container {
 		perspective: 800px;
 		padding: 32rpx;
 	}
-	.me-container .user-info {
-		display: flex;
-		padding: 64rpx 32rpx;
-		border-radius: 16px;
-		line-height: 120rpx;
-		transition: transform .3s;
-		/* background-color: #188AFF; */
+
+    .header {
+        padding: 0 32rpx;
+        height: 300rpx;
+        display: flex;
+        align-items: center;
+        border-radius: 10px;
 		background-image: linear-gradient(to left, #4FC3F7, #188AFF);
-	}
+    }
+
+    .login-btn {
+        width: 140rpx;
+        height: 140rpx;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        padding: 0;
+        border: none;
+        border-radius: 50%;
+        font-size: 0;
+    }
+
+    .avatar {
+        width: 100%;
+        height: 100%;
+    }
+
+    .icon-my {
+        font-size: 40rpx;
+    }
+
+    .name {
+        margin-left: 32rpx;
+        color: #fff;
+        font-size: 40rpx;
+    }
+
 	.me-container .profile-group {
 		margin-top: 64rpx;
 	}
@@ -125,12 +196,15 @@
 		background-color: #fff;
 		overflow: hidden;
 	}
+
 	.user-avatar-wrap .user-avatar {
 		width: 100%;
 	}
+
 	.user-info .login-tip {
 		color: #fff;
 	}
+
 	.logout-btn {
 		padding: 28rpx 0;
 		margin-top: 48rpx;

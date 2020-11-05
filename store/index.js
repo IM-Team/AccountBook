@@ -4,8 +4,6 @@ import getters from './getters'
 import actions from './actions'
 import mutations from './mutations'
 
-// import turnoverModule from './modules/turnover'
-
 Vue.use(Vuex)
 
 const state = {
@@ -19,7 +17,9 @@ const state = {
 		capitals: [],
 		credits: []
     },
-    category: {}
+    category: {},
+    userId: -1,
+    token: ''
 }
 
 const store = new Vuex.Store({
