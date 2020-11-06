@@ -25,7 +25,9 @@
         TURNOVER_DATA,
         IS_FROM_BILLDETAIL,
         IS_SHOW_BILLDETAIL,
-        REMOVE_TURNOVER_ITEM
+        REMOVE_TURNOVER_ITEM,
+        INC_ACCOUNT,
+        DEC_ACCOUNT,
     } from '@/store/mutation-types'
 	
     const turnoverModel = new TurnoverModel()
@@ -38,10 +40,7 @@
 				data: {},
 				income: 0,
                 expense: 0,
-                surplus: 0,
-                isShowBillDetail: false,
-                turnoverInfo: {},
-                billDetailData: {}
+                surplus: 0
 			}
 		},
 		components: {
@@ -103,6 +102,7 @@
             onDelete(id) {
                 turnoverModel.deleteBill(id).then(res => {
                     this.removeBill(id)
+                    this.changeAccount()
                 })
             },
             removeBill(id) {
@@ -110,6 +110,29 @@
 
                 const pos = this.$store.getters.findBillOfId(id)
                 this.$store.commit(REMOVE_TURNOVER_ITEM, {turnoverIndex: pos[0], itemIndex: pos[1]})
+            },
+            changeAccount() {
+
+                const accounts = this.$store.state.accounts
+                const billDetail = this.$store.state.billDetail
+                const thatAccount = billDetail.account.name
+                const { amount, type } = billDetail
+
+                let acType = 1
+                let index = accounts['capitals'].findIndex(item => item.name === thatAccount)
+
+                if (index === -1) {
+                    acType = 2
+                    index = accounts['credits'].findIndex(item => item.name === thatAccount)
+                }
+
+                this.$store.commit(
+                    type === 1 ? DEC_ACCOUNT : INC_ACCOUNT, {
+                    account_type: acType,
+                    index,
+                    amount: parseFloat(amount)
+                })
+
             }
 		}
 	}

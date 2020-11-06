@@ -18,6 +18,8 @@ import {
     REMOVE_ACCOUNT,
     ADD_ACCOUNT,
     UPDATE_ACCOUNT,
+    INC_ACCOUNT,
+    DEC_ACCOUNT,
 
     CATEGORY,
     ADD_CATEGORY,
@@ -71,6 +73,7 @@ const mutations = {
     },
 
 
+
     [ACCOUNTS](state, data) {
         state.accounts = { ...data }
     },
@@ -91,7 +94,21 @@ const mutations = {
 
         Vue.set(state.accounts[type], index, data)
     },
+    [INC_ACCOUNT](state, { account_type, index, amount }) {
+        const type = account_type == 1 ? 'capitals' : 'credits'
+        const _balance = state.accounts[type][index].balance
 
+        Vue.set(state.accounts[type][index], 'balance', _balance + amount)
+    },
+    [DEC_ACCOUNT](state, { account_type, index, amount }) {
+        const type = account_type == 1 ? 'capitals' : 'credits'
+        const _balance = state.accounts[type][index].balance
+
+        Vue.set(state.accounts[type][index], 'balance',  _balance - amount)
+    },
+
+
+    
     [CATEGORY](state, data) {
         state.category = {...data}
     },

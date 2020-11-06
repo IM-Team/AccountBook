@@ -87,9 +87,12 @@
 				this.billDetail.account = this.accounts[e.target.value];
 			},
 			initAccounts() {
+
 				for(let key in this.$store.state.accounts) {
-					for(let item of this.$store.state.accounts[key]) this.accounts.push({id:item.id, name:item.name});
-				}
+                    for(let item of this.$store.state.accounts[key])
+                        this.accounts.push({id:item.id, name:item.name});
+                }
+
 				this.billDetail.account = this.accounts[0];
 			} 
 		}

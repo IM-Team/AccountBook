@@ -19,33 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c824ddd4-e61e-4494-a329-fe2208965805" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/AccountBook.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/AccountBook.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/AccountGroup/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/AccountGroup/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/BillDetail/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/BillDetail/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/CustomNavbar/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/components/CustomNavbar/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/u-charts/component.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/u-charts/u-charts.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/u-charts/u-charts.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataMap.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/AccountBookModel.js" beforeDir="false" afterPath="$PROJECT_DIR$/model/AccountBookModel.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/TurnoverModel.js" beforeDir="false" afterPath="$PROJECT_DIR$/model/TurnoverModel.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages.json" beforeDir="false" afterPath="$PROJECT_DIR$/pages.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/AccountBook/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/AccountBook/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/AccountBookAdd/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/AccountBookAdd/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/Add/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/Add/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/AddCategory/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/AddCategory/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/CategoryEdit/index.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/Me/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/Me/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/Turnover/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/Turnover/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/actions.js" beforeDir="false" afterPath="$PROJECT_DIR$/store/actions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/getters.js" beforeDir="false" afterPath="$PROJECT_DIR$/store/getters.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/mutations.js" beforeDir="false" afterPath="$PROJECT_DIR$/store/mutations.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/http-p.js" beforeDir="false" afterPath="$PROJECT_DIR$/utils/http-p.js" afterDir="false" />
-    </list>
+    <list default="true" id="c824ddd4-e61e-4494-a329-fe2208965805" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -85,6 +59,7 @@
       <workItem from="1604367301395" duration="426000" />
       <workItem from="1604367739254" duration="113000" />
       <workItem from="1604376979754" duration="38000" />
+      <workItem from="1604556191359" duration="3000" />
     </task>
     <servers />
   </component>

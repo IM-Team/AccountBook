@@ -16,6 +16,8 @@ export const ACCOUNTS = 'accounts'
 export const REMOVE_ACCOUNT = 'remove_account'
 export const ADD_ACCOUNT = 'add_account'
 export const UPDATE_ACCOUNT = 'update_account'
+export const INC_ACCOUNT = 'inc_account'
+export const DEC_ACCOUNT = 'dec_account'
 
 export const CATEGORY = 'category'
 export const ADD_CATEGORY = 'add_category'

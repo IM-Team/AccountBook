@@ -9,7 +9,9 @@
 					:title="item.name"
 					@click.native="handleAccount(item)"
 				>
-					<view slot="content">{{ formattingBalance(account_type == 1 ? item.balance : creditBalance(item.balance)) }}</view>
+					<view slot="content">{{ 
+                        formattingBalance(account_type == 1 ? item.balance : item.balance)
+                    }}</view>
 				</im-cell>
 			</view>
 		</view>
@@ -44,9 +46,9 @@
 			ImCell
         },
 		methods: {
-			creditBalance(balance) {
-				return Number(balance) ? '-' + balance : balance;
-			},
+			// creditBalance(balance) {
+			// 	return Number(balance) === 0 ? ('-' + balance) : balance;
+			// },
 			formattingBalance(num) {
 				return ruleOfThirds(num);
 			},

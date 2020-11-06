@@ -14,8 +14,8 @@ const state = {
     isShowBillDetail: false,
     billDetail: {},
     accounts: {
-			capitals: [],
-			credits: []
+		capitals: [],
+		credits: []
     },
     category: {},
     userId: -1,

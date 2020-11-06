@@ -33,6 +33,7 @@
     import Keyboard 	from '@/components/Add/Keyboard'
     import { mapState } from 'vuex'
     import TurnoverModel from '@/model/TurnoverModel'
+    import { deepClone } from '@/utils/utils'
 
     import {
         BILL_DETAIL,
@@ -42,7 +43,9 @@
         REMOVE_TURNOVER,
         PUSH_TURNOVER_ITEM,
         UNSHIFT_TURNOVER,
-        INSERT_TURNOVER
+        INSERT_TURNOVER,
+        INC_ACCOUNT,
+        DEC_ACCOUNT
     } from '@/store/mutation-types'
 
 	export default {
@@ -108,6 +111,7 @@
 				this.digitList = v
             },
             onConfirm() {
+
 				this.fixDecimalPoint()
 
                 const turnoverModel = new TurnoverModel()
@@ -124,9 +128,31 @@
 						duration: 2000
 					})
                 })
+
+                this.changAccount()
             },
             onChangeDate(timestamp) {
                 this.billDetail.timestamp = timestamp
+            },
+            changAccount() {
+
+                const accounts = this.$store.state.accounts
+                const thatAccount = this.billDetail.account.name
+
+                let index = accounts['capitals'].findIndex(item => item.name === thatAccount)
+                let type = 1
+
+                if (index === -1) {
+                    type = 2
+                    index = accounts['credits'].findIndex(item => item.name === thatAccount)
+                }
+
+                this.$store.commit(
+                    this.billDetail.type === 1 ? INC_ACCOUNT : DEC_ACCOUNT, { 
+                    account_type: type, 
+                    index,
+                    amount: parseFloat(this.digitList.join(''))
+                })
             },
             fixDecimalPoint() {
                 this.billDetail.amount = this.digitList.join('')

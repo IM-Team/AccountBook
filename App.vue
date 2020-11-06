@@ -3,7 +3,8 @@
     import AccountBookModel from '@/model/AccountBookModel'
     import AccountModel from '@/model/AccountModel'
     import {
-        TOKEN
+        TOKEN,
+        UPDATE_ACCOUNT
     } from '@/store/mutation-types'
     import {mapState } from 'vuex'
 
@@ -58,6 +59,7 @@
 				this.$store.dispatch('accountBooks', res)
             },
             initAccount(res) {
+                
                 const tmpAcount = {
                     capitals: [],
                     credits: []
