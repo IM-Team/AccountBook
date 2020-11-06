@@ -2,7 +2,8 @@
 	<view class="add_category-container">
 		<view class="sub-container">
 			<view
-				class="iconfont icon-canyin center icon_preview"
+				class="iconfont center icon_preview"
+				:class="icons[type - 1][currentPickIcon]"
 				:style="{ backgroundColor: pickColor }"></view>
 			<input type="text" placeholder="请输入1-4个字的分类名" maxlength="4" v-model="name">
 		</view>
@@ -24,8 +25,8 @@
 			<view class="title">选择图标</view>
 			<view class="icon-pick-wrap">
 				<view
-					class="icon center cell-5 iconfont icon-canyin"
-					v-for="(item, index) in icons"
+					class="icon center cell-5 iconfont"
+					v-for="(item, index) in icons[type - 1]"
 					:class="item"
 					@click="changePickIcon(index)"
 					:style="{
@@ -65,21 +66,36 @@
 					"#F2385A",
 				],
 				icons: [
-					'icon-canyin',
-					'icon-canyin',
-					'icon-canyin',
-					'icon-canyin',
-					'icon-canyin',
-					'icon-canyin',
-					'icon-canyin',
-					'icon-canyin',
-					'icon-canyin',
-					'icon-canyin'
+					[
+						'icon-qiandai',
+						'icon-hongbaomian',
+						'icon-shizhong',
+						'icon-shangdian',
+						'icon-shoutibao',
+						'icon-zhuanzhang',
+						'icon-gongzuotai',
+						'icon-jiangpai',
+						'icon-huobi',
+						'icon-ziyuan'
+					],
+					[
+						'icon-liwu',
+						'icon-canyin',
+						'icon-xiazai50',
+						'icon-yifu',
+						'icon-fangzi',
+						'icon-dache',
+						'icon-shenghuo',
+						'icon-yaopin',
+						'icon-yanjiu',
+						'icon-shuiqian'
+					]
 				]
 			}
 		},
 		onLoad(param) {
-			this.type = param.index
+			this.type = param.index;
+			console.log("Lanwen ....");
 		},
 		computed: {
 			normal() {
@@ -124,7 +140,7 @@
                         type: this.type,
                         name: this.name,
                         color: this.pickColor,
-                        icon: this.icons[this.currentPickIcon]
+                        icon: this.icons[this.type - 1][this.currentPickIcon]
                     }
 
                     ;(new AccountBookModel()).postCategory(targetCategory).then(id => {
