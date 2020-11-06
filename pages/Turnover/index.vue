@@ -59,23 +59,28 @@
 		created() {
 
             /**
-             * 防止切换 tab 造成频繁请求
+             * 如果有数据, 防止切换 tab 造成频繁请求
              */
             if (Object.keys(this.$store.state.turnoverData).length > 0) {
                 this.calcIncomeAndExpense()
                 return
             }
 
-            const unWatch = this.$watch('currentAccountBook', (v) => {
-                unWatch()
+            // const date = new Date()
+            // this.switchTurnoverDate(date.getFullYear(), date.getMonth() + 1)
 
+            // 切换账本
+            const unWatch = this.$watch('currentAccountBook', (v) => {
+                console.log(v)
+                
+                unWatch()
                 const date = new Date()
                 this.switchTurnoverDate(date.getFullYear(), date.getMonth() + 1)
             })
             
         },
         computed: {
-            ...mapState(['turnoverData', 'currentAccountBook'])
+            ...mapState(['turnoverData', 'currentAccountBook', 'isLogin'])
         },
 		methods: {
 			calcIncomeAndExpense() {

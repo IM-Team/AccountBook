@@ -26,7 +26,9 @@
 			<view class="profile-item" @click="onGotoAboutUs">
 				<im-cell icon="icon-me" title="关于我们" />
 			</view>
-			<view class="logout-btn" @click="onLogout()">退出登录</view>
+
+			<!-- <view class="logout-btn" @click="onLogout()">退出登录</view> -->
+
 		</view>
 	</view>
 </template>
@@ -37,21 +39,30 @@
 	import {
 		USER_ID,
 		TOKEN
-	} from '@/store/mutation-types'
+    } from '@/store/mutation-types'
+    import { initGlobalDataMixin } from '@/utils/mixins'
+    import HttpServe from '@/utils/HttpServe'
 
 	export default {
-		name: 'Me',
+        name: 'Me',
+        mixins: [initGlobalDataMixin],
 		data() {
 			return {
 				avatar: '',
 				nickName: '请登录',
-				isLogin: false
+                isLogin: false,
+                userId: -1
 			}
 		},
 		created() {
-			uni.getSetting({
-				success: this.authorizedSuccess
-			})
+            if (this.$store.state.isLogin) {
+                uni.getSetting({
+                    success: this.authorizedSuccess
+                })
+            } else {
+                uni.removeStorage({ key: 'userInfo' })
+                console.log('无效')
+            }
 		},
 		components: {
 			ImCell
@@ -97,48 +108,52 @@
 					}
 				}
 			},
-			onLogin(event) {
+			async onLogin(event) {
 
 				const info = event.detail.userInfo
 
 				if (info) {
+                    
+                    this.isLogin = true
+                    
+                    const wxloginRes = await HttpServe.login()
+                    await this.loginSuccessful(wxloginRes)
 
-					this.isLogin = true
-					this.setInfo(info)
-
-					uni.setStorage({
-						key: 'userInfo',
-						data: {
-							avatarUrl: info.avatarUrl,
-							nickName: info.nickName
-						}
-					})
+                    this.setInfo(info)
+                    uni.setStorage({
+                        key: 'userInfo',
+                        data: {
+                            avatarUrl: info.avatarUrl,
+                            nickName: info.nickName,
+                            userId: this.userId
+                        }
+                    })
 				}
-
-				uni.login({
-					success: this.loginSuccessful
-				})
 			},
 			setInfo(info) {
 				this.avatar = info.avatarUrl
-				this.nickName = info.nickName
+                this.nickName = info.nickName
+                
 			},
-			loginSuccessful(res) {
+			async loginSuccessful(res) {
+
 				const loginModel = new LoginModel()
+				const loginRes = await loginModel.login(res.code)
 
-				loginModel.login(res.code).then(loginRes => {
+                this.userId = loginRes.data.userId
+                this.$store.commit(TOKEN, loginRes.data.token)
+                this.$store.commit(USER_ID, loginRes.data.userId)
 
-					this.$store.commit(TOKEN, loginRes.data.token)
-					this.$store.commit(USER_ID, loginRes.data.usrId)
+                // 拉取数据
+                this.initGlobalData()
 
-					uni.setStorage({
-						key: 'token',
-						data: loginRes.data.token
-					})
-				})
+                uni.setStorage({
+                    key: 'token',
+                    data: loginRes.data.token
+                })
 			},
 			onLogout() {
-				console.log("exit logout...");
+				console.log("exit logout...")
 			}
 		}
 	}

@@ -8,7 +8,7 @@
             :value="dateValue"
             :end="endDate" >
             <view>
-                <text class="month">10</text>
+                <text class="month">{{ turnoverMonth }}</text>
                 <text>月结余</text>
             </view>
             <view class="over">{{ ruleOfThirds(surplus) }}</view>
@@ -60,6 +60,11 @@
             const date = new Date()
             this.dateValue = `${date.getFullYear()}-${date.getMonth() + 1}`
             this.endDate = this.dateValue
+        },
+        computed: {
+            turnoverMonth() {
+                return this.$store.state.turnoverData.month
+            }
         },
         methods: {
             ruleOfThirds,

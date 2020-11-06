@@ -19,7 +19,9 @@ const state = {
     },
     category: {},
     userId: -1,
-    token: ''
+    token: '',
+    tokenValid: false,
+    isLogin: false
 }
 
 const store = new Vuex.Store({

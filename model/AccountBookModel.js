@@ -1,6 +1,6 @@
-import HTTP from '../utils/http-p'
+import HttpServe from '../utils/HttpServe'
 
-class AccountBook extends HTTP {
+class AccountBook extends HttpServe {
 
     getAccountBooks() {
         return this.request({

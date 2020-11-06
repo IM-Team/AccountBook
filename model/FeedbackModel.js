@@ -1,6 +1,6 @@
-import HTTP from '../utils/http-p.js'
+import HttpServe from '../utils/HttpServe'
 
-class FeedbackModel extends HTTP {
+class FeedbackModel extends HttpServe {
 	sendFeedback(type, content) {
 		return this.request({
 			url: '/advice',

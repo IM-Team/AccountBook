@@ -1,17 +1,8 @@
 import config from './config.js'
-import store from '../store'
 
 class HTTP {
 	
-	request({ url, method = "GET", data = {}, header = {} }) {
-
-        if (!url.startsWith('/user/')) {
-            header = {
-                ...header,
-                'Authorization': store.state.token
-            }
-        }
-
+	httpRequest({ url, method = "GET", data = {}, header = {} }) {
 		return new Promise((resolve, reject) => {
 			this._request(url, resolve, reject, method, data, header)
 		})
@@ -29,7 +20,7 @@ class HTTP {
 				if (code.startsWith(2)) {
 					resolve(res.data)
 				} else {
-					reject(res.data)
+                    reject(res)
 				}
 			},
 			fail: (err) => {
@@ -45,7 +36,7 @@ class HTTP {
 			icon: 'none',
 			duration: 2000
 		})
-	}
+    }
 }
 
 export default HTTP

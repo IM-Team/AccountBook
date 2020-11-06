@@ -24,7 +24,9 @@ import {
     CATEGORY,
     ADD_CATEGORY,
     USER_ID,
-    TOKEN
+    TOKEN,
+    TOKEN_VALID,
+    IS_LOGIN
 } from './mutation-types'
 
 const mutations = {
@@ -120,6 +122,12 @@ const mutations = {
     },
     [TOKEN](state, token) {
         state.token = token
+    },
+    [TOKEN_VALID](state, isValid) {
+        state.tokenValid = isValid
+    },
+    [IS_LOGIN](state, isLogin) {
+        state.isLogin = isLogin
     }
 }
 

@@ -1,7 +1,13 @@
 import TurnoverModel from '@/model/TurnoverModel'
+import AccountBookModel from '@/model/AccountBookModel'
+import AccountModel from '@/model/AccountModel'
+
 import {
     TURNOVER_DATA
 } from '@/store/mutation-types'
+
+const accountBookModel = new AccountBookModel()
+const accountModel = new AccountModel()
 
 const accountMapMixin = {
 	data() {
@@ -94,7 +100,57 @@ const turnoverMixin = {
     }
 }
 
+const initGlobalDataMixin = {
+    methods: {
+        initGlobalData() {
+            accountBookModel.getAccountBooks().then(res => {
+                this.initAccountBook(res)
+                this.$store.dispatch('currentAccountBook', this.$store.state.accountBooks[0])
+
+                const abId = res[0].id
+
+                return Promise.all([
+                    accountBookModel.getCategory(abId),
+                    accountModel.getAccountList(abId)
+                ])
+            }).then((res) => {
+                this.initCategory(res[0])
+                this.initAccount(res[1])
+            })
+        },
+        initCategory(res) {
+            const tmpCate = { 1: [], 2: [] }
+            res.forEach(item => tmpCate[item.type].push(item))
+            
+            this.$store.dispatch('category', tmpCate)
+        },
+        initAccountBook(res) {
+            res.forEach(item => item.color = item.color.split(','))
+            
+            this.$store.dispatch('accountBooks', res)
+        },
+        initAccount(res) {
+            
+            const tmpAcount = {
+                capitals: [],
+                credits: []
+            }
+
+            for(const account of res.accountList) {
+                if (account.categoryId === 1) {
+                    tmpAcount.capitals.push(account);
+                } else if (account.categoryId === 2) {
+                    tmpAcount.credits.push(account);
+                }
+            }
+
+            this.$store.dispatch('account', tmpAcount)
+        }
+    }
+}
+
 export {
     accountMapMixin,
-    turnoverMixin
+    turnoverMixin,
+    initGlobalDataMixin
 }

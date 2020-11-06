@@ -1,6 +1,7 @@
-import HTTP from '@/utils/http-p'
+import HttpServe from '../utils/HttpServe'
 
-class LoginModel extends HTTP {
+class LoginModel extends HttpServe {
+    
     login(code) {
         return this.request({
             url: '/user/login?code=' + code,

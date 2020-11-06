@@ -1,6 +1,6 @@
-import HTTP from '../utils/http-p.js'
+import HttpServe from '../utils/HttpServe'
 
-class TurnoverModel extends HTTP {
+class TurnoverModel extends HttpServe {
     
     getTurnoverList({ year, month, accountBookId = 1 }) {
         return this.request({

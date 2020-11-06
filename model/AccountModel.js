@@ -1,6 +1,6 @@
-import HTTP from '../utils/http-p.js'
+import HttpServe from '../utils/HttpServe'
 
-class AccountModel extends HTTP {
+class AccountModel extends HttpServe {
 	
 	getAccountList(book_id) {
 		return this.request({
