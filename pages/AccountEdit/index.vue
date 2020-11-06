@@ -78,7 +78,6 @@
 	import { accountMapMixin } from '@/utils/mixins'
 	import AccountModel from '../../model/AccountModel.js'
 	import AccountBookModel from '../../model/AccountBookModel.js'
-    import { data } from './data.json'
 	
 	
 	const accountModel = new AccountModel();

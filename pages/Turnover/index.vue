@@ -71,8 +71,6 @@
 
             // 切换账本
             const unWatch = this.$watch('currentAccountBook', (v) => {
-                console.log(v)
-                
                 unWatch()
                 const date = new Date()
                 this.switchTurnoverDate(date.getFullYear(), date.getMonth() + 1)

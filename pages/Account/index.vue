@@ -15,7 +15,7 @@
 				</view>
 			</view>
 			<view class="add_account-btn"  @click="onAddAccount">
-				<view class="iconfont icon-zhanghu1"></view>
+				<view class="iconfont icon-addaccount"></view>
 			</view>
 		</view>  
 		<!-- *end* account-header -->

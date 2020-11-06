@@ -23,6 +23,7 @@ import {
 
     CATEGORY,
     ADD_CATEGORY,
+	REMOVE_CATEGORY,
     USER_ID,
     TOKEN,
     TOKEN_VALID,
@@ -117,6 +118,10 @@ const mutations = {
     [ADD_CATEGORY](state, { type, data }) {
         state.category[type].push(data)
     },
+	[REMOVE_CATEGORY] (state, {type, category_id}) {
+		const index = state.category[type].findIndex(item => item.id === category_id);
+		Vue.delete(state.category[type], index)
+	},
     [USER_ID](state, id) {
         state.userId = id
     },
