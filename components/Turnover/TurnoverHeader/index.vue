@@ -6,7 +6,7 @@
             fields="month"
             start="2000-01"
             :value="dateValue"
-            :end="endDate" >
+            :end="endDate">
             <view>
                 <text class="month">{{ turnoverMonth }}</text>
                 <text>月结余</text>

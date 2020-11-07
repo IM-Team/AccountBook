@@ -42,22 +42,6 @@
 		components: {
 			ImCell
 		},
-		onShow() {
-			const res = uni.getStorage({
-				key: 'tmpCateInfo',
-				success: (res) => {
-
-					this.$store.commit(ADD_CATEGORY, {
-						type: this.currentIndex,
-						data: res.data
-					})
-
-					uni.removeStorage({
-						key: 'tmpCateInfo'
-					})
-				}
-			})
-		},
 		computed: {
 			...mapState(['category']),
 			it() {
@@ -78,7 +62,6 @@
 						if (res.confirm) {
 							const categoryModel = new CategoryModel();
 							categoryModel.removeCategory(category_id).then(() => {
-								
 								this.$store.commit(REMOVE_CATEGORY, {
 									type: this.currentIndex,
 									category_id: category_id

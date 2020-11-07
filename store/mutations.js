@@ -66,7 +66,7 @@ const mutations = {
         Vue.delete(state.turnoverData.turnovers, index)
     },
     [PUSH_TURNOVER_ITEM](state, { turnoverIndex, data }) {
-        state.turnoverData.turnovers[turnoverIndex].list.push(data)
+        state.turnoverData.turnovers[turnoverIndex].list.splice(0, 0, data)
     },
     [UNSHIFT_TURNOVER](state, data) {
         state.turnoverData.turnovers.unshift(data)

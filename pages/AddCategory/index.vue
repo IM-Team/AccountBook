@@ -44,6 +44,7 @@
 <script>
 
     import AccountBookModel from '@/model/AccountBookModel'
+    import { ADD_CATEGORY } from '@/store/mutation-types'
 	
 	export default {
 		name: 'AddCategory',
@@ -146,7 +147,10 @@
                     ;(new AccountBookModel()).postCategory(targetCategory).then(id => {
                         targetCategory.id = id
 					    this.saveCategory(targetCategory)
-                    }).catch(() => {
+                    }).catch((error) => {
+
+                        console.log(error)
+
                         uni.showToast({
                             title: '请检查网络连接',
                             icon: 'none',
@@ -156,11 +160,15 @@
 				} 
             },
             saveCategory(category) {
-                uni.setStorage({
-                    key: 'tmpCateInfo',
-                    data: category,
-                    success: () => { uni.navigateBack() }
+
+                console.log(category)
+
+                this.$store.commit(ADD_CATEGORY, {
+                    type: this.type,
+                    data: category
                 })
+
+                uni.navigateBack()
             }
 		}
 	}

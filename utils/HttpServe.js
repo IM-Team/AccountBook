@@ -1,7 +1,6 @@
 import HTTP from './http-p'
 import store from '../store'
 import {
-    TOKEN_VALID,
     TOKEN
 } from '../store/mutation-types'
 
@@ -19,9 +18,7 @@ class HttpServe extends HTTP {
         try {
             return await this.httpRequest({ url, method, data, header })
         } catch (error) {
-
-            console.log('错误 => ', error)
-
+            
             this.params = {
                 url,
                 method,
@@ -29,7 +26,7 @@ class HttpServe extends HTTP {
                 header
             }
 
-            return this._validExpire()
+            return this._validExpire(error)
         }
     }
 
