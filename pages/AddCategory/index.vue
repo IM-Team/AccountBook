@@ -44,7 +44,10 @@
 <script>
 
     import AccountBookModel from '@/model/AccountBookModel'
-    import { ADD_CATEGORY } from '@/store/mutation-types'
+    import { 
+		ADD_CATEGORY,
+		UPDATA_CATEGORY
+	} from '@/store/mutation-types'
 	
 	export default {
 		name: 'AddCategory',
@@ -53,6 +56,7 @@
 				type: 1,
 				currentPickIcon: 0,
 				currentPickColor: 0,
+				category_edit: null,
 				name: '',
 				colors: [
 					"#92CDCF",
@@ -94,9 +98,11 @@
 				]
 			}
 		},
+		created() {
+			this.initModify();
+		},
 		onLoad(param) {
-			this.type = param.index;
-			console.log("Lanwen ....");
+			if (param.index) this.type = param.index;
 		},
 		computed: {
 			normal() {
@@ -132,44 +138,71 @@
 						icon: "none",
 						title: "请输入分类名"
 					})
-				} else {
-
-                    const accountBookId = this.$store.state.currentAccountBook.id
-                    const targetCategory = {
-                        id: -1,
-                        bookId: accountBookId,
-                        type: this.type,
-                        name: this.name,
-                        color: this.pickColor,
-                        icon: this.icons[this.type - 1][this.currentPickIcon]
-                    }
-
-                    ;(new AccountBookModel()).postCategory(targetCategory).then(id => {
-                        targetCategory.id = id
-					    this.saveCategory(targetCategory)
-                    }).catch((error) => {
-
-                        console.log(error)
-
-                        uni.showToast({
-                            title: '请检查网络连接',
-                            icon: 'none',
-                            duration: 2000
-                        })
-                    })
+					return;
 				} 
+				
+				if(this.category_edit) {
+					this.handleConfirmModify();
+				} else {
+					this.handleConfirmCreate();
+				}
+
             },
-            saveCategory(category) {
-
-                console.log(category)
-
-                this.$store.commit(ADD_CATEGORY, {
-                    type: this.type,
-                    data: category
-                })
-
-                uni.navigateBack()
-            }
+			handleConfirmModify() {
+				this.category_edit.name = this.name;
+				this.category_edit.color = this.colors[this.currentPickColor];
+				this.category_edit.icon = this.icons[this.type - 1][this.currentPickIcon];
+				
+				;(new AccountBookModel()).postCategory(this.category_edit).then(() => {
+					
+					this.$store.commit(UPDATA_CATEGORY, {
+						type: this.category_edit.type,
+						id: this.category_edit.id,
+						data: this.category_edit
+					});
+					
+					uni.navigateBack();
+				});
+				
+			},
+			handleConfirmCreate() {
+				const accountBookId = this.$store.state.currentAccountBook.id
+				const targetCategory = {
+				    id: -1,
+				    bookId: accountBookId,
+				    type: this.type,
+				    name: this.name,
+				    color: this.pickColor,
+				    icon: this.icons[this.type - 1][this.currentPickIcon]
+				}
+				
+				;(new AccountBookModel()).postCategory(targetCategory).then(id => {
+				    targetCategory.id = id
+					
+				    this.$store.commit(ADD_CATEGORY, {
+				        type: this.type,
+				        data: targetCategory
+				    })
+					 uni.navigateBack();
+				});
+			},
+			initModify() {
+				
+				try {
+					this.category_edit = uni.getStorageSync("category_edit");
+					uni.removeStorage({ key: "category_edit" });
+					
+					if(this.category_edit) {
+						this.name = this.category_edit.name;
+						this.type = this.category_edit.type;
+						this.currentPickIcon = this.icons[this.category_edit.type - 1].findIndex(item => item == this.category_edit.icon);
+						this.currentPickColor = this.colors.findIndex(item => item == this.category_edit.color);
+					}
+				} catch(err) {
+					console.log(err);
+				}
+				
+			}
 		}
 	}
 	

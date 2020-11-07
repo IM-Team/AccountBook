@@ -11,7 +11,7 @@
 			<view class="content">
 				<view class="item" v-for="(item, index) in it" :key="index" @click="onToEditCate(item)">
 					<im-cell :icon="item.icon" :title="item.name" :color="item.color">
-						<view slot="content" class="iconfont icon-delete del-btn" @click="onDelete(item.id)"></view>
+						<view slot="content" class="iconfont icon-delete del-btn" @click.stop="onDelete(item.id)"></view>
 					</im-cell>
 				</view>
 			</view>
@@ -22,9 +22,7 @@
 <script>
 	import ImCell from '@/components/common/ImCell'
 	import AccountBookModel from '../../model/AccountBookModel.js'
-	import {
-		mapState
-	} from 'vuex'
+	import { mapState } from 'vuex'
 
 	import {
 		ADD_CATEGORY,
@@ -61,7 +59,11 @@
 					success: res => {
 						if (res.confirm) {
 							const accountBookModel = new AccountBookModel();
-							accountBookModel.removeCategory(category_id).then(() => {
+							accountBookModel.removeCategory(category_id).then(res => {
+								if (res == 2002) {
+									uni.showToast({icon: "none", title: "账单中已使用该分类，不可删除"});
+									return;
+								}
 								this.$store.commit(REMOVE_CATEGORY, {
 									type: this.currentIndex,
 									category_id: category_id
@@ -72,7 +74,13 @@
 				});
 			},
 			onToEditCate(category) {
-				console.log(category);
+				uni.setStorage({
+					key: "category_edit",
+					data: category,
+					success() {
+						uni.navigateTo({ url: "/pages/AddCategory/index" })
+					}
+				}) 
 			}
 		}
 	}
