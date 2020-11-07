@@ -209,27 +209,9 @@
 				// 在本地但没有对应的日期对象
 				if (isInLocal && targetIndex === -1) {
 
-                    /*
-
-                        0: 6 day
-                        1: 5 day -> 1 day
-                        2: 3 day
-
-                    */
-
                     const maxLength = turnovers.length - 1
-                    const insertIndex = turnovers.findIndex((item, index) => {
-
-                        console.log(index)
-
-                        if (index === maxLength) {
-                            return maxLength + 1
-                        } else if (item.day < targetDate.day) {
-                            return true
-                        }
-
-                        return false
-                    })
+                    let insertIndex = turnovers.findIndex(item => item.day < targetDate.day)
+                    if (insertIndex === -1) insertIndex = turnovers.length
 
                     this.$store.commit(INSERT_TURNOVER, {
                         turnoverIndex: insertIndex,

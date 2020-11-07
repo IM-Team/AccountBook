@@ -27,6 +27,13 @@ class AccountBook extends HttpServe {
         })
     }
 
+    removeCategory(id) {
+        return this.request({
+            url: `/category?categoryId=${id}`,
+            method: 'DELETE'
+        })
+    }
+
     postCategory(category) {
         return this.request({
             url: '/category',
@@ -37,7 +44,6 @@ class AccountBook extends HttpServe {
             }
         })
     }
-    
 }
 
 export default AccountBook

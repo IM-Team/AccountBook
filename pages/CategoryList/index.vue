@@ -21,7 +21,7 @@
 
 <script>
 	import ImCell from '@/components/common/ImCell'
-	import CategoryModel from '../../model/CategoryModel.js'
+	import AccountBookModel from '../../model/AccountBookModel.js'
 	import {
 		mapState
 	} from 'vuex'
@@ -60,8 +60,8 @@
 					content: '确认删除该分类',
 					success: res => {
 						if (res.confirm) {
-							const categoryModel = new CategoryModel();
-							categoryModel.removeCategory(category_id).then(() => {
+							const accountBookModel = new AccountBookModel();
+							accountBookModel.removeCategory(category_id).then(() => {
 								this.$store.commit(REMOVE_CATEGORY, {
 									type: this.currentIndex,
 									category_id: category_id
