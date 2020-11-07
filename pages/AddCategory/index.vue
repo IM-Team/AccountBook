@@ -50,7 +50,7 @@
 	} from '@/store/mutation-types'
 	
 	export default {
-		name: 'AddCategory',
+        name: 'AddCategory',
 		data() {
 			return {
 				type: 1,
@@ -102,7 +102,7 @@
 			this.initModify();
 		},
 		onLoad(param) {
-			if (param.index) this.type = param.index;
+            if (param.type) this.type = param.type * 1;
 		},
 		computed: {
 			normal() {
@@ -187,7 +187,6 @@
 				});
 			},
 			initModify() {
-				
 				try {
 					this.category_edit = uni.getStorageSync("category_edit");
 					uni.removeStorage({ key: "category_edit" });

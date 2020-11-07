@@ -8,7 +8,7 @@
 				v-model.trim="input"
 				maxlength="6"
 				type="text"
-				laceholder="输入账本名称">
+				placeholder="输入账本名称">
         </view>
         <view class="pick-color">
             <view
@@ -28,7 +28,6 @@
 
     import { ADD_ACCOUNT_BOOK } from '@/store/mutation-types'
     import AccountBookModel from '@/model/AccountBookModel'
-    import { showToast } from '@/utils/utils'
 
     export default {
         name: 'AccountBookAdd',
@@ -74,10 +73,9 @@
                     }
 
                     ;(new AccountBookModel()).postAccountBook(accountBook).then(id => {
-                        accountBook[id] = id
+                        accountBook['id'] = id
                         this.saveAccountBook(accountBook)
-                    }).catch(showToast)
-
+                    })
                 } else {
 					uni.showToast({
 						icon: "none",
@@ -88,6 +86,9 @@
             saveAccountBook(accountBook) {
                 accountBook.color = accountBook.color.split(',')
                 this.$store.commit(ADD_ACCOUNT_BOOK, accountBook)
+				
+                console.log(accountBook)
+
                 uni.navigateBack()
             }
         }

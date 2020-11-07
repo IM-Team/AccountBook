@@ -149,6 +149,7 @@ const initGlobalDataMixin = {
     }
 }
 
+
 export {
     accountMapMixin,
     turnoverMixin,

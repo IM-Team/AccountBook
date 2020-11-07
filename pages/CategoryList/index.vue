@@ -49,7 +49,7 @@
 		methods: {
 			onGotoAddCate() {
 				uni.navigateTo({
-					url: `/pages/AddCategory/index?index=${this.currentIndex}`
+					url: `/pages/AddCategory/index?type=${this.currentIndex}`
 				})
 			},
 			onDelete(category_id) {
