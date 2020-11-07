@@ -95,8 +95,7 @@
 			}
 		},
 		onLoad(param) {
-			this.type = param.index;
-			console.log("Lanwen ....");
+            this.type = param.type * 1;
 		},
 		computed: {
 			normal() {
@@ -148,9 +147,6 @@
                         targetCategory.id = id
 					    this.saveCategory(targetCategory)
                     }).catch((error) => {
-
-                        console.log(error)
-
                         uni.showToast({
                             title: '请检查网络连接',
                             icon: 'none',
@@ -160,9 +156,7 @@
 				} 
             },
             saveCategory(category) {
-
-                console.log(category)
-
+                
                 this.$store.commit(ADD_CATEGORY, {
                     type: this.type,
                     data: category
