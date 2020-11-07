@@ -73,7 +73,6 @@
 
                 this.initChartData(res)
                 this.updatePie(this.currentIndex)
-
 			},
 			onChangeIndex(index) {
 				this.currentIndex = index

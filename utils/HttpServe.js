@@ -26,6 +26,7 @@ class HttpServe extends HTTP {
                 header
             }
 
+            // 校验过期情况
             return this._validExpire(error)
         }
     }
@@ -40,6 +41,12 @@ class HttpServe extends HTTP {
             store.commit(TOKEN, reqTokenRes.data.token)
 
             return this._reRequset()
+        } else if (!wxLogin) {
+            uni.showToast({
+                title: '请登录',
+                icon: 'none',
+                duration: 2000
+            })
         }
 
         return error

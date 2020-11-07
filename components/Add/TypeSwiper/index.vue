@@ -37,7 +37,7 @@
 		computed: {
             ...mapState(['billDetail', 'category']),
 			isShowDot() {
-				return this.category.length > 1
+				return this.typePages.length > 1
 			},
 			typePages() {
 				return pagination(this.category[this.billDetail.type], 8)
