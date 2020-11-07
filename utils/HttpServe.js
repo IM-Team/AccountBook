@@ -76,6 +76,25 @@ class HttpServe extends HTTP {
         const res = await HttpServe.login()
         return res.errMsg.endsWith('ok')
     }
+
+    static getSetting() {
+        return new Promise((resolve, reject) => {
+            uni.getSetting({
+                success: resolve,
+                fail: reject
+            })
+        })
+    }
+
+    static async isUserAuthorization() {
+        const res = await HttpServe.getSetting()
+
+        if (res.authSetting['scope.userInfo']) {
+            return true
+        }
+
+        return false
+    }
 }
 
 export default HttpServe

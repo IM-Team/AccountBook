@@ -66,8 +66,11 @@
                 return
             }
 
-            // const date = new Date()
-            // this.switchTurnoverDate(date.getFullYear(), date.getMonth() + 1)
+            // 登录状态，没有数据
+            if (this.$store.state.isLogin) {
+                const date = new Date()
+                this.switchTurnoverDate(date.getFullYear(), date.getMonth() + 1)
+            }
 
             // 切换账本
             const unWatch = this.$watch('currentAccountBook', (v) => {

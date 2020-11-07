@@ -27,8 +27,6 @@
 				<im-cell icon="icon-me" title="关于我们" />
 			</view>
 
-			<!-- <view class="logout-btn" @click="onLogout()">退出登录</view> -->
-
 		</view>
 	</view>
 </template>
@@ -38,7 +36,8 @@
 	import LoginModel from '@/model/LoginModel'
 	import {
 		USER_ID,
-		TOKEN
+        TOKEN,
+        IS_LOGIN
     } from '@/store/mutation-types'
     import { initGlobalDataMixin } from '@/utils/mixins'
     import HttpServe from '@/utils/HttpServe'
@@ -56,11 +55,9 @@
 		},
 		created() {
             if (this.$store.state.isLogin) {
-                uni.getSetting({
-                    success: this.authorizedSuccess
-                })
+                uni.getSetting({ success: this.authorizedSuccess })
             } else {
-                uni.removeStorage({ key: 'userInfo' })
+                // uni.removeStorage({ key: 'userInfo' })
                 console.log('无效')
             }
 		},
@@ -95,10 +92,9 @@
 			},
 			authorizedSuccess(res) {
 				if (res.authSetting['scope.userInfo']) {
-					this.isLogin = true
-
-					const info = uni.getStorageSync('userInfo')
-
+                    this.isLogin = true
+                    
+                    const info = uni.getStorageSync('userInfo')
 					if (info) {
 						this.setInfo(info)
 					} else {
@@ -115,6 +111,7 @@
 				if (info) {
                     
                     this.isLogin = true
+                    this.$store.commit(IS_LOGIN, true)
                     
                     const wxloginRes = await HttpServe.login()
                     await this.loginSuccessful(wxloginRes)
@@ -133,7 +130,6 @@
 			setInfo(info) {
 				this.avatar = info.avatarUrl
                 this.nickName = info.nickName
-                
 			},
 			async loginSuccessful(res) {
 
@@ -151,9 +147,6 @@
                     key: 'token',
                     data: loginRes.data.token
                 })
-			},
-			onLogout() {
-				console.log("exit logout...")
 			}
 		}
 	}
