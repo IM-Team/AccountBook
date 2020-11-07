@@ -47,55 +47,55 @@
     import { ADD_CATEGORY } from '@/store/mutation-types'
 	
 	export default {
-		name: 'AddCategory',
+        name: 'AddCategory',
 		data() {
 			return {
 				type: 1,
 				currentPickIcon: 0,
 				currentPickColor: 0,
-				name: '',
-				colors: [
-					"#92CDCF",
-					"#4BB5C1",
-					"#91C46C",
-					"#42BA78",
-					"#BFA4D2",
-					"#FFA0B1",
-					"#2185C5",
-					"#188AFF",
-					"#F58653",
-					"#F2385A",
-				],
-				icons: [
-					[
-						'icon-qiandai',
-						'icon-hongbaomian',
-						'icon-shizhong',
-						'icon-shangdian',
-						'icon-shoutibao',
-						'icon-zhuanzhang',
-						'icon-gongzuotai',
-						'icon-jiangpai',
-						'icon-huobi',
-						'icon-ziyuan'
-					],
-					[
-						'icon-liwu',
-						'icon-canyin',
-						'icon-xiazai50',
-						'icon-yifu',
-						'icon-fangzi',
-						'icon-dache',
-						'icon-shenghuo',
-						'icon-yaopin',
-						'icon-yanjiu',
-						'icon-shuiqian'
-					]
-				]
+                name: '',
+                colors: [
+                    "#92CDCF",
+                    "#4BB5C1",
+                    "#91C46C",
+                    "#42BA78",
+                    "#BFA4D2",
+                    "#FFA0B1",
+                    "#2185C5",
+                    "#188AFF",
+                    "#F58653",
+                    "#F2385A",
+                ],
+                icons: [
+                    [
+                        'icon-qiandai',
+                        'icon-hongbaomian',
+                        'icon-shizhong',
+                        'icon-shangdian',
+                        'icon-shoutibao',
+                        'icon-zhuanzhang',
+                        'icon-gongzuotai',
+                        'icon-jiangpai',
+                        'icon-huobi',
+                        'icon-ziyuan'
+                    ],
+                    [
+                        'icon-liwu',
+                        'icon-canyin',
+                        'icon-xiazai50',
+                        'icon-yifu',
+                        'icon-fangzi',
+                        'icon-dache',
+                        'icon-shenghuo',
+                        'icon-yaopin',
+                        'icon-yanjiu',
+                        'icon-shuiqian'
+                    ]
+                ]
 			}
 		},
 		onLoad(param) {
-            this.type = param.type * 1;
+            if (param.type) this.type = param.type * 1;
 		},
 		computed: {
 			normal() {
