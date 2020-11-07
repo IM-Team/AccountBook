@@ -24,7 +24,8 @@
 		computed: {
 			totalPrice() {
 				let total = 0
-				this.series.forEach(item => total += item.data)
+                this.series.forEach(item => total += item.data )
+                
 				return total
 			}
 		},

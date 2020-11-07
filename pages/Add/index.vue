@@ -42,7 +42,6 @@
         REMOVE_TURNOVER_ITEM,
         REMOVE_TURNOVER,
         PUSH_TURNOVER_ITEM,
-        UNSHIFT_TURNOVER,
         INSERT_TURNOVER,
         INC_ACCOUNT,
         DEC_ACCOUNT
@@ -275,7 +274,7 @@
                     const index = turnoverData.turnovers.findIndex(item => item.day == day)
 
                     if (index === -1) {
-                        this.$store.commit(UNSHIFT_TURNOVER, {
+                        this.$store.commit(INSERT_TURNOVER, {
                             day,
                             list: [this.billDetail]
                         })

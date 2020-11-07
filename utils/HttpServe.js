@@ -26,6 +26,7 @@ class HttpServe extends HTTP {
                 header
             }
 
+            // 校验过期情况
             return this._validExpire(error)
         }
     }
@@ -40,6 +41,12 @@ class HttpServe extends HTTP {
             store.commit(TOKEN, reqTokenRes.data.token)
 
             return this._reRequset()
+        } else if (!wxLogin) {
+            uni.showToast({
+                title: '请登录',
+                icon: 'none',
+                duration: 2000
+            })
         }
 
         return error
@@ -68,6 +75,25 @@ class HttpServe extends HTTP {
     static async isLogin() {
         const res = await HttpServe.login()
         return res.errMsg.endsWith('ok')
+    }
+
+    static getSetting() {
+        return new Promise((resolve, reject) => {
+            uni.getSetting({
+                success: resolve,
+                fail: reject
+            })
+        })
+    }
+
+    static async isUserAuthorization() {
+        const res = await HttpServe.getSetting()
+
+        if (res.authSetting['scope.userInfo']) {
+            return true
+        }
+
+        return false
     }
 }
 

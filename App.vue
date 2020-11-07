@@ -15,11 +15,27 @@
         name: 'App',
         mixins: [initGlobalDataMixin],
         async created() {
-            
-            const wxLoginRes = await HttpServe.login()
-            if (wxLoginRes.errMsg.endsWith('ok')) {
 
-                const userInfo = uni.getStorageSync('userInfo')
+            const isAuth = await HttpServe.isUserAuthorization()
+
+            if (!isAuth) {
+                uni.showToast({
+                    title: '请登录使用',
+                    icon: 'none',
+                    duration: 2000
+                })
+
+                return
+            }
+
+            this.init()
+        },
+        computed: {
+            ...mapState(['currentAccountBook'])
+        },
+        methods: {
+            async init() {
+                const wxLoginRes = await HttpServe.login()
                 this.$store.commit(IS_LOGIN, true)
 
                 // 能拿到本地 token
@@ -33,17 +49,8 @@
                     this.$store.commit(USER_ID, res.data.userId)
                 }
 
-                await this.initGlobalData()
-            } else {
-                uni.showToast({
-                    title: '请登录使用',
-                    icon: 'none',
-                    duration: 2000
-                })
+                this.initGlobalData()
             }
-        },
-        computed: {
-            ...mapState(['currentAccountBook'])
         }
 	}
 	
