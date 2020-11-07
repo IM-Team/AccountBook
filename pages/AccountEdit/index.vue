@@ -25,7 +25,7 @@
 			
 			<view class="form-item">
 				<view class="form-title">账户信息</view>
-				<im-cell :title=" account.categoryId == 1 ? '账户余额' : '负债额度' ">
+				<im-cell :title=" account.categoryId == 1 ? '账户余额' : '信用金额' ">
 					<input 
 						@blur="inputBalance($event)"
 						:value="account.balance == '0' ? '' : account.balance"
@@ -212,7 +212,7 @@
 				
 				// 如果blance为空个则补0
 				this.account.balance = Number(this.account.balance) || 0;
-				// this.account.balance = Number(this.account.balance).toFixed(2);
+				this.account.balance = Math.round(this.account.balance * 100) / 100;
 				
 				// 创建or修改 账户
 				if(isCreate) {

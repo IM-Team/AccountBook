@@ -40,16 +40,14 @@
 </template>
 
 <script>
-	// components
+
 	import ImCell from '@/components/common/ImCell'
 	import AccountGroup from '../../components/AccountGroup'
-	// methods
+
     import { accountMapMixin } from '@/utils/mixins'
 	import { ruleOfThirds } from '@/utils/utils'
     import { ACCOUNTS } from '@/store/mutation-types'
-	// datas
     import AccountModel from '../../model/AccountModel.js'
-    
     import { mapState } from 'vuex'
 	
 	export default {     
