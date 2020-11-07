@@ -86,8 +86,6 @@
             saveAccountBook(accountBook) {
                 accountBook.color = accountBook.color.split(',')
                 this.$store.commit(ADD_ACCOUNT_BOOK, accountBook)
-				
-                console.log(accountBook)
 
                 uni.navigateBack()
             }

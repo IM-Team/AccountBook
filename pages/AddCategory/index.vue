@@ -104,14 +104,19 @@
 		onLoad(param) {
             if (param.type) this.type = param.type * 1;
 		},
+		watch: {
+			currentPickColor(newColorIndex) {
+				
+			}
+		},
 		computed: {
-			normal() {
-				return {
-					backgroundColor: '#fff',
-					color: this.colors[this.currentPickColor],
-					borderColor: this.colors[this.currentPickColor]
-				}
-			},
+			// normal() {
+			// 	return {
+			// 		backgroundColor: '#fff',
+			// 		color: this.colors[this.currentPickColor],
+			// 		borderColor: this.colors[this.currentPickColor]
+			// 	}
+			// },
 			iconActive() {
 				return {
 					backgroundColor: this.colors[this.currentPickColor],
