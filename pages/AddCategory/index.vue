@@ -104,11 +104,6 @@
 		onLoad(param) {
             if (param.type) this.type = param.type * 1;
 		},
-		watch: {
-			currentPickColor(newColorIndex) {
-				
-			}
-		},
 		computed: {
 			// normal() {
 			// 	return {
