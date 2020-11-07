@@ -38,7 +38,7 @@
 				</im-cell>
 			</view>
 			
-			<view class="form-item">
+			<view v-if="!isModifyAccount" class="form-item">
 				<view class="form-title">账户设置</view>
 				<im-cell @click.native="inAccountBook" title="关联账本">
 					<view slot="content" class="account_book">
@@ -175,7 +175,14 @@
 				    content: '确认删除该账户',
 				    success: res => {
 				        if (res.confirm) {
-							accountModel.removeAccount(this.account.id).then(() => {
+							accountModel.removeAccount(this.account.id).then((res) => {
+								if(res == 2002) {
+									uni.showToast({
+										icon: "none",
+										title: "该账户下有账单，不可删除"
+									})
+									return;
+								}
 								this.$store.commit(REMOVE_ACCOUNT, {
 									account_type: this.account.categoryId,
 									id: this.account.id
@@ -204,7 +211,7 @@
 				}
 				
 				// 如果blance为空个则补0
-				this.account.balance = Number(this.account.balance) || '0';
+				this.account.balance = Number(this.account.balance) || 0;
 				// this.account.balance = Number(this.account.balance).toFixed(2);
 				
 				// 创建or修改 账户

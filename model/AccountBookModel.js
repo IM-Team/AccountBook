@@ -33,6 +33,7 @@ class AccountBook extends HttpServe {
             method: 'DELETE'
         })
     }
+	
 
     postCategory(category) {
         return this.request({

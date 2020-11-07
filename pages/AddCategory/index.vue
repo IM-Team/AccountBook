@@ -44,7 +44,10 @@
 <script>
 
     import AccountBookModel from '@/model/AccountBookModel'
-    import { ADD_CATEGORY } from '@/store/mutation-types'
+    import { 
+		ADD_CATEGORY,
+		UPDATA_CATEGORY
+	} from '@/store/mutation-types'
 	
 	export default {
         name: 'AddCategory',
@@ -53,46 +56,50 @@
 				type: 1,
 				currentPickIcon: 0,
 				currentPickColor: 0,
-                name: '',
-                colors: [
-                    "#92CDCF",
-                    "#4BB5C1",
-                    "#91C46C",
-                    "#42BA78",
-                    "#BFA4D2",
-                    "#FFA0B1",
-                    "#2185C5",
-                    "#188AFF",
-                    "#F58653",
-                    "#F2385A",
-                ],
-                icons: [
-                    [
-                        'icon-qiandai',
-                        'icon-hongbaomian',
-                        'icon-shizhong',
-                        'icon-shangdian',
-                        'icon-shoutibao',
-                        'icon-zhuanzhang',
-                        'icon-gongzuotai',
-                        'icon-jiangpai',
-                        'icon-huobi',
-                        'icon-ziyuan'
-                    ],
-                    [
-                        'icon-liwu',
-                        'icon-canyin',
-                        'icon-xiazai50',
-                        'icon-yifu',
-                        'icon-fangzi',
-                        'icon-dache',
-                        'icon-shenghuo',
-                        'icon-yaopin',
-                        'icon-yanjiu',
-                        'icon-shuiqian'
-                    ]
-                ]
+				category_edit: null,
+				name: '',
+				colors: [
+					"#92CDCF",
+					"#4BB5C1",
+					"#91C46C",
+					"#42BA78",
+					"#BFA4D2",
+					"#FFA0B1",
+					"#2185C5",
+					"#188AFF",
+					"#F58653",
+					"#F2385A",
+				],
+				icons: [
+					[
+						'icon-qiandai',
+						'icon-hongbaomian',
+						'icon-shizhong',
+						'icon-shangdian',
+						'icon-shoutibao',
+						'icon-zhuanzhang',
+						'icon-gongzuotai',
+						'icon-jiangpai',
+						'icon-huobi',
+						'icon-ziyuan'
+					],
+					[
+						'icon-liwu',
+						'icon-canyin',
+						'icon-xiazai50',
+						'icon-yifu',
+						'icon-fangzi',
+						'icon-dache',
+						'icon-shenghuo',
+						'icon-yaopin',
+						'icon-yanjiu',
+						'icon-shuiqian'
+					]
+				]
 			}
+		},
+		created() {
+			this.initModify();
 		},
 		onLoad(param) {
             if (param.type) this.type = param.type * 1;
@@ -131,39 +138,70 @@
 						icon: "none",
 						title: "请输入分类名"
 					})
-				} else {
-
-                    const accountBookId = this.$store.state.currentAccountBook.id
-                    const targetCategory = {
-                        id: -1,
-                        bookId: accountBookId,
-                        type: this.type,
-                        name: this.name,
-                        color: this.pickColor,
-                        icon: this.icons[this.type - 1][this.currentPickIcon]
-                    }
-
-                    ;(new AccountBookModel()).postCategory(targetCategory).then(id => {
-                        targetCategory.id = id
-					    this.saveCategory(targetCategory)
-                    }).catch((error) => {
-                        uni.showToast({
-                            title: '请检查网络连接',
-                            icon: 'none',
-                            duration: 2000
-                        })
-                    })
+					return;
 				} 
-            },
-            saveCategory(category) {
-                
-                this.$store.commit(ADD_CATEGORY, {
-                    type: this.type,
-                    data: category
-                })
+				
+				if(this.category_edit) {
+					this.handleConfirmModify();
+				} else {
+					this.handleConfirmCreate();
+				}
 
-                uni.navigateBack()
-            }
+            },
+			handleConfirmModify() {
+				this.category_edit.name = this.name;
+				this.category_edit.color = this.colors[this.currentPickColor];
+				this.category_edit.icon = this.icons[this.type - 1][this.currentPickIcon];
+				
+				;(new AccountBookModel()).postCategory(this.category_edit).then(() => {
+					
+					this.$store.commit(UPDATA_CATEGORY, {
+						type: this.category_edit.type,
+						id: this.category_edit.id,
+						data: this.category_edit
+					});
+					
+					uni.navigateBack();
+				});
+				
+			},
+			handleConfirmCreate() {
+				const accountBookId = this.$store.state.currentAccountBook.id
+				const targetCategory = {
+				    id: -1,
+				    bookId: accountBookId,
+				    type: this.type,
+				    name: this.name,
+				    color: this.pickColor,
+				    icon: this.icons[this.type - 1][this.currentPickIcon]
+				}
+				
+				;(new AccountBookModel()).postCategory(targetCategory).then(id => {
+				    targetCategory.id = id
+					
+				    this.$store.commit(ADD_CATEGORY, {
+				        type: this.type,
+				        data: targetCategory
+				    })
+					 uni.navigateBack();
+				});
+			},
+			initModify() {
+				try {
+					this.category_edit = uni.getStorageSync("category_edit");
+					uni.removeStorage({ key: "category_edit" });
+					
+					if(this.category_edit) {
+						this.name = this.category_edit.name;
+						this.type = this.category_edit.type;
+						this.currentPickIcon = this.icons[this.category_edit.type - 1].findIndex(item => item == this.category_edit.icon);
+						this.currentPickColor = this.colors.findIndex(item => item == this.category_edit.color);
+					}
+				} catch(err) {
+					console.log(err);
+				}
+				
+			}
 		}
 	}
 	

@@ -57,38 +57,55 @@
 		mixins: [accountMapMixin],
 		data() {
 			return {
-				capitalAccount: [],	// 资金账户
-				creditAccount: []	// 信用账户
+				// capitalAccount: [],	// 资金账户
+				// creditAccount: [],	// 信用账户
+				accountTotal: 0,
+				capitalTotal: 0,
+				creditTotal: 0
 			}
         },
+		created() {
+			this.calcTotal();
+		},
 		computed: {
             ...mapState(['accounts']),
-			capitalTotal() {
-				return this.calcTotal(this.accounts.capitals);
-			},
-			creditTotal() {
-				return this.calcTotal(this.accounts.credits);
-			},
-			accountTotal() {
-				return (this.capitalTotal - this.creditTotal).toFixed(2);
-			}
 		},
 		components: {
 			ImCell,
 			AccountGroup
 		},
 		methods: {
-			calcTotal(accounts) {
-				let total = 0;
-				accounts.forEach(item => total += Number(item.balance))
-				return total.toFixed(2);
-			},
 			formattingBalance(number) {
 				return ruleOfThirds(number);
 			},
 			// 点击添加账户按钮处理事件
 			onAddAccount() {
 				uni.navigateTo({ url: '/pages/AddAccount/index' });
+			},
+			// calc account's total
+			calcTotal() {
+				let capitalTotal = 0;
+				let creditTotalNegative = 0;
+				let creditTotalPositive = 0;
+				
+				this.accounts.capitals.forEach(item => capitalTotal += Number(item.balance));
+				
+				this.accounts.credits.forEach(item => {
+					item.balance < 0 ? creditTotalNegative += Number(item.balance) : creditTotalPositive += Number(item.balance);
+				});
+				
+				this.capitalTotal = Math.round(capitalTotal * 100) / 100;
+				this.creditTotal = Math.round(creditTotalNegative * 100) / 100;
+				this.accountTotal = Math.round((capitalTotal + creditTotalPositive + creditTotalNegative) * 100) / 100;
+				
+			}
+		},
+		watch: {
+			accounts: {
+				handler() {
+					this.calcTotal();
+				},
+				deep: true
 			}
 		}
 	}
