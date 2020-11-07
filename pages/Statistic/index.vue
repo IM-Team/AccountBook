@@ -107,7 +107,7 @@
                 } else {
                     arr.push({
                         name: name,
-                        data: parseFloat(price).toFixed(2)
+                        data: parseFloat(price).toFixed(2) * 1
                     })
                 }
             },
@@ -153,10 +153,9 @@
 				return result
             },
             updatePie(index) {
-                const tmpVal = index ? this.data.expense : this.data.income
-                this.currentData = this.deReactive(tmpVal)
+                const currentPieDate = index ? this.data.expense : this.data.income
+                this.currentData = this.deReactive(currentPieDate)
 
-                // const isShowPie = this.currentData.length !== 0
                 const tmp = this.isShowPie ? this.currentData : []
 
                 pieCanvas.updateData({ series: tmp })
@@ -176,6 +175,8 @@
 		width: 100%;
 		min-height: 580rpx;
 		max-height: 50vh;
+
+        /* opacity: 0; */
 	}
 	
 </style>
