@@ -148,6 +148,10 @@
 	}
 
 	.del-btn {
+		display: flex;
+		align-items: center;
+		height: 60rpx;
+		padding-left: 32rpx;
 		color: #C2C2C2;
 	}
 </style>
