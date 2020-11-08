@@ -28,7 +28,8 @@
 
     import { 
 		ADD_ACCOUNT_BOOK,
-		UPDATA_ACCOUNT_BOOK
+		UPDATA_ACCOUNT_BOOK,
+		CURRENT_ACCOUNT_BOOK
 	} from '@/store/mutation-types'
     import AccountBookModel from '@/model/AccountBookModel'
 
@@ -125,6 +126,10 @@
 						id: this.account_book_edit.id,
 						data: this.account_book_edit
 					});
+					
+					// 修改当前使用中的账本
+					if (this.account_book_edit.id == this.$store.state.currentAccountBook.id)
+						this.$store.commit(CURRENT_ACCOUNT_BOOK, this.account_book_edit);
 					
 					uni.navigateBack();
 				})
