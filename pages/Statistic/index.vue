@@ -4,13 +4,18 @@
 			:current-index="currentIndex"
 			@changeIndex="onChangeIndex"
 			@changeDate="onChangeDate" />
+			
+		<cover-view class="empty" :class="[status]"></cover-view>
 		<view class="sub-container">
-			<canvas
-				class="charts"
-				canvas-id="pie-canvas"
-				@touchstart="touchPie"></canvas>
+			<view>
+				<canvas
+					class="charts"
+					canvas-id="pie-canvas"
+					@touchstart="touchPie"></canvas>
+			</view>
+			<statistic-list :series="currentData" />
 		</view>
-		<statistic-list :series="currentData" />
+		
 	</view>
 </template>
 
@@ -55,7 +60,14 @@
             ...mapState(['turnoverData']),
             isShowPie() {
                 return this.currentData.length > 0
-            }
+            },
+			status() {
+				if (this.isShowPie) {
+					return 'no-empty'
+				} else {
+					return 'is-empty'
+				}
+			}
         },
 		watch: {
 			currentIndex(newData) {
@@ -169,14 +181,38 @@
 
 	.statistic-container {
 		padding: 16rpx 32rpx;
+		position: relative;
+	}
+	
+	.sub-container {
+		
 	}
 	
 	.charts {
 		width: 100%;
 		min-height: 580rpx;
 		max-height: 50vh;
-
-        /* opacity: 0; */
+		position: relative;
+		z-index: -1;
+	}
+	
+	.empty {
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		top: 94rpx;
+		background-color: #F2F2F7;
+	}
+	
+	.is-empty {
+		transition: 0;
+		opacity: 1;
+	}
+	
+	.no-empty {
+		transition: all .2s;
+		opacity: 0;
 	}
 	
 </style>
