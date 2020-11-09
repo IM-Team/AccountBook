@@ -275,8 +275,11 @@
 
                     if (index === -1) {
                         this.$store.commit(INSERT_TURNOVER, {
-                            day,
-                            list: [this.billDetail]
+							turnoverIndex: index,
+							data: {
+								day,
+								list: [this.billDetail]
+							}
                         })
                     } else {
                         this.$store.commit(PUSH_TURNOVER_ITEM, {

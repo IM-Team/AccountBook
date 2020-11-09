@@ -6,9 +6,13 @@
 			</view>
 
 			<view class="manage-menu" v-show="isShowManageMenu" :style="{right: isShowManageMenu ? '140rpx' : '-200rpx'}">
-				<view class="manage-btn" @click="onManageIndex = 1" :style="{color: onManageIndex == 1 ? '#FF4949' : '#888'}">删除</view>
+				<view class="manage-btn"
+					@click="onManageIndex = 1"
+					:style="{color: onManageIndex == 1 ? '#FF4949' : '#888'}">删除</view>
 				<view class="manage-space"></view>
-				<view class="manage-btn" @click="onManageIndex = 2" :style="{color: onManageIndex == 2 ? '#188AFF' : '#888'}">编辑</view>
+				<view class="manage-btn"
+					@click="onManageIndex = 2"
+					:style="{color: onManageIndex == 2 ? '#188AFF' : '#888'}">编辑</view>
 			</view>
 		</view>
 
@@ -145,7 +149,6 @@
 			},
 			handleRemoveBook(id) {
 				accountBookModel.removeAccountBook(id).then(res => {
-					console.log(res);
 					this.$store.commit(REMOVE_ACCOUNT_BOOK, id);
 				})
 			},

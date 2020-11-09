@@ -70,7 +70,7 @@ const mutations = {
     },
     [REMOVE_TURNOVER_ITEM](state, { turnoverIndex, itemIndex }) {
         if (state.turnoverData.turnovers[turnoverIndex].list.length === 1) {
-            Vue.delete(state.turnoverData.turnovers, turnoverIndex)
+			state.turnoverData.turnovers.splice(turnoverIndex, 1)
         } else {
             Vue.delete(state.turnoverData.turnovers[turnoverIndex].list, itemIndex)
         }

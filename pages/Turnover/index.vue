@@ -112,8 +112,7 @@
                 })
             },
             removeBill(id) {
-                this.$store.commit(IS_SHOW_BILLDETAIL, false)
-
+				this.$store.commit(IS_SHOW_BILLDETAIL, false)
                 const pos = this.$store.getters.findBillOfId(id)
                 this.$store.commit(REMOVE_TURNOVER_ITEM, {turnoverIndex: pos[0], itemIndex: pos[1]})
             },
