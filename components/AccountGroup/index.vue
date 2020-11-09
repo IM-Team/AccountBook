@@ -10,7 +10,7 @@
 					@click.native="handleAccount(item)"
 				>
 					<view slot="content">{{ 
-                        formattingBalance(account_type == 1 ? item.balance : item.balance)
+                        formattingBalance(item.balance = Math.round(item.balance * 100)/100)
                     }}</view>
 				</im-cell>
 			</view>
@@ -50,11 +50,7 @@
 				return ruleOfThirds(num);
 			},
 			handleAccount(item) {
-				// uni.setStorageSync("account_edit", {
-				// 	id: item.id,
-				// 	account_type: item.categoryId
-				// });
-				uni.setStorageSync("account_edit", item);				
+				uni.setStorageSync("account_edit", item);
 				uni.navigateTo({ url: "/pages/AccountEdit/index" });
 			}
 		}
