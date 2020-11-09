@@ -16,7 +16,7 @@ class AccountModel extends HttpServe {
 			data: account,
 			method: 'POST',
 			header: {
-			    "content-type": "application/x-www-form-urlencoded"
+			    "content-type": "application/json"
 			}
 		});
 	}
@@ -27,7 +27,7 @@ class AccountModel extends HttpServe {
 			data: account,
 			method: 'POST',
 			header: {
-			    "content-type": "application/x-www-form-urlencoded"
+			    "content-type": "application/json"
 			}
 		});
 	}
@@ -35,10 +35,7 @@ class AccountModel extends HttpServe {
 	removeAccount(id) {
 		return this.request({
 			url: `/account?accountId=${id}`,
-			method: 'DELETE',
-			header: {
-			    "content-type": "text/plain;charset=UTF-8"
-			}
+			method: 'DELETE'
 		});
 	}
 }

@@ -55,8 +55,6 @@
 		mixins: [accountMapMixin],
 		data() {
 			return {
-				// capitalAccount: [],	// 资金账户
-				// creditAccount: [],	// 信用账户
 				accountTotal: 0,
 				capitalTotal: 0,
 				creditTotal: 0

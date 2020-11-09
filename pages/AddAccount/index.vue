@@ -54,9 +54,12 @@
 		},
 		methods: {
 			onAccount(item) {
-				uni.navigateTo({
-					url: `/pages/AccountEdit/index?type=${ item.type }&account_type=${ item.account_type }`
+				uni.setStorageSync("account_edit", {
+					type: item.type,
+					account_type: item.account_type
 				});
+				
+				uni.navigateTo({ url: "/pages/AccountEdit/index" });
 			}
 		}
 	}

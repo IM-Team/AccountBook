@@ -46,16 +46,16 @@
 			ImCell
         },
 		methods: {
-			// creditBalance(balance) {
-			// 	return Number(balance) === 0 ? ('-' + balance) : balance;
-			// },
 			formattingBalance(num) {
 				return ruleOfThirds(num);
 			},
 			handleAccount(item) {
-                uni.navigateTo({
-                    url: `/pages/AccountEdit/index?id=${ item.id }&account_type=${ item.categoryId }`
-                });
+				// uni.setStorageSync("account_edit", {
+				// 	id: item.id,
+				// 	account_type: item.categoryId
+				// });
+				uni.setStorageSync("account_edit", item);				
+				uni.navigateTo({ url: "/pages/AccountEdit/index" });
 			}
 		}
 	}

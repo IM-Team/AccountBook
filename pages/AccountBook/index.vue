@@ -77,9 +77,7 @@
 				uni.navigateBack()
 			},
 			onAdd() {
-				uni.navigateTo({
-					url: '/pages/AccountBookAdd/index'
-				})
+				uni.navigateTo({ url: '/pages/AccountBookAdd/index'	});
 			},
 			refreshData(id) {
 				Promise.all([
