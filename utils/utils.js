@@ -49,7 +49,7 @@ function stringReverse(str) {
  * @return {String}				处理完的字符串
  */
 function addSymbolOfByte(target, symbol, byteNumber = 3, isReverse = true) {
-    
+
     // 位数不足判断
 	if (target.length <= byteNumber) return target
     

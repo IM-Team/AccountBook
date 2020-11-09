@@ -105,13 +105,6 @@
             if (param.type) this.type = param.type * 1;
 		},
 		computed: {
-			// normal() {
-			// 	return {
-			// 		backgroundColor: '#fff',
-			// 		color: this.colors[this.currentPickColor],
-			// 		borderColor: this.colors[this.currentPickColor]
-			// 	}
-			// },
 			iconActive() {
 				return {
 					backgroundColor: this.colors[this.currentPickColor],
