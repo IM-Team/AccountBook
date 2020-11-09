@@ -3,6 +3,8 @@
 export const ACCOUNT_BOOKS = 'accountBooks'
 export const CURRENT_ACCOUNT_BOOK = 'currentAccountBook'
 export const ADD_ACCOUNT_BOOK = 'add_accountBook'
+export const REMOVE_ACCOUNT_BOOK  = 'remove_account_book'
+export const UPDATA_ACCOUNT_BOOK =  'updata_account_book'
 
 // Turnover
 export const TURNOVER_DATA = 'turnoverData'

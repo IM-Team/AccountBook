@@ -180,18 +180,14 @@
 				});
 			},
 			initModify() {
-				try {
-					this.category_edit = uni.getStorageSync("category_edit");
-					uni.removeStorage({ key: "category_edit" });
-					
-					if(this.category_edit) {
-						this.name = this.category_edit.name;
-						this.type = this.category_edit.type;
-						this.currentPickIcon = this.icons[this.category_edit.type - 1].findIndex(item => item == this.category_edit.icon);
-						this.currentPickColor = this.colors.findIndex(item => item == this.category_edit.color);
-					}
-				} catch(err) {
-					console.log(err);
+				this.category_edit = uni.getStorageSync("category_edit");
+				uni.removeStorage({ key: "category_edit" });
+				
+				if(this.category_edit) {
+					this.name = this.category_edit.name;
+					this.type = this.category_edit.type;
+					this.currentPickIcon = this.icons[this.category_edit.type - 1].findIndex(item => item == this.category_edit.icon);
+					this.currentPickColor = this.colors.findIndex(item => item == this.category_edit.color);
 				}
 				
 			}

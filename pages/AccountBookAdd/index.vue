@@ -20,13 +20,17 @@
                 @click="onToggleColor(color)"
                 :key="index"></view>
         </view>
-        <view class="submit" @click="onSubmit">添加账本</view>
+        <view class="submit" @click="onSubmit">保存账本</view>
     </view>
 </template>
 
 <script>
 
-    import { ADD_ACCOUNT_BOOK } from '@/store/mutation-types'
+    import { 
+		ADD_ACCOUNT_BOOK,
+		UPDATA_ACCOUNT_BOOK,
+		CURRENT_ACCOUNT_BOOK
+	} from '@/store/mutation-types'
     import AccountBookModel from '@/model/AccountBookModel'
 
     export default {
@@ -48,9 +52,13 @@
                     ['#c471f5', '#fa71cd'],
                     ['#868f96', '#596164'],
                     ['#29323c', '#485563']
-                ]
+                ],
+				account_book_edit: null
             }
         },
+		created() {
+			this.initUpdataAccountBook();
+		},
         computed: {
             bgColor() {
                 return `background-image: linear-gradient(to top, ${this.currentColor[0]} 0%, ${this.currentColor[1]} 100%)`                    
@@ -63,32 +71,69 @@
             onSubmit() {
 				
 				this.input = this.input.trim();
-				
-				if(this.input.length > 0) {
-
-                    const accountBook = {
-                        id: -1,
-                        name: this.input,
-                        color: this.currentColor.join(',')
-                    }
-
-                    ;(new AccountBookModel()).postAccountBook(accountBook).then(id => {
-                        accountBook['id'] = id
-                        this.saveAccountBook(accountBook)
-                    })
-                } else {
+				if(!this.input.length > 0) {
 					uni.showToast({
 						icon: "none",
 						title: "输入账本名称"
 					})
+					return;
+                }
+				
+				if(this.account_book_edit.id) {
+					console.log("this.account_book_eid", this.account_book_edit.id);
+					this.handleUpdataAccountBook();
+				} else {
+					this.handleCreateAccountBook();
 				}
             },
-            saveAccountBook(accountBook) {
-                accountBook.color = accountBook.color.split(',')
-                this.$store.commit(ADD_ACCOUNT_BOOK, accountBook)
-
-                uni.navigateBack()
-            }
+			initUpdataAccountBook() {
+				this.account_book_edit = uni.getStorageSync('account_book_edit');
+				uni.removeStorage({ key: "account_book_edit" });
+				if(this.account_book_edit) {
+					this.input = this.account_book_edit.name;
+					this.currentColor = this.account_book_edit.color;
+				}
+			},
+			handleCreateAccountBook() {
+				const accountBook = {
+				    id: -1,
+				    name: this.input,
+				    color: this.currentColor.join(',')
+				}
+				
+				;(new AccountBookModel()).postAccountBook(accountBook).then(id => {
+				    accountBook['id'] = id
+					
+					accountBook.color = accountBook.color.split(',')
+					this.$store.commit(ADD_ACCOUNT_BOOK, accountBook)
+					
+					uni.navigateBack()
+				})
+			},
+			handleUpdataAccountBook() {
+				this.account_book_edit.name = this.input;
+				this.account_book_edit.color = this.currentColor;
+				
+				;(new AccountBookModel()).postAccountBook({
+					id: this.account_book_edit.id,
+					name: this.account_book_edit.name,
+					color: this.account_book_edit.color.join(',')
+					
+				}).then(res => {
+					console.log(res);
+					
+					this.$store.commit(UPDATA_ACCOUNT_BOOK, {
+						id: this.account_book_edit.id,
+						data: this.account_book_edit
+					});
+					
+					// 修改当前使用中的账本
+					if (this.account_book_edit.id == this.$store.state.currentAccountBook.id)
+						this.$store.commit(CURRENT_ACCOUNT_BOOK, this.account_book_edit);
+					
+					uni.navigateBack();
+				})
+			}
         }
     }
 

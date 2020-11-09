@@ -19,6 +19,14 @@ class AccountBook extends HttpServe {
             }
         })
     }
+	
+	removeAccountBook(id) {
+		return this.request({
+			url: `/book?bookId=${id}`,
+			method: 'DELETE'
+		});
+	}
+	
 
     getCategory(id) {
         return this.request({

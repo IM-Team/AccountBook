@@ -1,9 +1,13 @@
 import Vue from 'vue'
 import {
-    TURNOVER_DATA,
+	
     ACCOUNT_BOOKS,
     CURRENT_ACCOUNT_BOOK,
     ADD_ACCOUNT_BOOK,
+	REMOVE_ACCOUNT_BOOK,
+	UPDATA_ACCOUNT_BOOK,
+	
+    TURNOVER_DATA,
     BILL_DETAIL,
     IS_FROM_BILLDETAIL,
     IS_SHOW_BILLDETAIL,
@@ -44,6 +48,14 @@ const mutations = {
     [ADD_ACCOUNT_BOOK](state, accountBook) {
         state.accountBooks.push(accountBook)
     },
+	[REMOVE_ACCOUNT_BOOK](state, id) {
+		const index = state.accountBooks.findIndex(item => item.id == id);
+		Vue.delete(state.accountBooks, index);
+	},
+	[UPDATA_ACCOUNT_BOOK](state, {id, data}) {
+		const index = state.accountBooks.findIndex(item => item.id == id);
+		Vue.set(state.accountBooks, index, data);
+	},
     [BILL_DETAIL](state, billDetail) {
         state.billDetail = { ...billDetail }
     },
