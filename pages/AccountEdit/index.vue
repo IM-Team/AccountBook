@@ -94,15 +94,19 @@
 		},
 		created() {
 			const accountBookModel = new AccountBookModel();
+			const account_edit = uni.getStorageSync('account_edit');
+			
+			uni.removeStorage({ key: "account_edit" });
 			accountBookModel.getAccountBooks().then(res => this.accountBooks = res );
-		},
-		onLoad(option) {
-			// 修改账户 or 新建账户 相关处理
-			if(option.id) {
-				this.initModifyOfData(option);
+			
+			console.log(typeof account_edit.id);
+			
+			if(account_edit.id) {
+				this.initModifyOfData(account_edit);
 			} else {
-				this.initCreateOfData(option);
+				this.initCreateOfData(account_edit);
 			}
+			
 		},
 		components: {
 			ImCell
@@ -129,8 +133,7 @@
 		methods: {
 			initModifyOfData(option) {
 				this.isModifyAccount = true;
-				const currentAccount = this.$store.getters.findAccount(Number(option.id), option.account_type);
-				this.account = deepClone(currentAccount);
+				this.account = {...option};
             },
 			initCreateOfData(option) {
                 this.account = {
@@ -174,29 +177,27 @@
 				    title: '提示',
 				    content: '确认删除该账户',
 				    success: res => {
-				        if (res.confirm) {
-							accountModel.removeAccount(this.account.id).then((res) => {
-								if(res == 2002) {
-									uni.showToast({
-										icon: "none",
-										title: "该账户下有账单，不可删除"
-									})
-									return;
-								}
-								this.$store.commit(REMOVE_ACCOUNT, {
-									account_type: this.account.categoryId,
-									id: this.account.id
-								})
-								uni.navigateBack({  delta: 1 });
-							}, () => {
-								uni.showToast({
-									icon: "none",
-									title: "请检查您的网络"
-								})
-							});
-							
-				        }
+				        if (res.confirm) this.handleDelete();
 				    }
+				});
+			},
+			handleDelete() {
+				accountModel.removeAccount(this.account.id).then((res) => {
+					
+					if(res == 2002) {
+						uni.showToast({
+							icon: "none",
+							title: "该账户下有账单，不可删除"
+						})
+						return;
+					}
+					
+					this.$store.commit(REMOVE_ACCOUNT, {
+						account_type: this.account.categoryId,
+						id: this.account.id
+					})
+					
+					uni.navigateBack();
 				});
 			},
 			// 创建or修改 处理函数
@@ -218,40 +219,36 @@
 				if(isCreate) {
 					accountModel.createAccount(this.account).then((res) => {
 						this.account.id = res;
+						
 						if(this.account.bookId == this.$store.state.currentAccountBook.id) {
+							
 							this.$store.commit(ADD_ACCOUNT, {
 							   account_type: this.account.categoryId,
 							   data: this.account
 							});
 						}
 						uni.navigateBack({ delta: 2 });
-					}, () => {
-						uni.showToast({
-							icon: "none",
-							title: "请检查您的网络"
-						})
 					});
 					
 				} else {					
 					accountModel.modifyAccount(this.account).then(() => {
 						if(this.account.bookId == this.$store.state.currentAccountBook.id) {
+							
 							this.$store.commit(UPDATE_ACCOUNT, {
 							   account_type: this.account.categoryId,
 							   id: this.account.id,
 							   data: this.account
 							});
+							
 						} else {
+							
 							this.$store.commit(REMOVE_ACCOUNT, {
 								account_type: this.account.categoryId,
 								id: this.account.id
 							});
 						}
-						uni.navigateBack({ delta: 1 });
-					}, () => {
-						uni.showToast({
-							icon: "none",
-							title: "请检查您的网络"
-						})
+						
+						uni.navigateBack();
 					});
 					
 				}
