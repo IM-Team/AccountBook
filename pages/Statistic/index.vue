@@ -5,7 +5,7 @@
 			@changeIndex="onChangeIndex"
 			@changeDate="onChangeDate" />
 			
-		<cover-view class="empty" :class="[status]"></cover-view>
+		<cover-view class="empty" :class="status"></cover-view>
 		<view class="sub-container">
 			<view>
 				<canvas
@@ -91,6 +91,7 @@
 
                 this.initChartData(res)
                 this.updatePie(this.currentIndex)
+				this.currentListData = this.currentIndex ? this.listData.expense : this.listData.income
 			},
 			onChangeIndex(index) {
 				this.currentIndex = index
@@ -119,7 +120,7 @@
 					})
 					
 					// pie data
-                    this.addTo({
+                    this.addToPieData({
                         arr: dayTurnover.type === 1 ? pieData.income : pieData.expense,
                         name: dayTurnover.billCategory.name, 
                         amount: dayTurnover.amount
@@ -129,7 +130,7 @@
 				this.listData = listData
                 this.data = pieData
             },
-            addTo({arr, name, amount}) {
+            addToPieData({arr, name, amount}) {
                 const pieItem = arr.find(item => item.name === name)
                 if (pieItem) {
                     pieItem.data = parseFloat(pieItem.data + parseFloat(amount)).toFixed(2)
