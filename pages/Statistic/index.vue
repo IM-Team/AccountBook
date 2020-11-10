@@ -73,9 +73,6 @@
 					return 'is-empty'
 				}
 			},
-			// currentListData() {
-			// 	return 
-			// }
         },
 		watch: {
 			currentIndex(newData) {
@@ -112,46 +109,20 @@
 
                 // 扁平化
                 turnovers.forEach(dayTurnover => flatArr.push(...dayTurnover.list))
-
+				
                 // 对扁平化后的数据进行分类
                 flatArr.forEach(dayTurnover => {
+					// list data
+					this.addToListData({
+						arr: dayTurnover.type === 1 ? listData.income : listData.expense,
+						dayTurnover
+					})
 					
-					if (dayTurnover.type === 1) {
-						const findedTurnover = listData.income.find(item => item.name === dayTurnover.billCategory.name)
-					   
-						if (findedTurnover) {
-							findedTurnover.amount = findedTurnover.amount + parseFloat(dayTurnover.amount)
-						} else {
-							const target = {
-								amount: dayTurnover.amount,
-								icon: dayTurnover.billCategory.icon,
-								name: dayTurnover.billCategory.name,
-								color: dayTurnover.billCategory.color
-							}
-							
-							listData.income.push(target)
-						}
-					} else {
-						const findedTurnover = listData.expense.find(item => item.name === dayTurnover.billCategory.name)
-
-						if (findedTurnover) {
-							findedTurnover.amount = findedTurnover.amount + parseFloat(dayTurnover.amount)
-						} else {
-							const target = {
-								amount: dayTurnover.amount,
-								icon: dayTurnover.billCategory.icon,
-								name: dayTurnover.billCategory.name,
-								color: dayTurnover.billCategory.color
-							}
-							
-							listData.expense.push(target)
-						}
-					}
-					
+					// pie data
                     this.addTo({
                         arr: dayTurnover.type === 1 ? pieData.income : pieData.expense,
                         name: dayTurnover.billCategory.name, 
-                        price: dayTurnover.amount
+                        amount: dayTurnover.amount
                     })
                 })
 				
@@ -160,7 +131,6 @@
             },
             addTo({arr, name, amount}) {
                 const pieItem = arr.find(item => item.name === name)
-
                 if (pieItem) {
                     pieItem.data = parseFloat(pieItem.data + parseFloat(amount)).toFixed(2)
                 } else {
@@ -170,8 +140,21 @@
                     })
                 }
             },
-			addToListData(arr) {
-				
+			addToListData({ arr, dayTurnover }) {
+				const findedTurnover = arr.find(item => item.name === dayTurnover.billCategory.name)
+
+				if (findedTurnover) {
+					findedTurnover.amount = findedTurnover.amount + parseFloat(dayTurnover.amount)
+				} else {
+					const target = {
+						amount: dayTurnover.amount,
+						icon: dayTurnover.billCategory.icon,
+						name: dayTurnover.billCategory.name,
+						color: dayTurnover.billCategory.color
+					}
+					
+					arr.push(target)
+				}
 			},
 			createPie(series) {
 				pieCanvas = new uCharts({

@@ -98,9 +98,7 @@
 			
 			uni.removeStorage({ key: "account_edit" });
 			accountBookModel.getAccountBooks().then(res => this.accountBooks = res );
-			
-			console.log(typeof account_edit.id);
-			
+
 			if(account_edit.id) {
 				this.initModifyOfData(account_edit);
 			} else {
@@ -176,6 +174,7 @@
 				uni.showModal({
 				    title: '提示',
 				    content: '确认删除该账户',
+					confirmColor: "#FF4949",
 				    success: res => {
 				        if (res.confirm) this.handleDelete();
 				    }

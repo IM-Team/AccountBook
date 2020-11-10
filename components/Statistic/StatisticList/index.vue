@@ -2,11 +2,13 @@
 	<view class="classify-wrap">
 		<view class="classify" v-for="(item, index) in series" :key="index">
 			<view class="title">
-				<view class="iconfont icon-yaowan"></view>
+				<view class="iconfont"
+					:class="item.icon"
+					:style="{ backgroundColor: item.color }"></view>
 				<view class="title-text">{{ item.name }}</view>
 			</view>
-			<view class="scale">{{ toPercentage(item.data) }}</view>
-			<view class="total">{{ item.data }}</view>
+			<view class="scale">{{ toPercentage(item.amount) }}</view>
+			<view class="total">{{ item.amount }}</view>
 		</view>
 	</view>
 </template>
@@ -24,7 +26,7 @@
 		computed: {
 			totalPrice() {
 				let total = 0
-                this.series.forEach(item => total += item.data)
+                this.series.forEach(item => total += item.amount)
                 
 				return total
 			}
@@ -44,9 +46,9 @@
 		padding-top: 32rpx;
 	}
 	
-	.classify-wrap .classify {
+	.classify {
 		display: flex;
-		justify-content: space-between;
+		/* justify-content: space-between; */
 		font-size: 28rpx;
 		padding: 32rpx;
 		line-height: 60rpx;
@@ -54,8 +56,19 @@
 		margin-bottom: 28rpx;
 		background-color: #fff;
 	}
+	.title,
+	.scale,
+	.total {
+		flex: 1;
+	}
+	.scale {
+		text-align: center;
+	}
+	.total {
+		text-align: right;
+	}
 	
-	.classify .title {
+	.title {
 		display: flex;
 	}
 	

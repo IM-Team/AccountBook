@@ -56,21 +56,24 @@
 				uni.showModal({
 					title: '提示',
 					content: '确认删除该分类',
+					confirmColor: "#FF4949",
 					success: res => {
-						if (res.confirm) {
-							const accountBookModel = new AccountBookModel();
-							accountBookModel.removeCategory(category_id).then(res => {
-								if (res == 2002) {
-									uni.showToast({icon: "none", title: "账单中已使用该分类，不可删除"});
-									return;
-								}
-								this.$store.commit(REMOVE_CATEGORY, {
-									type: this.currentIndex,
-									category_id: category_id
-								})
-							});
-						}
+						if (res.confirm) this.handleDelete(category_id);
 					}
+				});
+			},
+			handleDelete(category_id) {
+				const accountBookModel = new AccountBookModel();
+				accountBookModel.removeCategory(category_id).then(res => {
+					console.log(res);
+					if (res == 2002) {
+						uni.showToast({icon: "none", title: "账单中已使用该分类，不可删除"});
+						return;
+					}
+					this.$store.commit(REMOVE_CATEGORY, {
+						type: this.currentIndex,
+						category_id: category_id
+					})
 				});
 			},
 			onToEditCate(category) {
