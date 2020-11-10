@@ -9,11 +9,12 @@
 		<view class="sub-container">
 			<view>
 				<canvas
+					:style="{ 'z-index': isShowPie ? 9999 : -1 }"
 					class="charts"
 					canvas-id="pie-canvas"
 					@touchstart="touchPie"></canvas>
 			</view>
-			<statistic-list :series="currentData" />
+			<statistic-list :series="currentListData" />
 		</view>
 		
 	</view>
@@ -41,7 +42,9 @@
 				cWidth: 335,
 				cHeight: 300,
 				pixelRatio: 1,
-                currentData: []
+                currentData: [],
+				listData: {},
+				currentListData: []
 			}
 		},
 		components: {
@@ -51,6 +54,8 @@
 		},
 		created() {
             this.initChartData(this.turnoverData.turnovers)
+			
+			this.currentListData = this.listData.income
 			this.currentData = this.data.income
         },
 		mounted() {
@@ -67,10 +72,14 @@
 				} else {
 					return 'is-empty'
 				}
-			}
+			},
+			// currentListData() {
+			// 	return 
+			// }
         },
 		watch: {
 			currentIndex(newData) {
+				this.currentListData = this.currentIndex ? this.listData.expense : this.listData.income
                 this.updatePie(newData)
 			}
 		},
@@ -96,33 +105,74 @@
                     income: [],
                     expense: []
                 }
+				const listData = {
+                    income: [],
+                    expense: []
+                }
 
                 // 扁平化
                 turnovers.forEach(dayTurnover => flatArr.push(...dayTurnover.list))
 
-                // 分类
+                // 对扁平化后的数据进行分类
                 flatArr.forEach(dayTurnover => {
+					
+					if (dayTurnover.type === 1) {
+						const findedTurnover = listData.income.find(item => item.name === dayTurnover.billCategory.name)
+					   
+						if (findedTurnover) {
+							findedTurnover.amount = findedTurnover.amount + parseFloat(dayTurnover.amount)
+						} else {
+							const target = {
+								amount: dayTurnover.amount,
+								icon: dayTurnover.billCategory.icon,
+								name: dayTurnover.billCategory.name,
+								color: dayTurnover.billCategory.color
+							}
+							
+							listData.income.push(target)
+						}
+					} else {
+						const findedTurnover = listData.expense.find(item => item.name === dayTurnover.billCategory.name)
+
+						if (findedTurnover) {
+							findedTurnover.amount = findedTurnover.amount + parseFloat(dayTurnover.amount)
+						} else {
+							const target = {
+								amount: dayTurnover.amount,
+								icon: dayTurnover.billCategory.icon,
+								name: dayTurnover.billCategory.name,
+								color: dayTurnover.billCategory.color
+							}
+							
+							listData.expense.push(target)
+						}
+					}
+					
                     this.addTo({
                         arr: dayTurnover.type === 1 ? pieData.income : pieData.expense,
                         name: dayTurnover.billCategory.name, 
                         price: dayTurnover.amount
                     })
                 })
-
+				
+				this.listData = listData
                 this.data = pieData
             },
-            addTo({arr, name, price}) {
+            addTo({arr, name, amount}) {
                 const pieItem = arr.find(item => item.name === name)
 
                 if (pieItem) {
-                    pieItem.data = parseFloat(pieItem.data + parseFloat(price)).toFixed(2)
+                    pieItem.data = parseFloat(pieItem.data + parseFloat(amount)).toFixed(2)
                 } else {
                     arr.push({
                         name: name,
-                        data: parseFloat(price).toFixed(2) * 1
+                        data: parseFloat(amount).toFixed(2) * 1
                     })
                 }
             },
+			addToListData(arr) {
+				
+			},
 			createPie(series) {
 				pieCanvas = new uCharts({
 					$this: this,
@@ -184,9 +234,7 @@
 		position: relative;
 	}
 	
-	.sub-container {
-		
-	}
+	.sub-container { }
 	
 	.charts {
 		width: 100%;

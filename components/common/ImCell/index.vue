@@ -2,7 +2,7 @@
 	<view class="cell-container">
 		<view class="cell-title">
 			<block v-if="icon">
-				<view 
+				<view
 					class="iconfont title-icon"
 					:class="icon"
 					:style="{ backgroundColor: color }"
@@ -10,8 +10,10 @@
 			</block>
 			<view class="title-text">
 				<text v-if="title">{{title}}</text>
-				<slot name="title"></slot>
 			</view>
+		</view>
+		<view class="center">
+			<slot name="center"></slot>
 		</view>
 		<view class="cell-content">
 			<text v-if="content">{{ content }}</text>
@@ -38,17 +40,16 @@
 </script>
 
 <style scoped>
+	
 	.cell-container {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		/* margin-bottom: 28rpx; */
 		padding: 32rpx;
 		border-radius: 10px;
 		background-color: #fff;
 	}
 	.cell-container .cell-title {
-		/* flex: 1; */
 		display: flex;
 		align-items: center;
 	}
@@ -71,4 +72,5 @@
 	.cell-title .title-text {
 		font-size: 28rpx;
 	}
+	
 </style>
