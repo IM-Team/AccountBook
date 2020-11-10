@@ -10,6 +10,7 @@
 			</block>
 			<view class="title-text">
 				<text v-if="title">{{title}}</text>
+				<slot name="title"></slot>
 			</view>
 		</view>
 		<view class="center">
