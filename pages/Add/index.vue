@@ -13,7 +13,7 @@
 				<input
                     class="input"
                     type="text"
-                    :value="billDetail.comment"
+					v-model="billDetail.comment"
                     placeholder="请输入备注" />
 			</view>
 			<keyboard
@@ -31,8 +31,8 @@
 	import EditArea 	from '@/components/Add/EditArea'
 	import TypeSwiper 	from '@/components/Add/TypeSwiper'
     import Keyboard 	from '@/components/Add/Keyboard'
-    import { mapState } from 'vuex'
     import TurnoverModel from '@/model/TurnoverModel'
+    import { mapState } from 'vuex'
     import { deepClone } from '@/utils/utils'
 
     import {
@@ -102,7 +102,6 @@
                 }
 
             }, // end init
-            
             onToggle(type) {
                 this.billDetail.type = type
             },
