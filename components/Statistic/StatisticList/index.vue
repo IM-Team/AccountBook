@@ -44,9 +44,9 @@
 		padding-top: 32rpx;
 	}
 	
-	.classify-wrap .classify {
+	.classify {
 		display: flex;
-		justify-content: space-between;
+		/* justify-content: space-between; */
 		font-size: 28rpx;
 		padding: 32rpx;
 		line-height: 60rpx;
@@ -54,8 +54,19 @@
 		margin-bottom: 28rpx;
 		background-color: #fff;
 	}
+	.title,
+	.scale,
+	.total {
+		flex: 1;
+	}
+	.scale {
+		text-align: center;
+	}
+	.total {
+		text-align: right;
+	}
 	
-	.classify .title {
+	.title {
 		display: flex;
 	}
 	

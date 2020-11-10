@@ -2,7 +2,7 @@
 	<view class="about_us-container">
 		<view class="app-info">
 			<view class="logo"><view class="iconfont icon-fenlei"></view></view>
-			<view class="title">穷人日记</view>
+			<view class="title">穷奇记账</view>
 			<view class="version">v1.0.0</view>
 		</view>
 		<view class="tips">

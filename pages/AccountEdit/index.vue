@@ -176,6 +176,7 @@
 				uni.showModal({
 				    title: '提示',
 				    content: '确认删除该账户',
+					confirmColor: "#FF4949",
 				    success: res => {
 				        if (res.confirm) this.handleDelete();
 				    }

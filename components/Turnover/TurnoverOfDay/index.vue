@@ -99,7 +99,7 @@
     }
     
 	.cell {
-		margin-bottom: 32rpx;
+		margin-bottom: 16rpx;
     }
     
     .day {
