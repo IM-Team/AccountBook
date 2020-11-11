@@ -119,14 +119,8 @@
                     this.billDetail.id = id
                     this.isFromBillDetail ? this.updateInfo() : this.addTurnoverItem()
                     uni.navigateBack()
-				}).catch(() => {
-					uni.showToast({
-						title: '请检查网络连接',
-						icon: 'none',
-						duration: 2000
-					})
-                })
-
+				})
+				
                 this.changAccount()
             },
             onChangeDate(timestamp) {
@@ -250,6 +244,10 @@
 				
 				return turnoverPos.length ?  turnoverPos : null
 			},
+			/**
+			 * @param {Number} timestamp
+			 * @return {Object} 格式: { yyyy, mm, dd }
+			 */
 			formatDateToObj(timestamp) {
 				const date = new Date(timestamp)
 				return {
@@ -266,15 +264,19 @@
                 // 找到对应的只账本、判断本地数据是否是当前的
                 const turnoverData = this.$store.state.turnoverData
 
-                if (turnoverData.year == date.getFullYear() &&
-                    turnoverData.month == (date.getMonth() + 1)) {
+                if (turnoverData.year == date.getFullYear()
+                    && turnoverData.month == (date.getMonth() + 1)) {
 
                     // 查找 day
                     const index = turnoverData.turnovers.findIndex(item => item.day == day)
 
                     if (index === -1) {
+						
+						// 查找插入的位置
+						const insertIndex = turnoverData.turnovers.findIndex(item => item.day < day)
+						
                         this.$store.commit(INSERT_TURNOVER, {
-							turnoverIndex: index,
+							turnoverIndex: insertIndex,
 							data: {
 								day,
 								list: [this.billDetail]
