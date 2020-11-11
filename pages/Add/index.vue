@@ -66,7 +66,7 @@
 			Keyboard
         },
         computed: {
-            ...mapState(['billDetail'])
+            ...mapState(['billDetail', 'turnoverData'])
         },
 		methods: {
 			init() {
@@ -110,14 +110,22 @@
             },
             onConfirm() {
 
-				this.fixDecimalPoint()
+				this.billDetail.amount = this.fixDecimalPoint(this.digitList.join(''))
 
                 const turnoverModel = new TurnoverModel()
                 const cabId = this.$store.getters.currentAccountBookId
 
 				turnoverModel.postBill(this.billDetail, cabId).then((id) => {
                     this.billDetail.id = id
-                    this.isFromBillDetail ? this.updateInfo() : this.addTurnoverItem()
+					
+					const { year, month } = this.formatDateToObj(this.billDetail.timestamp)
+					const isInLocal = year === this.turnoverData.year &&
+					                  month === this.turnoverData.month
+					
+					if (isInLocal) {
+						this.isFromBillDetail ? this.updateInfo() : this.addTurnoverItem()
+					}
+					
                     uni.navigateBack()
 				})
 				
@@ -146,27 +154,39 @@
                     amount: parseFloat(this.digitList.join(''))
                 })
             },
-            fixDecimalPoint() {
-                this.billDetail.amount = this.digitList.join('')
-                const pointIndex = this.billDetail.amount.indexOf('.')
+            /**
+			 * 强制添加小数点：1 -> 1.00 | 1.1 -> 1.10
+			 * @param {Number | String} targetNumber 要转化的数字字符串或数字
+			 * @return {String} 格式: xx.xx
+			 */
+			fixDecimalPoint(targetNumber) {
+				
+				if (!targetNumber) return
+				
+				let numStr = targetNumber.toString()
+                const pointIndex = numStr.indexOf('.')
 
 				if (pointIndex === -1) {
-					this.billDetail.amount += '.00'
-				} else if (pointIndex !== this.billDetail.amount.length - 3) {
-                    this.billDetail.amount += '0'
+					numStr += '.00'
+				} else if (pointIndex !== numStr.length - 3) {
+                    numStr += '0'
                 }
+				
+				return numStr
             },
 			updateInfo() {
 				
-				const turnoverData = this.$store.state.turnoverData,
-					  turnovers = turnoverData.turnovers,
+				const turnovers = this.turnoverData.turnovers,
 					  tId = this.billDetail.id
 				
-				const isUpdateDate = this.billDetail.timestamp !== this.oldDate
+				// 是否更新了日期
+				const isUpdatedDate = this.billDetail.timestamp !== this.oldDate
+				
+				// 查找更新的流水位置
+				const modifyPos = this.findTurnoverOfLocal(turnovers, 'id', tId)
 				
 				// 不需更新日期
-				const modifyPos = this.findTurnoverOfLocal(turnovers, 'id', tId)
-				if (!isUpdateDate) {
+				if (!isUpdatedDate) {
 
                     this.$store.commit(UPDATE_TURNOVER_ITEM, {
                         turnoverIndex: modifyPos[0],
@@ -179,12 +199,6 @@
 				
                 // ========== Need Update Date ==========
                 
-				const targetDate = this.formatDateToObj(this.billDetail.timestamp)
-
-				// 3 目标日期是否在本地
-				const isInLocal = targetDate.year === turnoverData.year &&
-                                  targetDate.month === turnoverData.month;
-
 				// 清除修改的对象
 				if (turnovers[modifyPos[0]].list.length === 1) {
                     this.$store.commit(REMOVE_TURNOVER, modifyPos[0])
@@ -194,25 +208,27 @@
                         itemIndex: modifyPos[1]
                     })
                 }
-
+				
+				// 更改后的日
+				const { day } = this.formatDateToObj(this.billDetail.timestamp)
                 // 4 找到目标日期位置
-                const targetIndex = turnovers.findIndex(item => item.day === targetDate.day)
+                const targetIndex = turnovers.findIndex(item => item.day === day)
 
 				// 在本地但没有对应的日期对象
-				if (isInLocal && targetIndex === -1) {
+				if (targetIndex === -1) {
 
-                    const maxLength = turnovers.length - 1
-                    let insertIndex = turnovers.findIndex(item => item.day < targetDate.day)
+                    let insertIndex = turnovers.findIndex(item => item.day < day)
+					
                     if (insertIndex === -1) insertIndex = turnovers.length
 
                     this.$store.commit(INSERT_TURNOVER, {
                         turnoverIndex: insertIndex,
                         data: {
-                            day: targetDate.day,
+                            day: day,
                             list: [this.billDetail]
                         }
                     })
-				} else if (isInLocal && targetIndex !== -1) {
+				} else if (targetIndex !== -1) {
                     this.$store.commit(PUSH_TURNOVER_ITEM, {
                         turnoverIndex: targetIndex,
                         data: this.billDetail
@@ -263,32 +279,28 @@
 
                 // 找到对应的只账本、判断本地数据是否是当前的
                 const turnoverData = this.$store.state.turnoverData
+				
+				// 查找 day
+				const index = turnoverData.turnovers.findIndex(item => item.day == day)
 
-                if (turnoverData.year == date.getFullYear()
-                    && turnoverData.month == (date.getMonth() + 1)) {
-
-                    // 查找 day
-                    const index = turnoverData.turnovers.findIndex(item => item.day == day)
-
-                    if (index === -1) {
-						
-						// 查找插入的位置
-						const insertIndex = turnoverData.turnovers.findIndex(item => item.day < day)
-						
-                        this.$store.commit(INSERT_TURNOVER, {
-							turnoverIndex: insertIndex,
-							data: {
-								day,
-								list: [this.billDetail]
-							}
-                        })
-                    } else {
-                        this.$store.commit(PUSH_TURNOVER_ITEM, {
-                            turnoverIndex: index,
-                            data: this.billDetail
-                        })
-                    }
-                }
+				if (index === -1) {
+					
+					// 查找插入的位置
+					const insertIndex = turnoverData.turnovers.findIndex(item => item.day < day)
+					
+					this.$store.commit(INSERT_TURNOVER, {
+						turnoverIndex: insertIndex,
+						data: {
+							day,
+							list: [this.billDetail]
+						}
+					})
+				} else {
+					this.$store.commit(PUSH_TURNOVER_ITEM, {
+						turnoverIndex: index,
+						data: this.billDetail
+					})
+				}
             }, // end addTurnover
 		}
 	}
