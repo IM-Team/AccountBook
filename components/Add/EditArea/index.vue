@@ -21,7 +21,11 @@
 				</view>
 				<view class="account-type block_gray">
 					<text class="iconfont icon-zhanghu">账户</text>
-					<picker mode="selector" :range="accounts" range-key="name" @change="onSelectAccount">
+					<picker mode="selector"
+                        :value="selectdIndex"
+                        :range="accounts"
+                        range-key="name"
+                        @change="onSelectAccount">
 						<view>{{ billDetail.account.name }}</view>
 					</picker>
 				</view>
@@ -44,13 +48,13 @@
 		},
 		data() {
 			return {
+                selectdIndex: 0,
 				digitList: [0],
 				date: '2000-01-01',
                 startDate: '2000-01-01',
 				endDate: '2000-01-01',
                 info: {},
-				accounts: [],
-				currentAccount: {}
+				accounts: []
 			}
 		},
 		created() {
@@ -73,7 +77,6 @@
             },
 			onDateChange(e) {
                 this.date = e.target.value
-
                 const date = new Date(e.target.value)
                 this.$emit('changeDate', date.getTime())
 			},
@@ -84,17 +87,27 @@
 				return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
 			},
 			onSelectAccount(e) {
-				this.billDetail.account = this.accounts[e.target.value];
+                this.billDetail.account = this.accounts[e.target.value];
+                
+                const index = this.accounts.findIndex(item => item.id === this.billDetail.account.id)
+                this.selectdIndex = index
 			},
 			initAccounts() {
 
 				for(let key in this.$store.state.accounts) {
-                    for(let item of this.$store.state.accounts[key])
+                    for(let item of this.$store.state.accounts[key]) {
                         this.accounts.push({id:item.id, name:item.name});
+                    }
                 }
 
-				this.billDetail.account = this.accounts[0];
-			} 
+                if (this.billDetail.id === -1) {
+                    this.billDetail.account = this.accounts[0];
+                    this.selectdIndex = 0
+                } else {
+                    const index = this.accounts.findIndex(item => item.id === this.billDetail.account.id)
+                    this.selectdIndex = index
+                }
+			}
 		}
 	}
 	

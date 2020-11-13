@@ -2,7 +2,9 @@
 	<view class="add-container">
 		<view class="content">
 			<tally-type :type="billDetail.type" @toggle="onToggle" />
-			<edit-area :input="digitList" @change-date="onChangeDate"  />
+			<edit-area
+                :input="digitList"
+                @change-date="onChangeDate"  />
 			<type-swiper class="type-swiper" />
 		</view>
 		
@@ -54,7 +56,7 @@
                 digitList: ['0'],
 				info: {},
                 oldDate: '',
-                oldAccountId: -1
+                oldInfo: null
 			}
 		},
 		created() {
@@ -82,7 +84,11 @@
 
                     // 记录旧值
                     this.oldDate = _billDetail.timestamp
-                    this.oldAccountId = _billDetail.account.id
+                    this.oldInfo = {
+                        amount: _billDetail.amount,
+                        accountId: _billDetail.account.id
+                    }
+
                 } else {
 
                     const billCategory = { ...this.$store.state.category[1][0] }
@@ -139,21 +145,45 @@
             },
             changAccount() {
 
-                // 防止无意义消耗
-                if (this.billDetail.account.id === this.oldAccountId) return
+                // 没有切换账户
+                const thisAccountId = this.billDetail.account.id
+                if (thisAccountId === this.oldInfo.accountId) return
 
                 const accounts = this.$store.state.accounts
-                // 获取现在选择的账户
-                const thatAccount = this.billDetail.account.name
 
-                let index = accounts['capitals'].findIndex(item => item.name === thatAccount)
+                // 查找原来的账本位置
+                const targetInfo = {
+                    targetType: 1,
+                    index: -1
+                }
+                Object.keys(accounts).some((item, i) => {
+                    const index = accounts[item].findIndex(account => account.id === this.oldInfo.accountId)
+
+                    if (index === -1) {
+                        return false
+                    } else {
+                        targetInfo.targetType = i + 1
+                        targetInfo.index = index
+                    }
+                })
+
+                // 查找是在哪个账户类型与目标账本位置
                 let type = 1
-
+                let index = accounts['capitals'].findIndex(item => item.id === thisAccountId)
                 if (index === -1) {
                     type = 2
-                    index = accounts['credits'].findIndex(item => item.name === thatAccount)
+                    index = accounts['credits'].findIndex(item => item.id === thisAccountId)
                 }
 
+                // 更新原来账本信息
+                this.$store.commit(
+                    this.billDetail.type === 1 ? DEC_ACCOUNT : INC_ACCOUNT, { 
+                    account_type: targetInfo.targetType,
+                    index: targetInfo.index,
+                    amount: parseFloat(this.digitList.join(''))
+                })
+
+                // 更新目标账本金额
                 this.$store.commit(
                     this.billDetail.type === 1 ? INC_ACCOUNT : DEC_ACCOUNT, { 
                     account_type: type, 
@@ -247,7 +277,7 @@
 			 * @param {Object} turnovers	总流水对象
 			 * @param {String} key			根据流水的 key 查找：item[key]
 			 * @param {String} value		预期的 value : item[key] === value
-			 * @return {Array} turnoverPos	返回这个流水在 turnover 对象中的位置：[level1, level2]
+			 * @return {Array}          	返回这个流水在 turnover 对象中的位置：[level1, level2]
 			 */
 			findTurnoverOfLocal(turnovers, key, value) {
 				
