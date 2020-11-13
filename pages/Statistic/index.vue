@@ -48,7 +48,6 @@
 			}
 		},
 		components: {
-			// StatisticChart
 			StatisticHeader,
 			StatisticList
 		},
@@ -78,7 +77,16 @@
 			currentIndex(newData) {
 				this.currentListData = this.currentIndex ? this.listData.expense : this.listData.income
                 this.updatePie(newData)
-			}
+            },
+            // 监听切换账本
+            turnoverData() {
+                // 重新初始化图表
+                this.initChartData(this.turnoverData.turnovers)
+                // 更新图表
+                this.updatePie(this.currentIndex)
+                // 更新列表信息
+                this.currentListData = this.currentIndex ? this.listData.expense : this.listData.income
+            }
 		},
 		methods: {
 			async onChangeDate(date) {

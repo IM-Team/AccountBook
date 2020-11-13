@@ -53,13 +53,12 @@
                 isFromBillDetail: false,
                 digitList: ['0'],
 				info: {},
-				oldDate: ''
+                oldDate: '',
+                oldAccountId: -1
 			}
 		},
 		created() {
-			this.init();
-			console.log("Muze:");
-			console.log(IS_FROM_BILLDETAIL);
+			this.init()
 		},
 		components: {
             TallyType,
@@ -81,8 +80,9 @@
                     const _billDetail = this.$store.state.billDetail
                     this.digitList = _billDetail.amount.toString().split('')
 
-                    // 记录旧的时间
-					this.oldDate = _billDetail.timestamp
+                    // 记录旧值
+                    this.oldDate = _billDetail.timestamp
+                    this.oldAccountId = _billDetail.account.id
                 } else {
 
                     const billCategory = { ...this.$store.state.category[1][0] }
@@ -123,7 +123,8 @@
 					const { year, month } = this.formatDateToObj(this.billDetail.timestamp)
 					const isInLocal = year === this.turnoverData.year &&
 					                  month === this.turnoverData.month
-					
+                    
+                    // 在本地
 					if (isInLocal) {
 						this.isFromBillDetail ? this.updateInfo() : this.addTurnoverItem()
 					}
@@ -138,7 +139,11 @@
             },
             changAccount() {
 
+                // 防止无意义消耗
+                if (this.billDetail.account.id === this.oldAccountId) return
+
                 const accounts = this.$store.state.accounts
+                // 获取现在选择的账户
                 const thatAccount = this.billDetail.account.name
 
                 let index = accounts['capitals'].findIndex(item => item.name === thatAccount)
