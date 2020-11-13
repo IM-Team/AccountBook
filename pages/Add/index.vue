@@ -57,7 +57,9 @@
 			}
 		},
 		created() {
-            this.init()
+			this.init();
+			console.log("Muze:");
+			console.log(IS_FROM_BILLDETAIL);
 		},
 		components: {
             TallyType,

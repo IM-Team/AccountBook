@@ -2,7 +2,8 @@
 	<view class="account_book-container">
 		<view class="manage-wrap">
 			<view class="show-menu-btn" @click="isShowManageMenu = !isShowManageMenu; onManageIndex = 0">
-				{{ isShowManageMenu ? "取消" : "管理" }}
+				<view v-if="!isShowManageMenu" class="iconfont icon-shezhi">管理</view>
+				<view v-else>取消</view>
 			</view>
 
 			<view class="manage-menu" v-show="isShowManageMenu" :style="{right: isShowManageMenu ? '140rpx' : '-200rpx'}">
@@ -165,6 +166,7 @@
 
 <style scoped>
 	.account_book-container {
+		padding: 32rpx;
 	}
 
 	.manage-wrap {
@@ -174,6 +176,7 @@
 		align-items: center;
 		padding: 32rpx 0;
 		position: relative;
+		overflow: hidden;
 	}
 
 	.manage-menu {
@@ -188,7 +191,6 @@
 		width: 100vw;
 		display: flex;
 		flex-wrap: wrap;
-		padding: 0 32rpx;
 	}
 
 	.book-container {
@@ -262,7 +264,8 @@
 		position: absolute;
 		right: 0;
 		z-index: 11;
-		padding: 0 32rpx;
+		padding-left: 32rpx;
+		padding-right: 32rpx;
 		color: #2B303B;
 		background-color: #F2F2F7;
 	}
@@ -274,6 +277,6 @@
 		width: 1px;
 		height: 1em;
 		margin: 0 16rpx;
-		background-color: #999999;
+		background-color: #999;
 	}
 </style>
