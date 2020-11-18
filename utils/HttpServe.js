@@ -19,6 +19,8 @@ class HttpServe extends HTTP {
             return await this.httpRequest({ url, method, data, header })
         } catch (error) {
             
+			console.log(error);
+			
             this.params = {
                 url,
                 method,
@@ -34,14 +36,19 @@ class HttpServe extends HTTP {
     async _validExpire(error) {
         
         const code = error.statusCode
-        const wxLogin = error.errMsg.endsWith('ok')
+		const wxSetting = await HttpServe.getSetting()
+        const wxLogin = wxSetting.authSetting['scope.userInfo']
 
+		// 登录失效
         if (code === 401 && wxLogin) {
-            const reqTokenRes = await this._applyToken()
+			const wxCode = (await HttpServe.login()).code
+            const reqTokenRes = await this._applyToken(wxCode)
             store.commit(TOKEN, reqTokenRes.data.token)
 
             return this._reRequset()
-        } else if (!wxLogin) {
+        }
+		// 没有登录
+		else if (!wxLogin) {
             uni.showToast({
                 title: '请登录',
                 icon: 'none',
@@ -52,10 +59,11 @@ class HttpServe extends HTTP {
         return error
     }
 
-    _applyToken() {
+	// 申请 token
+    _applyToken(code) {
         return this.request({
-            url: this.params.url,
-            method: this.params.method
+            url: '/user/login?code=' + code,
+            method: 'POST'
         })
     }
     

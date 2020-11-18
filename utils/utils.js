@@ -1,8 +1,8 @@
 
 /**
  * 根据每页的个数进行分页
- * @params {Array} arr	要进行分页的数组
- * @params {Number} singlePageCount	单页多少个
+ * @param {Array} arr	要进行分页的数组
+ * @param {Number} singlePageCount	单页多少个
  * @return {Array} 分好的数组
  */
 function pagination(arr, singlePageCount) {
@@ -23,8 +23,8 @@ function pagination(arr, singlePageCount) {
 }
 
 /**
- * 一个数是否是浮点数
- * @params {Object} number	需要进行判断的数字
+ * 是否是浮点数
+ * @param {Number} number 需要进行判断的数字
  * @return {Boolean} 是否是浮点数
  */
 function isFloat(number) {
@@ -33,7 +33,7 @@ function isFloat(number) {
 
 /**
  * 字符串逆序
- * @params {Object} 需要逆序的字符串
+ * @param {String} src 需要逆序的字符串
  * @return {String} 逆序的字符串
  */
 function stringReverse(str) {
@@ -42,10 +42,10 @@ function stringReverse(str) {
 
 /**
  * 字符串按位分割添加字符或字符串
- * @params {String}  target		目标字符串
- * @params {String}  symbol		添加的字符或者字符串
- * @params {Number}  byteNumber	每多少位添加字符或字符串
- * @params {Boolean} isReverse	是否逆序添加
+ * @param {String}  target		目标字符串
+ * @param {String}  symbol		添加的字符或者字符串
+ * @param {Number}  byteNumber	每多少位添加字符或字符串
+ * @param {Boolean} isReverse	是否逆序添加
  * @return {String}				处理完的字符串
  */
 function addSymbolOfByte(target, symbol, byteNumber = 3, isReverse = true) {
@@ -77,7 +77,7 @@ function addSymbolOfByte(target, symbol, byteNumber = 3, isReverse = true) {
 
 /**
  * 英文三分法
- * @params {Number} number	进行分割的数字或字符串
+ * @param {Number} number	进行分割的数字或字符串
  * @return {String}			处理完的三分字符串
  */
 function ruleOfThirds(number) {

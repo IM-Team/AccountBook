@@ -71,8 +71,8 @@
 					}
                 })
 
-				this.amount.income = ruleOfThirds(_income)
-                this.amount.expense = ruleOfThirds(_expense)
+				this.amount.income = ruleOfThirds(_income.toFixed(2))
+                this.amount.expense = ruleOfThirds(_expense.toFixed(2))
             },
             formatDay(day) {
                 return day > 9 ? day : '0' + day

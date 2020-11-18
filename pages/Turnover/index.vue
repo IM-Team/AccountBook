@@ -18,8 +18,8 @@
     import BillDetail	    from '@/components/BillDetail'
     import { ruleOfThirds, deepClone } from '@/utils/utils.js'
     import { mapState } from 'vuex'
-    import TurnoverModel from '@/model/TurnoverModel'
     import { turnoverMixin } from '@/utils/mixins'
+    import TurnoverModel from '@/model/TurnoverModel'
 
     import {
         TURNOVER_DATA,
@@ -96,8 +96,8 @@
 					})
 				})
 				
-				this.income = _income
-                this.expense = _expense
+				this.income = _income.toFixed(2)
+                this.expense = _expense.toFixed(2)
                 this.surplus = (_income - _expense).toFixed(2)
             },
             onEdit() {
